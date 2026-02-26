@@ -14,6 +14,8 @@ import {
   X,
   Users,
   ChevronLeft,
+  TrendingUp,
+  FileBarChart,
 } from 'lucide-react'
 import { Link } from '@/lib/i18n/navigation'
 import { BracketClauseLogo } from '@/components/shared/bracket-clause-logo'
@@ -29,6 +31,8 @@ const SIDEBAR_LINKS = [
   { icon: FileText, labelKey: 'contracts', href: '/dashboard/contracts' },
   { icon: Bell, labelKey: 'alerts', href: '/dashboard/alerts' },
   { icon: BarChart3, labelKey: 'benchmarks', href: '/dashboard/benchmarks' },
+  { icon: TrendingUp, labelKey: 'analytics', href: '/dashboard/analytics' },
+  { icon: FileBarChart, labelKey: 'reports', href: '/dashboard/reports' },
   { icon: Users, labelKey: 'team', href: '/dashboard/team' },
   { icon: Settings, labelKey: 'settings', href: '/dashboard/settings' },
 ] as const

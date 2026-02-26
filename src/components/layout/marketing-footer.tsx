@@ -61,15 +61,15 @@ export function MarketingFooter() {
         { label: tNav('features'), href: '#features' },
         { label: tNav('pricing'), href: '/pricing' },
         { label: tNav('howItWorks'), href: '#how-it-works' },
-        { label: t('apiDocs'), href: '#' },
-        { label: t('changelog'), href: '#' },
+        { label: t('apiDocs'), href: '/api-docs' },
+        { label: t('changelog'), href: '/changelog' },
       ],
     },
     {
       title: t('company'),
       links: [
         { label: t('about'), href: '/about' },
-        { label: t('blog'), href: '#' },
+        { label: t('blog'), href: '/blog' },
         { label: t('careers'), href: '#' },
         { label: t('pressKit'), href: '#' },
         { label: t('contact'), href: '/contact' },

@@ -25,19 +25,28 @@ export function SettingsGeneral() {
       </div>
 
       {/* Navegação de configurações */}
-      <nav className="flex gap-1 border-b border-slate-200 pb-px">
-        <Link
-          href="/dashboard/settings"
-          className="px-4 py-2 text-sm font-medium text-teal-600 border-b-2 border-teal-600"
-        >
-          {t('general')}
-        </Link>
-        <Link
-          href="/dashboard/settings/billing"
-          className="px-4 py-2 text-sm font-medium text-slate-500 hover:text-slate-700"
-        >
-          {t('billing')}
-        </Link>
+      <nav className="flex gap-1 border-b border-slate-200 pb-px overflow-x-auto">
+        {[
+          { href: '/dashboard/settings', label: t('general'), active: true },
+          { href: '/dashboard/settings/billing', label: t('billing'), active: false },
+          { href: '/dashboard/settings/profile', label: t('profile') || 'Profile', active: false },
+          { href: '/dashboard/settings/security', label: t('security'), active: false },
+          { href: '/dashboard/settings/notifications', label: t('notifications'), active: false },
+          { href: '/dashboard/settings/api-keys', label: t('api'), active: false },
+          { href: '/dashboard/settings/integrations', label: t('integrations') || 'Integrations', active: false },
+        ].map((tab) => (
+          <Link
+            key={tab.href}
+            href={tab.href}
+            className={`px-4 py-2 text-sm font-medium whitespace-nowrap ${
+              tab.active
+                ? 'text-teal-600 border-b-2 border-teal-600'
+                : 'text-slate-500 hover:text-slate-700'
+            }`}
+          >
+            {tab.label}
+          </Link>
+        ))}
       </nav>
 
       {/* Formulário de perfil */}
