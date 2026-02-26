@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/lib/i18n/navigation'
 import { motion } from 'framer-motion'
-import { Shield, Menu } from 'lucide-react'
+import { Menu } from 'lucide-react'
+import { BracketClauseLogo } from '@/components/shared/bracket-clause-logo'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -16,11 +18,12 @@ import {
 /**
  * Links de navegação do header de marketing.
  * Cada item mapeia para uma seção (âncora) da landing page.
+ * A chave `key` é usada para buscar a tradução via next-intl.
  */
 const NAV_LINKS = [
-  { label: 'Features', href: '#features' },
-  { label: 'How it Works', href: '#how-it-works' },
-  { label: 'Pricing', href: '#pricing' },
+  { key: 'features', href: '#features' },
+  { key: 'howItWorks', href: '#how-it-works' },
+  { key: 'pricing', href: '#pricing' },
 ] as const
 
 /**
@@ -31,8 +34,14 @@ const NAV_LINKS = [
  * - Ao rolar, ganha fundo blur (backdrop-filter) e sombra sutil
  * - No mobile, abre um Sheet lateral com navegação
  * - Animações suaves de transição via Framer Motion
+ * - Textos traduzidos via next-intl (namespaces: nav, common)
  */
 export function MarketingHeader() {
+  /** Traduções do namespace de navegação */
+  const t = useTranslations('nav')
+  /** Traduções do namespace comum (botões de ação) */
+  const tCommon = useTranslations('common')
+
   /** Controla se o usuário já rolou a página (ativa o efeito glass) */
   const [scrolled, setScrolled] = useState(false)
 
@@ -61,14 +70,14 @@ export function MarketingHeader() {
         {/* Logo — ícone de escudo + nome da marca */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="relative">
-            <Shield
+            <BracketClauseLogo
               className={`h-7 w-7 transition-colors duration-300 ${
-                scrolled ? 'text-indigo-600' : 'text-white'
+                scrolled ? 'text-teal-600' : 'text-white'
               } group-hover:text-emerald-500`}
               strokeWidth={2.2}
             />
             {/* Brilho sutil atrás do ícone */}
-            <div className="absolute inset-0 blur-lg bg-indigo-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 blur-lg bg-teal-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
           <span
             className={`text-xl font-bold tracking-tight transition-colors duration-300 ${
@@ -87,11 +96,11 @@ export function MarketingHeader() {
               href={link.href}
               className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                 scrolled
-                  ? 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50'
+                  ? 'text-slate-600 hover:text-teal-600 hover:bg-teal-50'
                   : 'text-white/80 hover:text-white hover:bg-white/10'
               }`}
             >
-              {link.label}
+              {t(link.key)}
             </Link>
           ))}
         </div>
@@ -103,17 +112,17 @@ export function MarketingHeader() {
             asChild
             className={`transition-colors duration-200 ${
               scrolled
-                ? 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50'
+                ? 'text-slate-600 hover:text-teal-600 hover:bg-teal-50'
                 : 'text-white/90 hover:text-white hover:bg-white/10'
             }`}
           >
-            <Link href="/sign-in">Sign In</Link>
+            <Link href="/sign-in">{tCommon('signIn')}</Link>
           </Button>
           <Button
             asChild
-            className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full px-5 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 transition-all duration-200"
+            className="bg-teal-600 hover:bg-teal-700 text-white rounded-full px-5 shadow-[2px_2px_0px_rgba(0,0,0,0.1)] hover:shadow-[3px_3px_0px_rgba(0,0,0,0.12)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200"
           >
-            <Link href="/sign-up">Get Started</Link>
+            <Link href="/sign-up">{tCommon('getStarted')}</Link>
           </Button>
         </div>
 
@@ -131,15 +140,15 @@ export function MarketingHeader() {
                 }`}
               >
                 <Menu className="h-5 w-5" />
-                <span className="sr-only">Abrir menu</span>
+                <span className="sr-only">{t('openMenu')}</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-80 p-0">
-              <SheetTitle className="sr-only">Menu de navegação</SheetTitle>
+              <SheetTitle className="sr-only">{t('openMenu')}</SheetTitle>
               {/* Cabeçalho do menu mobile */}
               <div className="flex items-center justify-between p-4 border-b border-slate-100">
                 <Link href="/" className="flex items-center gap-2">
-                  <Shield className="h-6 w-6 text-indigo-600" strokeWidth={2.2} />
+                  <BracketClauseLogo className="h-6 w-6 text-teal-600" strokeWidth={2.2} />
                   <span className="text-lg font-bold tracking-tight text-slate-900">
                     Clausent
                   </span>
@@ -152,9 +161,9 @@ export function MarketingHeader() {
                   <SheetClose key={link.href} asChild>
                     <Link
                       href={link.href}
-                      className="flex items-center px-4 py-3 text-sm font-medium text-slate-700 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+                      className="flex items-center px-4 py-3 text-sm font-medium text-slate-700 rounded-lg hover:bg-teal-50 hover:text-teal-600 transition-colors"
                     >
-                      {link.label}
+                      {t(link.key)}
                     </Link>
                   </SheetClose>
                 ))}
@@ -167,13 +176,13 @@ export function MarketingHeader() {
                   asChild
                   className="w-full justify-center rounded-full"
                 >
-                  <Link href="/sign-in">Sign In</Link>
+                  <Link href="/sign-in">{tCommon('signIn')}</Link>
                 </Button>
                 <Button
                   asChild
-                  className="w-full justify-center bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow-lg shadow-indigo-500/25"
+                  className="w-full justify-center bg-teal-600 hover:bg-teal-700 text-white rounded-full shadow-[2px_2px_0px_rgba(0,0,0,0.1)]"
                 >
-                  <Link href="/sign-up">Get Started</Link>
+                  <Link href="/sign-up">{tCommon('getStarted')}</Link>
                 </Button>
               </div>
             </SheetContent>

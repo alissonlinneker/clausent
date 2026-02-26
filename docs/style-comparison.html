@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clausent — Style Comparison</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ── Reset & Base ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:'Inter',system-ui,sans-serif;color:#1e293b;line-height:1.6;background:#f8fafc}
+
+/* ── Paleta Teal ── */
+:root{
+  --teal-50:#f0fdfa;--teal-100:#ccfbf1;--teal-200:#99f6e4;--teal-300:#5eead4;
+  --teal-400:#2dd4bf;--teal-500:#14b8a6;--teal-600:#0d9488;--teal-700:#0f766e;
+  --teal-800:#115e59;--teal-900:#134e4a;--teal-950:#042f2e;
+  --amber-400:#fbbf24;--amber-500:#f59e0b;--amber-600:#d97706;
+  --slate-50:#f8fafc;--slate-100:#f1f5f9;--slate-200:#e2e8f0;--slate-300:#cbd5e1;
+  --slate-400:#94a3b8;--slate-500:#64748b;--slate-600:#475569;--slate-700:#334155;
+  --slate-800:#1e293b;--slate-900:#0f172a;
+}
+
+/* ── Nav Fixa ── */
+.top-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--slate-200);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.top-nav h1{font-size:15px;font-weight:700;color:var(--slate-800)}
+.top-nav h1 span{color:var(--teal-600)}
+.nav-pills{display:flex;gap:6px}
+.nav-pills a{text-decoration:none;font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;color:var(--slate-600);transition:all .2s}
+.nav-pills a:hover{background:var(--teal-50);color:var(--teal-700)}
+.nav-pills a.rec{background:var(--teal-600);color:#fff}
+.nav-pills a.rec:hover{background:var(--teal-700)}
+
+/* ── Introdução ── */
+.intro{max-width:1200px;margin:88px auto 40px;padding:0 32px}
+.intro h2{font-size:28px;font-weight:800;margin-bottom:8px;color:var(--slate-900)}
+.intro p{color:var(--slate-500);font-size:15px;max-width:700px;margin-bottom:32px}
+.intro-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.intro-card{padding:20px;border-radius:12px;border:1px solid var(--slate-200);background:#fff}
+.intro-card h3{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--slate-800)}
+.intro-card.recommended{border-color:var(--teal-400);background:var(--teal-50)}
+.intro-card.recommended h3::after{content:" ★ RECOMENDADO";color:var(--teal-600);font-size:11px;font-weight:800}
+.intro-card p{font-size:13px;color:var(--slate-500);line-height:1.5}
+
+/* ── Seção de Estilo ── */
+.style-section{margin:0 auto 64px;max-width:1200px;padding:0 32px}
+.style-header{display:flex;align-items:center;gap:12px;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid var(--slate-200)}
+.style-header h2{font-size:22px;font-weight:800;color:var(--slate-900)}
+.style-header .badge-rec{background:var(--teal-600);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px}
+.style-header p{font-size:14px;color:var(--slate-500);margin-left:auto;max-width:400px;text-align:right}
+
+/* ── Componentes Grid ── */
+.components{display:flex;flex-direction:column;gap:32px}
+.component-row{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.component-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--slate-400);margin-bottom:10px}
+
+/* ── Logo SVG (inline reutilizável) ── */
+.logo-svg{display:inline-block;width:32px;height:32px;vertical-align:middle}
+
+/* ══════════════════════════════════════════
+   ESTILO A: Light Neobrutalism
+   ══════════════════════════════════════════ */
+.a-wrap{background:#FFFDF5;border-radius:16px;overflow:hidden;border:1px solid var(--slate-200)}
+
+/* Navbar A */
+.a-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--slate-200);background:#FFFDF5}
+.a-nav .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--slate-900)}
+.a-nav .links{display:flex;gap:24px}
+.a-nav .links a{text-decoration:none;font-size:14px;font-weight:600;color:var(--slate-600)}
+.a-btn-primary{background:var(--teal-600);color:#fff;border:2px solid var(--slate-900);padding:10px 22px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:3px 3px 0px rgba(0,0,0,0.12);transition:all .2s}
+.a-btn-primary:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0px rgba(0,0,0,0.15)}
+.a-btn-secondary{background:#fff;color:var(--slate-800);border:2px solid var(--slate-300);padding:10px 22px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;box-shadow:3px 3px 0px rgba(0,0,0,0.06);transition:all .2s}
+.a-btn-secondary:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0px rgba(0,0,0,0.08)}
+.a-btn-outline{background:transparent;color:var(--teal-700);border:2px solid var(--teal-600);padding:10px 22px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s}
+.a-btn-ghost{background:transparent;color:var(--slate-600);border:2px solid transparent;padding:10px 22px;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s}
+.a-btn-ghost:hover{background:var(--slate-100)}
+
+/* Hero A */
+.a-hero{padding:56px 40px;text-align:center;background:#FFFDF5}
+.a-hero .badge{display:inline-block;background:var(--teal-100);color:var(--teal-800);font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px;border:1px solid var(--teal-300);margin-bottom:16px}
+.a-hero h1{font-size:36px;font-weight:800;color:var(--slate-900);line-height:1.15;margin-bottom:12px}
+.a-hero h1 span{color:var(--teal-600)}
+.a-hero p{font-size:16px;color:var(--slate-500);max-width:520px;margin:0 auto 24px}
+.a-hero .ctas{display:flex;gap:12px;justify-content:center;margin-bottom:32px}
+.a-mockup{background:#fff;border:2px solid var(--slate-200);border-radius:16px;padding:20px;max-width:500px;margin:0 auto;box-shadow:6px 6px 0px rgba(0,0,0,0.06)}
+.a-mockup .bar{height:8px;border-radius:4px;margin-bottom:8px}
+
+/* Card A */
+.a-card{background:#fff;border:1px solid var(--slate-200);border-radius:16px;padding:28px;box-shadow:3px 3px 0px rgba(0,0,0,0.06);transition:all .2s;max-width:320px;width:100%}
+.a-card:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0px rgba(0,0,0,0.09)}
+.a-card .icon{width:44px;height:44px;border-radius:12px;background:var(--teal-100);display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:20px}
+.a-card h3{font-size:16px;font-weight:800;margin-bottom:6px;color:var(--slate-900)}
+.a-card p{font-size:14px;color:var(--slate-500)}
+
+/* Pricing A */
+.a-pricing{background:#fff;border:2px solid var(--teal-500);border-radius:16px;padding:32px;box-shadow:4px 4px 0px rgba(13,148,136,0.15);max-width:320px;width:100%;position:relative}
+.a-pricing .pop{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--amber-500);color:#fff;font-size:11px;font-weight:800;padding:4px 12px;border-radius:8px;border:2px solid var(--slate-900)}
+.a-pricing h3{font-size:18px;font-weight:800;color:var(--slate-900);margin-bottom:4px}
+.a-pricing .price{font-size:36px;font-weight:800;color:var(--teal-600);margin-bottom:16px}
+.a-pricing .price span{font-size:14px;color:var(--slate-400);font-weight:500}
+.a-pricing ul{list-style:none;margin-bottom:24px}
+.a-pricing li{font-size:14px;color:var(--slate-600);padding:6px 0;display:flex;align-items:center;gap:8px}
+.a-pricing li::before{content:"✓";color:var(--teal-600);font-weight:700}
+
+/* Badges A */
+.a-badge{display:inline-block;font-size:12px;font-weight:700;padding:5px 12px;border-radius:8px;border:1.5px solid}
+.a-badge.success{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}
+.a-badge.warning{background:#fffbeb;color:#92400e;border-color:#fde68a}
+.a-badge.danger{background:#fef2f2;color:#991b1b;border-color:#fecaca}
+.a-badge.info{background:var(--teal-50);color:var(--teal-800);border-color:var(--teal-200)}
+
+/* Input A */
+.a-input-wrap{max-width:300px;width:100%}
+.a-input-wrap label{display:block;font-size:13px;font-weight:700;color:var(--slate-700);margin-bottom:6px}
+.a-input-wrap input{width:100%;padding:12px 16px;border:2px solid var(--slate-300);border-radius:12px;font-size:14px;font-family:inherit;background:#fff;outline:none;transition:border .2s}
+.a-input-wrap input:focus{border-color:var(--teal-500)}
+
+/* Table A */
+.a-table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--slate-200);border-radius:12px;overflow:hidden;background:#fff}
+.a-table th{background:var(--slate-100);text-align:left;padding:12px 16px;font-size:12px;font-weight:700;text-transform:uppercase;color:var(--slate-500);letter-spacing:.5px}
+.a-table td{padding:12px 16px;font-size:14px;border-top:1px solid var(--slate-200);color:var(--slate-700)}
+
+/* ══════════════════════════════════════════
+   ESTILO B: Clean Minimal
+   ══════════════════════════════════════════ */
+.b-wrap{background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,0.06)}
+
+.b-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid rgba(0,0,0,0.06);background:#fff}
+.b-nav .logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px;color:var(--slate-900)}
+.b-nav .links{display:flex;gap:28px}
+.b-nav .links a{text-decoration:none;font-size:14px;font-weight:500;color:var(--slate-500);transition:color .2s}
+.b-nav .links a:hover{color:var(--slate-900)}
+.b-btn-primary{background:var(--teal-600);color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;transition:all .2s}
+.b-btn-primary:hover{background:var(--teal-700);transform:translateY(-1px);box-shadow:0 4px 12px rgba(13,148,136,0.25)}
+.b-btn-secondary{background:var(--slate-100);color:var(--slate-700);border:none;padding:10px 22px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;transition:all .2s}
+.b-btn-secondary:hover{background:var(--slate-200)}
+.b-btn-outline{background:transparent;color:var(--slate-700);border:1px solid var(--slate-300);padding:10px 22px;border-radius:8px;font-weight:500;font-size:14px;cursor:pointer;transition:all .2s}
+.b-btn-outline:hover{border-color:var(--slate-400);background:var(--slate-50)}
+.b-btn-ghost{background:transparent;color:var(--slate-500);border:none;padding:10px 22px;border-radius:8px;font-weight:500;font-size:14px;cursor:pointer;transition:all .2s}
+.b-btn-ghost:hover{color:var(--slate-700);background:var(--slate-50)}
+
+.b-hero{padding:64px 40px;text-align:center;background:#fff}
+.b-hero .badge{display:inline-block;background:var(--slate-100);color:var(--slate-600);font-size:12px;font-weight:500;padding:6px 14px;border-radius:20px;margin-bottom:16px}
+.b-hero h1{font-size:38px;font-weight:700;color:var(--slate-900);line-height:1.15;margin-bottom:12px;letter-spacing:-.5px}
+.b-hero h1 span{color:var(--teal-600)}
+.b-hero p{font-size:16px;color:var(--slate-400);max-width:480px;margin:0 auto 28px;font-weight:400}
+.b-hero .ctas{display:flex;gap:12px;justify-content:center;margin-bottom:36px}
+.b-mockup{background:var(--slate-50);border:1px solid rgba(0,0,0,0.06);border-radius:12px;padding:20px;max-width:500px;margin:0 auto;box-shadow:0 4px 24px rgba(0,0,0,0.04)}
+.b-mockup .bar{height:6px;border-radius:3px;margin-bottom:8px}
+
+.b-card{background:#fff;border:1px solid rgba(0,0,0,0.06);border-radius:10px;padding:28px;transition:all .3s;max-width:320px;width:100%;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.b-card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,0.08)}
+.b-card .icon{width:40px;height:40px;border-radius:10px;background:var(--teal-50);display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:18px}
+.b-card h3{font-size:15px;font-weight:600;margin-bottom:6px;color:var(--slate-900)}
+.b-card p{font-size:14px;color:var(--slate-400);font-weight:400}
+
+.b-pricing{background:#fff;border:1px solid var(--teal-200);border-radius:12px;padding:32px;max-width:320px;width:100%;position:relative;box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+.b-pricing .pop{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--teal-600);color:#fff;font-size:11px;font-weight:600;padding:3px 12px;border-radius:6px}
+.b-pricing h3{font-size:17px;font-weight:600;color:var(--slate-900);margin-bottom:4px}
+.b-pricing .price{font-size:36px;font-weight:700;color:var(--slate-900);margin-bottom:16px;letter-spacing:-.5px}
+.b-pricing .price span{font-size:14px;color:var(--slate-400);font-weight:400}
+.b-pricing ul{list-style:none;margin-bottom:24px}
+.b-pricing li{font-size:14px;color:var(--slate-500);padding:5px 0;display:flex;align-items:center;gap:8px}
+.b-pricing li::before{content:"✓";color:var(--teal-500);font-weight:600}
+
+.b-badge{display:inline-block;font-size:12px;font-weight:500;padding:4px 10px;border-radius:6px}
+.b-badge.success{background:#ecfdf5;color:#065f46}
+.b-badge.warning{background:#fffbeb;color:#92400e}
+.b-badge.danger{background:#fef2f2;color:#991b1b}
+.b-badge.info{background:var(--teal-50);color:var(--teal-700)}
+
+.b-input-wrap{max-width:300px;width:100%}
+.b-input-wrap label{display:block;font-size:13px;font-weight:500;color:var(--slate-600);margin-bottom:6px}
+.b-input-wrap input{width:100%;padding:10px 14px;border:1px solid var(--slate-200);border-radius:8px;font-size:14px;font-family:inherit;background:#fff;outline:none;transition:all .2s}
+.b-input-wrap input:focus{border-color:var(--teal-400);box-shadow:0 0 0 3px rgba(13,148,136,0.1)}
+
+.b-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid rgba(0,0,0,0.06)}
+.b-table th{text-align:left;padding:12px 16px;font-size:12px;font-weight:500;text-transform:uppercase;color:var(--slate-400);letter-spacing:.5px;border-bottom:1px solid rgba(0,0,0,0.06)}
+.b-table td{padding:12px 16px;font-size:14px;border-top:1px solid rgba(0,0,0,0.04);color:var(--slate-600)}
+
+/* ══════════════════════════════════════════
+   ESTILO C: Modern Enterprise
+   ══════════════════════════════════════════ */
+.c-wrap{background:linear-gradient(180deg,var(--slate-50) 0%,#fff 100%);border-radius:12px;overflow:hidden;border:1px solid var(--slate-200)}
+
+.c-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--slate-200);background:rgba(255,255,255,0.8);backdrop-filter:blur(8px)}
+.c-nav .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;color:var(--slate-900)}
+.c-nav .links{display:flex;gap:28px}
+.c-nav .links a{text-decoration:none;font-size:14px;font-weight:500;color:var(--slate-600);transition:color .2s}
+.c-nav .links a:hover{color:var(--teal-600)}
+.c-btn-primary{background:linear-gradient(135deg,var(--teal-600),#0f9b8e);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;box-shadow:0 2px 8px rgba(13,148,136,0.3);transition:all .2s}
+.c-btn-primary:hover{box-shadow:0 4px 16px rgba(13,148,136,0.4);transform:translateY(-1px)}
+.c-btn-secondary{background:#fff;color:var(--slate-700);border:1px solid var(--slate-300);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.06);transition:all .2s}
+.c-btn-secondary:hover{border-color:var(--slate-400);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.c-btn-outline{background:transparent;color:var(--teal-600);border:1px solid var(--teal-300);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;transition:all .2s}
+.c-btn-outline:hover{background:var(--teal-50);border-color:var(--teal-400)}
+.c-btn-ghost{background:transparent;color:var(--slate-500);border:none;padding:10px 24px;border-radius:8px;font-weight:500;font-size:14px;cursor:pointer;transition:all .2s}
+.c-btn-ghost:hover{color:var(--teal-600);background:var(--teal-50)}
+
+.c-hero{padding:64px 40px;text-align:center;background:linear-gradient(180deg,var(--slate-50) 0%,#fff 100%)}
+.c-hero .badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--teal-50),var(--teal-100));color:var(--teal-700);font-size:12px;font-weight:600;padding:6px 16px;border-radius:20px;border:1px solid var(--teal-200);margin-bottom:16px}
+.c-hero h1{font-size:40px;font-weight:800;color:var(--slate-900);line-height:1.1;margin-bottom:14px;letter-spacing:-.5px}
+.c-hero h1 span{background:linear-gradient(135deg,var(--teal-600),#10b981);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.c-hero p{font-size:17px;color:var(--slate-500);max-width:520px;margin:0 auto 28px}
+.c-hero .ctas{display:flex;gap:12px;justify-content:center;margin-bottom:36px}
+.c-mockup{background:#fff;border:1px solid var(--slate-200);border-radius:12px;padding:20px;max-width:500px;margin:0 auto;box-shadow:0 8px 32px rgba(0,0,0,0.08),0 2px 8px rgba(0,0,0,0.04)}
+.c-mockup .bar{height:8px;border-radius:4px;margin-bottom:8px}
+
+.c-card{background:#fff;border:1px solid var(--slate-200);border-radius:12px;padding:28px;transition:all .3s;max-width:320px;width:100%;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.c-card:hover{box-shadow:0 8px 24px rgba(0,0,0,0.08);transform:translateY(-2px)}
+.c-card .icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--teal-50),var(--teal-100));display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:20px}
+.c-card h3{font-size:16px;font-weight:700;margin-bottom:6px;color:var(--slate-900)}
+.c-card p{font-size:14px;color:var(--slate-500)}
+
+.c-pricing{background:#fff;border:1px solid var(--slate-200);border-radius:12px;padding:32px;max-width:320px;width:100%;position:relative;box-shadow:0 4px 16px rgba(0,0,0,0.06);border-top:3px solid var(--teal-500)}
+.c-pricing .pop{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--teal-500),#10b981);color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:6px;box-shadow:0 2px 8px rgba(13,148,136,0.3)}
+.c-pricing h3{font-size:18px;font-weight:700;color:var(--slate-900);margin-bottom:4px}
+.c-pricing .price{font-size:38px;font-weight:800;color:var(--slate-900);margin-bottom:16px}
+.c-pricing .price span{font-size:14px;color:var(--slate-400);font-weight:500}
+.c-pricing ul{list-style:none;margin-bottom:24px}
+.c-pricing li{font-size:14px;color:var(--slate-600);padding:6px 0;display:flex;align-items:center;gap:8px}
+.c-pricing li::before{content:"✓";color:var(--teal-500);font-weight:700;font-size:16px}
+
+.c-badge{display:inline-block;font-size:12px;font-weight:600;padding:4px 12px;border-radius:6px}
+.c-badge.success{background:#ecfdf5;color:#065f46}
+.c-badge.warning{background:#fffbeb;color:#92400e}
+.c-badge.danger{background:#fef2f2;color:#991b1b}
+.c-badge.info{background:linear-gradient(135deg,var(--teal-50),var(--teal-100));color:var(--teal-700)}
+
+.c-input-wrap{max-width:300px;width:100%}
+.c-input-wrap label{display:block;font-size:13px;font-weight:600;color:var(--slate-700);margin-bottom:6px}
+.c-input-wrap input{width:100%;padding:10px 14px;border:1px solid var(--slate-300);border-radius:8px;font-size:14px;font-family:inherit;background:#fff;outline:none;transition:all .2s;box-shadow:0 1px 2px rgba(0,0,0,0.04)}
+.c-input-wrap input:focus{border-color:var(--teal-400);box-shadow:0 0 0 3px rgba(13,148,136,0.12),0 1px 2px rgba(0,0,0,0.04)}
+
+.c-table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--slate-200);box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.c-table th{text-align:left;padding:14px 16px;font-size:12px;font-weight:600;text-transform:uppercase;color:var(--slate-500);letter-spacing:.5px;background:var(--slate-50);border-bottom:1px solid var(--slate-200)}
+.c-table td{padding:14px 16px;font-size:14px;border-top:1px solid var(--slate-100);color:var(--slate-700)}
+
+/* ══════════════════════════════════════════
+   ESTILO D: Purpose-Driven Trust (RECOMENDADO)
+   ══════════════════════════════════════════ */
+.d-wrap{background:#fff;border-radius:12px;overflow:hidden;border:2px solid var(--teal-200);box-shadow:0 0 0 4px rgba(13,148,136,0.06)}
+
+.d-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid rgba(13,148,136,0.12);background:rgba(255,255,255,0.95);backdrop-filter:blur(12px)}
+.d-nav .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;color:var(--slate-900)}
+.d-nav .links{display:flex;gap:28px}
+.d-nav .links a{text-decoration:none;font-size:14px;font-weight:500;color:var(--slate-500);transition:color .2s}
+.d-nav .links a:hover{color:var(--teal-600)}
+.d-btn-primary{background:linear-gradient(135deg,var(--teal-600),var(--teal-500));color:#fff;border:none;padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;box-shadow:0 2px 8px rgba(13,148,136,0.25);transition:all .25s}
+.d-btn-primary:hover{box-shadow:0 6px 20px rgba(13,148,136,0.35);transform:translateY(-1px)}
+.d-btn-secondary{background:var(--slate-50);color:var(--slate-700);border:1px solid var(--slate-200);padding:10px 24px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;transition:all .2s}
+.d-btn-secondary:hover{background:var(--slate-100);border-color:var(--slate-300)}
+.d-btn-outline{background:transparent;color:var(--teal-700);border:1px solid rgba(13,148,136,0.3);padding:10px 24px;border-radius:8px;font-weight:500;font-size:14px;cursor:pointer;transition:all .2s}
+.d-btn-outline:hover{background:var(--teal-50);border-color:var(--teal-400)}
+.d-btn-ghost{background:transparent;color:var(--slate-500);border:none;padding:10px 24px;border-radius:8px;font-weight:500;font-size:14px;cursor:pointer;transition:all .2s}
+.d-btn-ghost:hover{color:var(--teal-600);background:rgba(13,148,136,0.04)}
+
+.d-hero{padding:64px 40px;text-align:center;background:linear-gradient(180deg,var(--teal-950) 0%,var(--teal-900) 100%);color:#fff}
+.d-hero .badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);color:var(--teal-200);font-size:12px;font-weight:600;padding:6px 16px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);margin-bottom:16px;backdrop-filter:blur(4px)}
+.d-hero .badge svg{width:14px;height:14px}
+.d-hero h1{font-size:38px;font-weight:800;color:#fff;line-height:1.12;margin-bottom:14px;letter-spacing:-.5px}
+.d-hero h1 span{color:var(--teal-300)}
+.d-hero p{font-size:16px;color:var(--teal-200);max-width:500px;margin:0 auto 28px;opacity:.85}
+.d-hero .ctas{display:flex;gap:12px;justify-content:center;margin-bottom:36px}
+.d-hero .d-btn-primary{background:linear-gradient(135deg,var(--teal-400),var(--teal-300));color:var(--teal-950);box-shadow:0 2px 12px rgba(94,234,212,0.3)}
+.d-hero .d-btn-secondary{background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.2)}
+.d-hero .d-btn-secondary:hover{background:rgba(255,255,255,0.14)}
+.d-mockup{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px;max-width:500px;margin:0 auto;backdrop-filter:blur(4px)}
+.d-mockup .bar{height:7px;border-radius:4px;margin-bottom:8px;opacity:.6}
+
+.d-card{background:#fff;border:1px solid rgba(13,148,136,0.15);border-radius:10px;padding:28px;transition:all .3s;max-width:320px;width:100%;box-shadow:0 4px 6px rgba(0,0,0,0.04),0 1px 3px rgba(0,0,0,0.06)}
+.d-card:hover{box-shadow:0 8px 24px rgba(0,0,0,0.06),0 0 0 1px rgba(13,148,136,0.15),0 4px 16px rgba(13,148,136,0.08);transform:translateY(-2px)}
+.d-card .icon{width:44px;height:44px;border-radius:10px;background:var(--teal-50);border:1px solid rgba(13,148,136,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:18px}
+.d-card h3{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--slate-900)}
+.d-card p{font-size:14px;color:var(--slate-500)}
+
+.d-pricing{background:#fff;border:1px solid rgba(13,148,136,0.2);border-radius:12px;padding:32px;max-width:320px;width:100%;position:relative;box-shadow:0 4px 6px rgba(0,0,0,0.04),0 1px 3px rgba(0,0,0,0.06),0 0 0 1px rgba(13,148,136,0.08)}
+.d-pricing .pop{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--teal-600);color:#fff;font-size:11px;font-weight:700;padding:3px 14px;border-radius:6px;box-shadow:0 2px 6px rgba(13,148,136,0.25)}
+.d-pricing h3{font-size:17px;font-weight:700;color:var(--slate-900);margin-bottom:4px}
+.d-pricing .price{font-size:36px;font-weight:800;color:var(--teal-700);margin-bottom:16px;letter-spacing:-.5px}
+.d-pricing .price span{font-size:14px;color:var(--slate-400);font-weight:400}
+.d-pricing ul{list-style:none;margin-bottom:24px}
+.d-pricing li{font-size:14px;color:var(--slate-600);padding:6px 0;display:flex;align-items:center;gap:8px}
+.d-pricing li::before{content:"✓";color:var(--teal-600);font-weight:600}
+
+.d-badge{display:inline-block;font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px}
+.d-badge.success{background:#ecfdf5;color:#065f46;border:1px solid rgba(5,150,105,0.15)}
+.d-badge.warning{background:#fffbeb;color:#92400e;border:1px solid rgba(217,119,6,0.15)}
+.d-badge.danger{background:#fef2f2;color:#991b1b;border:1px solid rgba(220,38,38,0.15)}
+.d-badge.info{background:var(--teal-50);color:var(--teal-700);border:1px solid rgba(13,148,136,0.15)}
+
+.d-input-wrap{max-width:300px;width:100%}
+.d-input-wrap label{display:block;font-size:13px;font-weight:600;color:var(--slate-700);margin-bottom:6px}
+.d-input-wrap input{width:100%;padding:10px 14px;border:1px solid rgba(13,148,136,0.2);border-radius:8px;font-size:14px;font-family:inherit;background:#fff;outline:none;transition:all .2s;box-shadow:0 1px 2px rgba(0,0,0,0.04)}
+.d-input-wrap input:focus{border-color:var(--teal-400);box-shadow:0 0 0 3px rgba(13,148,136,0.1),0 1px 2px rgba(0,0,0,0.04)}
+
+.d-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid rgba(13,148,136,0.15);box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.d-table th{text-align:left;padding:14px 16px;font-size:12px;font-weight:600;text-transform:uppercase;color:var(--teal-700);letter-spacing:.5px;background:var(--teal-50);border-bottom:1px solid rgba(13,148,136,0.12)}
+.d-table td{padding:14px 16px;font-size:14px;border-top:1px solid rgba(13,148,136,0.08);color:var(--slate-700)}
+
+/* ── Utilidades ── */
+.gap-sm{gap:8px}.gap-md{gap:16px}.flex-wrap{flex-wrap:wrap}
+.section-pad{padding:32px 28px}
+.mb-24{margin-bottom:24px}
+.mt-40{margin-top:40px}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ NAV FIXA ═══════════════ -->
+<nav class="top-nav">
+  <h1><span>{C}</span> Clausent — Comparativo de Estilos</h1>
+  <div class="nav-pills">
+    <a href="#style-a">A. Neobrutalism</a>
+    <a href="#style-b">B. Clean Minimal</a>
+    <a href="#style-c">C. Enterprise</a>
+    <a href="#style-d" class="rec">D. Trust ★</a>
+  </div>
+</nav>
+
+<!-- ═══════════════ INTRODUÇÃO ═══════════════ -->
+<section class="intro">
+  <h2>Clausent Design System — Comparativo</h2>
+  <p>Quatro abordagens visuais para a plataforma de inteligência contratual. Todos compartilham a mesma paleta Teal e o logo Bracket Clause {C}.</p>
+  <div class="intro-grid">
+    <div class="intro-card">
+      <h3>A. Light Neobrutalism</h3>
+      <p>Bordas marcantes, sombras sólidas sem blur, background off-white quente. Personalidade forte, memorável. Pode parecer casual demais para B2B jurídico.</p>
+    </div>
+    <div class="intro-card">
+      <h3>B. Clean Minimal</h3>
+      <p>Estilo Linear/Vercel. Ultra-limpo, espaçamento generoso, micro-animações. Elegante mas pode carecer de personalidade para se destacar no mercado.</p>
+    </div>
+    <div class="intro-card">
+      <h3>C. Modern Enterprise</h3>
+      <p>Estilo Stripe/HubSpot. Gradientes sutis, hierarquia forte, polish profissional. Transmite escala mas pode parecer genérico entre concorrentes enterprise.</p>
+    </div>
+    <div class="intro-card recommended">
+      <h3>D. Purpose-Driven Trust</h3>
+      <p>Híbrido ideal: base minimal com elementos de confiança. Hero escuro impactante, glow teal sutil, bordas com personalidade. Comunica proteção e seriedade.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     ESTILO A: LIGHT NEOBRUTALISM
+     ═══════════════════════════════════════════════ -->
+<section class="style-section" id="style-a">
+  <div class="style-header">
+    <h2>Estilo A — Light Neobrutalism</h2>
+    <p>Bordas finas, sombras sólidas, background quente, tipografia bold. Personalidade marcante e única.</p>
+  </div>
+  <div class="a-wrap">
+    <!-- Navbar -->
+    <nav class="a-nav">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 56 56" fill="none"><path d="M16 8C12 8 10 12 10 16V22C10 24 8 26 6 28C8 30 10 32 10 34V40C10 44 12 48 16 48" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round"/><path d="M40 8C44 8 46 12 46 16V22C46 24 48 26 50 28C48 30 46 32 46 34V40C46 44 44 48 40 48" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round"/><path d="M35 20C33 17 30.5 16 28 16C23.5 16 20 20.5 20 28C20 35.5 23.5 40 28 40C30.5 40 33 39 35 36" stroke="#0d9488" stroke-width="4" stroke-linecap="round"/></svg>
+        Clausent
+      </div>
+      <div class="links">
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">How it Works</a>
+      </div>
+      <button class="a-btn-primary">Get Started</button>
+    </nav>
+
+    <!-- Hero -->
+    <div class="a-hero">
+      <div class="badge">&#128737; Contract Intelligence Platform</div>
+      <h1>Stop Losing Money on<br><span>Forgotten Contracts</span></h1>
+      <p>AI-powered analysis that scores risk, tracks renewals, and benchmarks every clause against market standards.</p>
+      <div class="ctas">
+        <button class="a-btn-primary">Start Free Trial</button>
+        <button class="a-btn-secondary">Watch Demo</button>
+      </div>
+      <div class="a-mockup">
+        <div style="display:flex;gap:8px;margin-bottom:16px">
+          <div style="width:10px;height:10px;border-radius:50%;background:#fca5a5;border:1px solid #f87171"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#fde68a;border:1px solid #fbbf24"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#86efac;border:1px solid #4ade80"></div>
+        </div>
+        <div class="bar" style="width:80%;background:var(--teal-200)"></div>
+        <div class="bar" style="width:55%;background:var(--amber-400)"></div>
+        <div class="bar" style="width:92%;background:var(--teal-400)"></div>
+        <div class="bar" style="width:40%;background:var(--slate-200)"></div>
+      </div>
+    </div>
+
+    <div class="section-pad">
+      <!-- Feature Card + Pricing Card -->
+      <div class="component-label">Feature Card & Pricing Card</div>
+      <div class="component-row mb-24">
+        <div class="a-card">
+          <div class="icon">&#128737;</div>
+          <h3>Risk Scoring</h3>
+          <p>0-100 risk score for every contract. AI-powered clause analysis highlights hidden liabilities.</p>
+        </div>
+        <div class="a-pricing">
+          <div class="pop">POPULAR</div>
+          <h3>Professional</h3>
+          <div class="price">$59<span>/mo</span></div>
+          <ul>
+            <li>Up to 100 contracts</li>
+            <li>Risk scoring & alerts</li>
+            <li>Renewal tracking</li>
+            <li>Market benchmarks</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="a-btn-primary" style="width:100%">Get Started</button>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="component-label">Buttons</div>
+      <div class="component-row mb-24">
+        <button class="a-btn-primary">Primary</button>
+        <button class="a-btn-secondary">Secondary</button>
+        <button class="a-btn-outline">Outline</button>
+        <button class="a-btn-ghost">Ghost</button>
+      </div>
+
+      <!-- Badges -->
+      <div class="component-label">Badges</div>
+      <div class="component-row mb-24" style="gap:8px">
+        <span class="a-badge success">Active</span>
+        <span class="a-badge warning">Expiring Soon</span>
+        <span class="a-badge danger">High Risk</span>
+        <span class="a-badge info">Under Review</span>
+      </div>
+
+      <!-- Input -->
+      <div class="component-label">Input Field</div>
+      <div class="component-row mb-24">
+        <div class="a-input-wrap">
+          <label>Contract Name</label>
+          <input type="text" placeholder="e.g. SaaS Master Agreement">
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="component-label">Data Table</div>
+      <table class="a-table">
+        <thead><tr><th>Contract</th><th>Status</th><th>Risk Score</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>SaaS Master Agreement</td><td><span class="a-badge success">Active</span></td><td style="font-weight:700;color:var(--teal-600)">23/100</td><td>$48,000/yr</td></tr>
+          <tr><td>Office Lease — Downtown</td><td><span class="a-badge warning">Expiring Soon</span></td><td style="font-weight:700;color:var(--amber-600)">67/100</td><td>$124,000/yr</td></tr>
+          <tr><td>Vendor NDA — Acme Corp</td><td><span class="a-badge danger">High Risk</span></td><td style="font-weight:700;color:#dc2626">89/100</td><td>$12,000/yr</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     ESTILO B: CLEAN MINIMAL
+     ═══════════════════════════════════════════════ -->
+<section class="style-section" id="style-b">
+  <div class="style-header">
+    <h2>Estilo B — Clean Minimal</h2>
+    <p>Inspirado em Linear/Vercel. Ultra-limpo, sombras difusas, espaçamento generoso, micro-animações sutis.</p>
+  </div>
+  <div class="b-wrap">
+    <nav class="b-nav">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 56 56" fill="none"><path d="M16 8C12 8 10 12 10 16V22C10 24 8 26 6 28C8 30 10 32 10 34V40C10 44 12 48 16 48" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round"/><path d="M40 8C44 8 46 12 46 16V22C46 24 48 26 50 28C48 30 46 32 46 34V40C46 44 44 48 40 48" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round"/><path d="M35 20C33 17 30.5 16 28 16C23.5 16 20 20.5 20 28C20 35.5 23.5 40 28 40C30.5 40 33 39 35 36" stroke="#0d9488" stroke-width="4" stroke-linecap="round"/></svg>
+        Clausent
+      </div>
+      <div class="links">
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">How it Works</a>
+      </div>
+      <button class="b-btn-primary">Get Started</button>
+    </nav>
+
+    <div class="b-hero">
+      <div class="badge">Contract Intelligence Platform</div>
+      <h1>Stop Losing Money on<br><span>Forgotten Contracts</span></h1>
+      <p>AI-powered analysis that scores risk, tracks renewals, and benchmarks every clause against market standards.</p>
+      <div class="ctas">
+        <button class="b-btn-primary">Start Free Trial</button>
+        <button class="b-btn-secondary">Watch Demo</button>
+      </div>
+      <div class="b-mockup">
+        <div style="display:flex;gap:8px;margin-bottom:16px">
+          <div style="width:10px;height:10px;border-radius:50%;background:#fca5a5"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#fde68a"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#86efac"></div>
+        </div>
+        <div class="bar" style="width:80%;background:var(--teal-100)"></div>
+        <div class="bar" style="width:55%;background:var(--slate-200)"></div>
+        <div class="bar" style="width:92%;background:var(--teal-200)"></div>
+        <div class="bar" style="width:40%;background:var(--slate-100)"></div>
+      </div>
+    </div>
+
+    <div class="section-pad">
+      <div class="component-label">Feature Card & Pricing Card</div>
+      <div class="component-row mb-24">
+        <div class="b-card">
+          <div class="icon">&#128737;</div>
+          <h3>Risk Scoring</h3>
+          <p>0-100 risk score for every contract. AI-powered clause analysis highlights hidden liabilities.</p>
+        </div>
+        <div class="b-pricing">
+          <div class="pop">POPULAR</div>
+          <h3>Professional</h3>
+          <div class="price">$59<span>/mo</span></div>
+          <ul>
+            <li>Up to 100 contracts</li>
+            <li>Risk scoring & alerts</li>
+            <li>Renewal tracking</li>
+            <li>Market benchmarks</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="b-btn-primary" style="width:100%">Get Started</button>
+        </div>
+      </div>
+
+      <div class="component-label">Buttons</div>
+      <div class="component-row mb-24">
+        <button class="b-btn-primary">Primary</button>
+        <button class="b-btn-secondary">Secondary</button>
+        <button class="b-btn-outline">Outline</button>
+        <button class="b-btn-ghost">Ghost</button>
+      </div>
+
+      <div class="component-label">Badges</div>
+      <div class="component-row mb-24" style="gap:8px">
+        <span class="b-badge success">Active</span>
+        <span class="b-badge warning">Expiring Soon</span>
+        <span class="b-badge danger">High Risk</span>
+        <span class="b-badge info">Under Review</span>
+      </div>
+
+      <div class="component-label">Input Field</div>
+      <div class="component-row mb-24">
+        <div class="b-input-wrap">
+          <label>Contract Name</label>
+          <input type="text" placeholder="e.g. SaaS Master Agreement">
+        </div>
+      </div>
+
+      <div class="component-label">Data Table</div>
+      <table class="b-table">
+        <thead><tr><th>Contract</th><th>Status</th><th>Risk Score</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>SaaS Master Agreement</td><td><span class="b-badge success">Active</span></td><td style="font-weight:600;color:var(--teal-600)">23/100</td><td>$48,000/yr</td></tr>
+          <tr><td>Office Lease — Downtown</td><td><span class="b-badge warning">Expiring Soon</span></td><td style="font-weight:600;color:var(--amber-600)">67/100</td><td>$124,000/yr</td></tr>
+          <tr><td>Vendor NDA — Acme Corp</td><td><span class="b-badge danger">High Risk</span></td><td style="font-weight:600;color:#dc2626">89/100</td><td>$12,000/yr</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     ESTILO C: MODERN ENTERPRISE
+     ═══════════════════════════════════════════════ -->
+<section class="style-section" id="style-c">
+  <div class="style-header">
+    <h2>Estilo C — Modern Enterprise</h2>
+    <p>Inspirado em Stripe/HubSpot. Gradientes refinados, sombras elegantes, hierarquia visual forte.</p>
+  </div>
+  <div class="c-wrap">
+    <nav class="c-nav">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 56 56" fill="none"><path d="M16 8C12 8 10 12 10 16V22C10 24 8 26 6 28C8 30 10 32 10 34V40C10 44 12 48 16 48" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round"/><path d="M40 8C44 8 46 12 46 16V22C46 24 48 26 50 28C48 30 46 32 46 34V40C46 44 44 48 40 48" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round"/><path d="M35 20C33 17 30.5 16 28 16C23.5 16 20 20.5 20 28C20 35.5 23.5 40 28 40C30.5 40 33 39 35 36" stroke="#0d9488" stroke-width="4" stroke-linecap="round"/></svg>
+        Clausent
+      </div>
+      <div class="links">
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">How it Works</a>
+      </div>
+      <button class="c-btn-primary">Get Started</button>
+    </nav>
+
+    <div class="c-hero">
+      <div class="badge">&#128737; Contract Intelligence Platform</div>
+      <h1>Stop Losing Money on<br><span>Forgotten Contracts</span></h1>
+      <p>AI-powered analysis that scores risk, tracks renewals, and benchmarks every clause against market standards.</p>
+      <div class="ctas">
+        <button class="c-btn-primary">Start Free Trial</button>
+        <button class="c-btn-secondary">Watch Demo</button>
+      </div>
+      <div class="c-mockup">
+        <div style="display:flex;gap:8px;margin-bottom:16px">
+          <div style="width:10px;height:10px;border-radius:50%;background:#fca5a5"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#fde68a"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#86efac"></div>
+        </div>
+        <div class="bar" style="width:80%;background:linear-gradient(90deg,var(--teal-200),var(--teal-300))"></div>
+        <div class="bar" style="width:55%;background:linear-gradient(90deg,var(--amber-400),var(--amber-500))"></div>
+        <div class="bar" style="width:92%;background:linear-gradient(90deg,var(--teal-400),#10b981)"></div>
+        <div class="bar" style="width:40%;background:var(--slate-200)"></div>
+      </div>
+    </div>
+
+    <div class="section-pad">
+      <div class="component-label">Feature Card & Pricing Card</div>
+      <div class="component-row mb-24">
+        <div class="c-card">
+          <div class="icon">&#128737;</div>
+          <h3>Risk Scoring</h3>
+          <p>0-100 risk score for every contract. AI-powered clause analysis highlights hidden liabilities.</p>
+        </div>
+        <div class="c-pricing">
+          <div class="pop">POPULAR</div>
+          <h3>Professional</h3>
+          <div class="price">$59<span>/mo</span></div>
+          <ul>
+            <li>Up to 100 contracts</li>
+            <li>Risk scoring & alerts</li>
+            <li>Renewal tracking</li>
+            <li>Market benchmarks</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="c-btn-primary" style="width:100%">Get Started</button>
+        </div>
+      </div>
+
+      <div class="component-label">Buttons</div>
+      <div class="component-row mb-24">
+        <button class="c-btn-primary">Primary</button>
+        <button class="c-btn-secondary">Secondary</button>
+        <button class="c-btn-outline">Outline</button>
+        <button class="c-btn-ghost">Ghost</button>
+      </div>
+
+      <div class="component-label">Badges</div>
+      <div class="component-row mb-24" style="gap:8px">
+        <span class="c-badge success">Active</span>
+        <span class="c-badge warning">Expiring Soon</span>
+        <span class="c-badge danger">High Risk</span>
+        <span class="c-badge info">Under Review</span>
+      </div>
+
+      <div class="component-label">Input Field</div>
+      <div class="component-row mb-24">
+        <div class="c-input-wrap">
+          <label>Contract Name</label>
+          <input type="text" placeholder="e.g. SaaS Master Agreement">
+        </div>
+      </div>
+
+      <div class="component-label">Data Table</div>
+      <table class="c-table">
+        <thead><tr><th>Contract</th><th>Status</th><th>Risk Score</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>SaaS Master Agreement</td><td><span class="c-badge success">Active</span></td><td style="font-weight:700;color:var(--teal-600)">23/100</td><td>$48,000/yr</td></tr>
+          <tr><td>Office Lease — Downtown</td><td><span class="c-badge warning">Expiring Soon</span></td><td style="font-weight:700;color:var(--amber-600)">67/100</td><td>$124,000/yr</td></tr>
+          <tr><td>Vendor NDA — Acme Corp</td><td><span class="c-badge danger">High Risk</span></td><td style="font-weight:700;color:#dc2626">89/100</td><td>$12,000/yr</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     ESTILO D: PURPOSE-DRIVEN TRUST (RECOMENDADO)
+     ═══════════════════════════════════════════════ -->
+<section class="style-section" id="style-d">
+  <div class="style-header">
+    <h2>Estilo D — Purpose-Driven Trust</h2>
+    <span class="badge-rec">RECOMENDADO</span>
+    <p>Híbrido: base clean minimal com elementos de confiança enterprise. Hero escuro, teal glow, bordas com personalidade.</p>
+  </div>
+  <div class="d-wrap">
+    <nav class="d-nav">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 56 56" fill="none"><path d="M16 8C12 8 10 12 10 16V22C10 24 8 26 6 28C8 30 10 32 10 34V40C10 44 12 48 16 48" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round"/><path d="M40 8C44 8 46 12 46 16V22C46 24 48 26 50 28C48 30 46 32 46 34V40C46 44 44 48 40 48" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round"/><path d="M35 20C33 17 30.5 16 28 16C23.5 16 20 20.5 20 28C20 35.5 23.5 40 28 40C30.5 40 33 39 35 36" stroke="#0d9488" stroke-width="4" stroke-linecap="round"/></svg>
+        Clausent
+      </div>
+      <div class="links">
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">How it Works</a>
+      </div>
+      <button class="d-btn-primary">Get Started</button>
+    </nav>
+
+    <div class="d-hero">
+      <div class="badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Contract Intelligence Platform
+      </div>
+      <h1>Stop Losing Money on<br><span>Forgotten Contracts</span></h1>
+      <p>AI-powered analysis that scores risk, tracks renewals, and benchmarks every clause against market standards.</p>
+      <div class="ctas">
+        <button class="d-btn-primary">Start Free Trial</button>
+        <button class="d-btn-secondary">Watch Demo</button>
+      </div>
+      <div class="d-mockup">
+        <div style="display:flex;gap:8px;margin-bottom:16px">
+          <div style="width:10px;height:10px;border-radius:50%;background:rgba(252,165,165,0.6)"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:rgba(253,230,138,0.6)"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:rgba(134,239,172,0.6)"></div>
+        </div>
+        <div class="bar" style="width:80%;background:var(--teal-400)"></div>
+        <div class="bar" style="width:55%;background:var(--amber-400)"></div>
+        <div class="bar" style="width:92%;background:var(--teal-300)"></div>
+        <div class="bar" style="width:40%;background:rgba(255,255,255,0.15)"></div>
+      </div>
+    </div>
+
+    <div class="section-pad" style="background:var(--slate-50)">
+      <div class="component-label">Feature Card & Pricing Card</div>
+      <div class="component-row mb-24">
+        <div class="d-card">
+          <div class="icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>Risk Scoring</h3>
+          <p>0-100 risk score for every contract. AI-powered clause analysis highlights hidden liabilities.</p>
+        </div>
+        <div class="d-pricing">
+          <div class="pop">POPULAR</div>
+          <h3>Professional</h3>
+          <div class="price">$59<span>/mo</span></div>
+          <ul>
+            <li>Up to 100 contracts</li>
+            <li>Risk scoring & alerts</li>
+            <li>Renewal tracking</li>
+            <li>Market benchmarks</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="d-btn-primary" style="width:100%">Get Started</button>
+        </div>
+      </div>
+
+      <div class="component-label">Buttons</div>
+      <div class="component-row mb-24">
+        <button class="d-btn-primary">Primary</button>
+        <button class="d-btn-secondary">Secondary</button>
+        <button class="d-btn-outline">Outline</button>
+        <button class="d-btn-ghost">Ghost</button>
+      </div>
+
+      <div class="component-label">Badges</div>
+      <div class="component-row mb-24" style="gap:8px">
+        <span class="d-badge success">Active</span>
+        <span class="d-badge warning">Expiring Soon</span>
+        <span class="d-badge danger">High Risk</span>
+        <span class="d-badge info">Under Review</span>
+      </div>
+
+      <div class="component-label">Input Field</div>
+      <div class="component-row mb-24">
+        <div class="d-input-wrap">
+          <label>Contract Name</label>
+          <input type="text" placeholder="e.g. SaaS Master Agreement">
+        </div>
+      </div>
+
+      <div class="component-label">Data Table</div>
+      <table class="d-table">
+        <thead><tr><th>Contract</th><th>Status</th><th>Risk Score</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>SaaS Master Agreement</td><td><span class="d-badge success">Active</span></td><td style="font-weight:700;color:var(--teal-600)">23/100</td><td>$48,000/yr</td></tr>
+          <tr><td>Office Lease — Downtown</td><td><span class="d-badge warning">Expiring Soon</span></td><td style="font-weight:700;color:var(--amber-600)">67/100</td><td>$124,000/yr</td></tr>
+          <tr><td>Vendor NDA — Acme Corp</td><td><span class="d-badge danger">High Risk</span></td><td style="font-weight:700;color:#dc2626">89/100</td><td>$12,000/yr</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div style="text-align:center;padding:40px 0 60px;color:var(--slate-400);font-size:13px">
+  Clausent Design System — Style Comparison v1.0
+</div>
+
+</body>
+</html>

@@ -1,19 +1,4 @@
-import OpenAI from 'openai'
-
-/**
- * Instância lazy do cliente OpenAI.
- * Inicializada sob demanda para evitar erros em build time
- * quando OPENAI_API_KEY não está disponível.
- */
-let _openai: OpenAI | null = null
-
-/** Retorna a instância do OpenAI, criando-a se necessário */
-function getOpenAI(): OpenAI {
-  if (!_openai) {
-    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-  }
-  return _openai
-}
+import { callDeepSeek } from './deepseek'
 
 /**
  * Ponto individual de renegociação retornado pelo modelo.
@@ -118,15 +103,12 @@ Guidelines:
 - Always express savings in the contract's currency`
 
 /**
- * Gera um pacote completo de renegociação usando o modelo de linguagem.
+ * Gera um pacote completo de renegociação usando DeepSeek V3.
  *
  * O processo:
  * 1. Monta o contexto com dados do contrato, cláusulas e benchmarks
- * 2. Envia para o modelo com prompt especializado em renegociação
+ * 2. Envia para o DeepSeek com prompt especializado em renegociação
  * 3. Recebe JSON estruturado com pontos priorizados e draft de email
- *
- * Usa temperature 0.3 para respostas criativas porém consistentes,
- * e response_format json_object para garantir JSON válido.
  *
  * @param input - Dados do contrato, cláusulas e benchmarks
  * @returns Pacote de renegociação com pontos, email e economia estimada
@@ -135,8 +117,6 @@ Guidelines:
 export async function generateRenegotiationPackage(
   input: RenegotiationInput,
 ): Promise<RenegotiationResult> {
-  const openai = getOpenAI()
-
   /** Monta o contexto do contrato para enviar ao modelo */
   const contractContext = `
 CONTRACT DETAILS:
@@ -160,16 +140,18 @@ ${input.benchmarks.map((b) => {
 }).join('\n')}
 `.trim()
 
-  /** Chamada ao modelo com prompt de renegociação */
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
-    messages: [
+  /** Chamada ao DeepSeek com prompt de renegociação */
+  const response = await callDeepSeek(
+    [
       { role: 'system', content: RENEGOTIATION_PROMPT },
       { role: 'user', content: contractContext },
     ],
-    response_format: { type: 'json_object' },
-    temperature: 0.3,
-  })
+    {
+      temperature: 0.3,
+      maxTokens: 4096,
+      jsonMode: true,
+    }
+  )
 
   /** Extrai o conteúdo da resposta */
   const content = response.choices[0]?.message?.content

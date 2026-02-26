@@ -9,25 +9,25 @@ import {
   FileText,
   LayoutDashboard,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 /**
  * Lista de features do produto.
- * Cada feature contém ícone, título, descrição e cor de destaque.
+ * Cada feature contém ícone, chave de tradução e cor de destaque.
+ * Os textos (título e descrição) são obtidos via next-intl.
  */
 const FEATURES = [
   {
     icon: Upload,
-    title: 'Smart Upload',
-    description: 'Drop PDF or DOCX. We extract everything.',
-    color: 'indigo',
-    gradient: 'from-indigo-500 to-indigo-600',
-    bgLight: 'bg-indigo-50',
-    textColor: 'text-indigo-600',
+    key: 'smartUpload',
+    color: 'teal',
+    gradient: 'from-teal-500 to-teal-600',
+    bgLight: 'bg-teal-50',
+    textColor: 'text-teal-600',
   },
   {
     icon: Shield,
-    title: 'Risk Scoring',
-    description: '0-100 risk score for every contract.',
+    key: 'riskScoring',
     color: 'emerald',
     gradient: 'from-emerald-500 to-emerald-600',
     bgLight: 'bg-emerald-50',
@@ -35,8 +35,7 @@ const FEATURES = [
   },
   {
     icon: Bell,
-    title: 'Auto-Alerts',
-    description: 'Never miss a renewal or deadline again.',
+    key: 'autoAlerts',
     color: 'amber',
     gradient: 'from-amber-500 to-amber-600',
     bgLight: 'bg-amber-50',
@@ -44,8 +43,7 @@ const FEATURES = [
   },
   {
     icon: BarChart3,
-    title: 'Market Benchmarks',
-    description: 'Compare your terms with market data.',
+    key: 'marketBenchmarks',
     color: 'violet',
     gradient: 'from-violet-500 to-violet-600',
     bgLight: 'bg-violet-50',
@@ -53,8 +51,7 @@ const FEATURES = [
   },
   {
     icon: FileText,
-    title: 'Renegotiation Kit',
-    description: 'Generated playbook to save money.',
+    key: 'renegotiationKit',
     color: 'rose',
     gradient: 'from-rose-500 to-rose-600',
     bgLight: 'bg-rose-50',
@@ -62,8 +59,7 @@ const FEATURES = [
   },
   {
     icon: LayoutDashboard,
-    title: 'Full Dashboard',
-    description: 'Your entire portfolio at a glance.',
+    key: 'fullDashboard',
     color: 'sky',
     gradient: 'from-sky-500 to-sky-600',
     bgLight: 'bg-sky-50',
@@ -112,10 +108,13 @@ const cardVariants = {
  * - Animação stagger de entrada (reveal on scroll)
  */
 export function FeaturesSection() {
+  /** Hook de traduções do namespace 'features' */
+  const t = useTranslations('features')
+
   return (
-    <section id="features" className="relative py-24 sm:py-32 bg-[#F8FAFC]">
+    <section id="features" className="relative py-24 sm:py-32 bg-[#FFFDF5]">
       {/* Decoração de fundo — círculos sutis */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-100/50 rounded-full blur-[120px] -translate-y-1/2" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-teal-100/50 rounded-full blur-[120px] -translate-y-1/2" />
       <div className="absolute bottom-0 left-0 w-72 h-72 bg-emerald-100/30 rounded-full blur-[100px] translate-y-1/2" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -128,18 +127,17 @@ export function FeaturesSection() {
           className="text-center mb-16 sm:mb-20"
         >
           {/* Badge da seção */}
-          <span className="inline-flex items-center rounded-full bg-indigo-50 border border-indigo-100 px-4 py-1.5 text-sm font-medium text-indigo-600 mb-4">
-            Features
+          <span className="inline-flex items-center rounded-full bg-teal-50 border border-teal-100 px-4 py-1.5 text-sm font-medium text-teal-600 mb-4">
+            {t('badge')}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
-            Everything you need to{' '}
-            <span className="bg-gradient-to-r from-indigo-600 to-emerald-600 bg-clip-text text-transparent">
-              control contracts
+            {t('title')}{' '}
+            <span className="bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
+              {t('titleHighlight')}
             </span>
           </h2>
           <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-            From upload to renegotiation, we handle every step of your contract
-            lifecycle.
+            {t('subtitle')}
           </p>
         </motion.div>
 
@@ -155,15 +153,15 @@ export function FeaturesSection() {
             const Icon = feature.icon
             return (
               <motion.div
-                key={feature.title}
+                key={feature.key}
                 variants={cardVariants}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 className="group relative"
               >
                 {/* Card com glass morphism */}
-                <div className="relative h-full rounded-2xl bg-white/80 backdrop-blur-sm border border-slate-200/60 p-8 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300">
+                <div className="relative h-full rounded-2xl bg-white border border-slate-200 p-8 shadow-[3px_3px_0px_rgba(0,0,0,0.06)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.08)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-300">
                   {/* Gradiente de hover no card (aparece suavemente) */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-50/50 to-emerald-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-teal-50/50 to-emerald-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                   <div className="relative">
                     {/* Container do ícone com efeito hover */}
@@ -175,12 +173,12 @@ export function FeaturesSection() {
 
                     {/* Título da feature */}
                     <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                      {feature.title}
+                      {t(`${feature.key}.title`)}
                     </h3>
 
                     {/* Descrição breve */}
                     <p className="text-sm text-slate-500 leading-relaxed">
-                      {feature.description}
+                      {t(`${feature.key}.description`)}
                     </p>
                   </div>
 

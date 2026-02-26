@@ -1,0 +1,29 @@
+# Clausent
+
+> AI-powered contract intelligence platform for small and medium businesses.
+
+Clausent helps businesses analyze, monitor, and renegotiate their contracts using artificial intelligence. Upload any contract (PDF or DOCX) and receive instant risk analysis, renewal alerts, market benchmarks, and renegotiation playbooks.
+
+## Key Features
+
+- **Smart Upload**: Extract key terms, dates, and pricing from PDF/DOCX contracts
+- **Risk Scoring**: AI-generated 0-100 risk score for every contract
+- **Auto-Alerts**: Automated renewal and deadline notifications
+- **Market Benchmarks**: Compare your contract terms with market data
+- **Renegotiation Kit**: AI-generated playbooks to help save money
+- **Dashboard**: Complete contract portfolio overview
+
+## Pricing
+
+- **Starter** ($29/mo): Up to 10 contracts, basic risk analysis
+- **Professional** ($59/mo): Up to 50 contracts, full analysis + benchmarks
+- **Business** ($99/mo): Up to 200 contracts, renegotiation kit + API
+- **Enterprise** (Custom): Unlimited contracts, SSO, dedicated support
+
+Annual billing saves 20%.
+
+## Links
+
+- Website: https://clausent.com
+- Pricing: https://clausent.com/pricing
+- Sign Up: https://clausent.com/sign-up

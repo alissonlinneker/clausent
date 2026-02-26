@@ -1,87 +1,91 @@
-import { put } from '@vercel/blob'
-import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
+import { headers } from 'next/headers'
+import { z } from 'zod'
 
 /**
- * Tipos MIME aceitos para upload de contratos.
- * Suportamos PDF e DOCX — os formatos mais comuns para documentos contratuais.
+ * Schema de validação para a requisição de presigned URL.
+ * O cliente envia o nome do arquivo, tipo MIME e tamanho
+ * para que o servidor gere uma URL segura para upload direto ao S3.
  */
-const ALLOWED_MIME_TYPES = [
-  'application/pdf',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-] as const
-
-/** Limite máximo de tamanho: 10MB em bytes */
-const MAX_FILE_SIZE = 10 * 1024 * 1024
+const presignedUrlSchema = z.object({
+  /** Nome original do arquivo */
+  filename: z.string().min(1).max(255),
+  /** Tipo MIME — apenas PDF e DOCX */
+  contentType: z.enum([
+    'application/pdf',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  ]),
+  /** Tamanho em bytes — máximo 25MB */
+  fileSize: z.number().int().positive().max(25 * 1024 * 1024),
+})
 
 /**
- * API de upload de arquivos de contrato.
+ * API para gerar URL pré-assinada de upload ao S3.
  *
  * Fluxo:
- * 1. Verifica autenticação via Clerk
- * 2. Extrai o arquivo do FormData
- * 3. Valida tipo MIME (PDF ou DOCX apenas)
- * 4. Valida tamanho (máximo 10MB)
- * 5. Envia para Vercel Blob Storage com path organizado por userId
- * 6. Retorna a URL pública do arquivo armazenado
+ * 1. Verifica autenticação via Better Auth (sessão)
+ * 2. Valida os dados da requisição (filename, contentType, fileSize)
+ * 3. Gera presigned URL via AWS S3
+ * 4. Retorna a URL + key para o cliente fazer upload direto
+ *
+ * O upload direto ao S3 evita o limite de 4.5MB do Vercel
+ * e permite arquivos de até 25MB.
  *
  * Método: POST
- * Content-Type: multipart/form-data
- * Body: { file: File }
- * Response: { url: string } | { error: string }
+ * Content-Type: application/json
+ * Body: { filename: string, contentType: string, fileSize: number }
+ * Response: { uploadUrl: string, key: string } | { error: string }
  */
 export async function POST(req: Request) {
-  /** Verificar autenticação — apenas usuários logados podem fazer upload */
-  const { userId } = await auth()
-
-  if (!userId) {
-    return NextResponse.json(
-      { error: 'Não autorizado' },
-      { status: 401 }
-    )
-  }
-
-  /** Extrair o arquivo do FormData enviado pelo cliente */
-  const formData = await req.formData()
-  const file = formData.get('file') as File | null
-
-  if (!file) {
-    return NextResponse.json(
-      { error: 'Nenhum arquivo enviado' },
-      { status: 400 }
-    )
-  }
-
-  /** Validar tipo MIME — somente PDF e DOCX são aceitos */
-  if (!ALLOWED_MIME_TYPES.includes(file.type as typeof ALLOWED_MIME_TYPES[number])) {
-    return NextResponse.json(
-      { error: 'Tipo de arquivo não suportado. Envie PDF ou DOCX.' },
-      { status: 400 }
-    )
-  }
-
-  /** Validar tamanho do arquivo — máximo 10MB */
-  if (file.size > MAX_FILE_SIZE) {
-    return NextResponse.json(
-      { error: 'Arquivo excede o limite de 10MB' },
-      { status: 400 }
-    )
-  }
-
   try {
     /**
-     * Upload para Vercel Blob Storage.
-     * O arquivo é organizado no path: contracts/{userId}/{nomeDoArquivo}
-     * Isso facilita a organização e eventual cleanup por usuário.
+     * Verificar autenticação via Better Auth.
+     * TODO: Integrar com Better Auth quando o módulo estiver pronto.
+     * Por enquanto, verifica se há sessão via header.
      */
-    const blob = await put(`contracts/${userId}/${file.name}`, file, {
-      access: 'public',
-    })
+    const headersList = await headers()
+    const authHeader = headersList.get('authorization')
 
-    return NextResponse.json({ url: blob.url })
-  } catch {
+    if (!authHeader) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      )
+    }
+
+    /** Extrair e validar o body da requisição */
+    const body = await req.json()
+    const result = presignedUrlSchema.safeParse(body)
+
+    if (!result.success) {
+      return NextResponse.json(
+        { error: 'Invalid request', details: result.error.flatten() },
+        { status: 400 }
+      )
+    }
+
+    const { filename, contentType, fileSize } = result.data
+
+    /**
+     * Gerar presigned URL para upload direto ao S3.
+     * Importação dinâmica para evitar carregar o SDK desnecessariamente.
+     */
+    const { generatePresignedUploadUrl } = await import('@/lib/aws/s3')
+
+    /** Gerar a key do S3 com o userId (será substituído pela sessão real) */
+    const userId = 'temp-user-id' // TODO: Extrair do Better Auth session
+    const key = `contracts/${userId}/${Date.now()}-${filename}`
+
+    const { url } = await generatePresignedUploadUrl(key, contentType, fileSize)
+
+    return NextResponse.json({
+      uploadUrl: url,
+      key,
+    })
+  } catch (error) {
+    console.error('[Upload] Erro ao gerar presigned URL:', error)
     return NextResponse.json(
-      { error: 'Erro ao fazer upload do arquivo. Tente novamente.' },
+      { error: 'Failed to generate upload URL' },
       { status: 500 }
     )
   }

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clausent — 10 Opções de Logomarca</title>
+  <style>
+    @font-face {
+      font-family: 'Cal Sans';
+      src: url('https://raw.githubusercontent.com/calcom/font/main/fonts/web/CalSans-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #F8FAFC;
+      color: #1E293B;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #1E1B4B 0%, #4F46E5 100%);
+      color: white;
+      padding: 80px 40px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-family: 'Cal Sans', 'Inter', sans-serif;
+      font-size: 48px;
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 18px;
+      opacity: 0.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Grid de logos */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 32px; }
+    }
+
+    /* Card de cada opção */
+    .logo-card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #E2E8F0;
+      overflow: hidden;
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+    }
+    .logo-card:hover {
+      box-shadow: 0 20px 40px rgba(79, 70, 229, 0.12);
+      transform: translateY(-4px);
+    }
+
+    /* Número da opção */
+    .option-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #EEF2FF;
+      color: #4F46E5;
+      font-weight: 700;
+      font-size: 14px;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Área de preview do logo */
+    .logo-preview {
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      min-height: 280px;
+      background: white;
+    }
+    .logo-preview.dark {
+      background: #0F172A;
+    }
+    .logo-preview .icon-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-preview .lockup {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo-preview .wordmark {
+      font-family: 'Cal Sans', 'Inter', sans-serif;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+      color: #1E293B;
+    }
+    .logo-preview.dark .wordmark {
+      color: white;
+    }
+
+    /* Info de cada opção */
+    .logo-info {
+      padding: 24px 28px;
+      border-top: 1px solid #E2E8F0;
+      background: #F8FAFC;
+    }
+    .logo-info h3 {
+      font-family: 'Cal Sans', 'Inter', sans-serif;
+      font-size: 20px;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+    .logo-info .concept {
+      font-size: 14px;
+      color: #64748B;
+      line-height: 1.6;
+    }
+    .logo-info .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .logo-info .tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #EEF2FF;
+      color: #4F46E5;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* Variants row */
+    .variants {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background: #F1F5F9;
+      border-top: 1px solid #E2E8F0;
+    }
+    .variant-box {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #E2E8F0;
+    }
+    .variant-box.light { background: white; }
+    .variant-box.dark-bg { background: #0F172A; }
+    .variant-box.indigo-bg { background: #4F46E5; }
+    .variant-box.gray-bg { background: #F1F5F9; }
+
+    .section-title {
+      font-family: 'Cal Sans', 'Inter', sans-serif;
+      font-size: 28px;
+      letter-spacing: -0.015em;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #1E293B;
+    }
+    .section-subtitle {
+      font-size: 16px;
+      color: #64748B;
+      text-align: center;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Clausent — Opções de Logomarca</h1>
+    <p>10 conceitos visuais distintos para a identidade da marca. Escolha o que melhor representa a essência de "Clause + Sentinel".</p>
+  </div>
+
+  <!-- Grid de Logos -->
+  <div class="container">
+    <h2 class="section-title">10 Conceitos de Logo</h2>
+    <p class="section-subtitle">Cada opção explora uma abordagem visual diferente — escudo, documento, sentinela, tipografia, abstrato e geométrico.</p>
+
+    <div class="grid">
+
+      <!-- ==================== OPÇÃO 1 ==================== -->
+      <div class="logo-card">
+        <div class="logo-preview">
+          <div class="lockup">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Escudo minimalista com "C" negativo -->
+              <path d="M26 4L44 14V30C44 40 36 48 26 48C16 48 8 40 8 30V14L26 4Z" fill="#4F46E5"/>
+              <path d="M32 20C32 16.7 29.3 14 26 14C22.7 14 20 16.7 20 20V32C20 35.3 22.7 38 26 38C29.3 38 32 35.3 32 32" stroke="white" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <span class="wordmark">Clausent</span>
+          </div>
+        </div>
+        <div class="logo-info">
+          <h3><span class="option-number">1</span> Shield C</h3>
+          <p class="concept">Escudo sólido com a letra "C" recortada em negativo. O "C" representa tanto "Clause" quanto "Clausent", enquanto o escudo comunica proteção. Estilo bold e confiante.</p>
+          <div class="tags"><span class="tag">Escudo</span><span class="tag">Monograma</span><span class="tag">Bold</span></div>
+        </div>
+        <div class="variants">
+          <div class="variant-box light">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M26 4L44 14V30C44 40 36 48 26 48C16 48 8 40 8 30V14L26 4Z" fill="#4F46E5"/><path d="M32 20C32 16.7 29.3 14 26 14C22.7 14 20 16.7 20 20V32C20 35.3 22.7 38 26 38C29.3 38 32 35.3 32 32" stroke="white" stroke-width="3" stroke-linecap="round"/></svg>
+          </div>
+          <div class="variant-box dark-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M26 4L44 14V30C44 40 36 48 26 48C16 48 8 40 8 30V14L26 4Z" fill="#818CF8"/><path d="M32 20C32 16.7 29.3 14 26 14C22.7 14 20 16.7 20 20V32C20 35.3 22.7 38 26 38C29.3 38 32 35.3 32 32" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/></svg>
+          </div>
+          <div class="variant-box indigo-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M26 4L44 14V30C44 40 36 48 26 48C16 48 8 40 8 30V14L26 4Z" fill="white"/><path d="M32 20C32 16.7 29.3 14 26 14C22.7 14 20 16.7 20 20V32C20 35.3 22.7 38 26 38C29.3 38 32 35.3 32 32" stroke="#4F46E5" stroke-width="3" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== OPÇÃO 2 ==================== -->
+      <div class="logo-card">
+        <div class="logo-preview">
+          <div class="lockup">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Documento com olho sentinela -->
+              <rect x="10" y="4" width="28" height="36" rx="4" stroke="#4F46E5" stroke-width="2.5" fill="none"/>
+              <line x1="17" y1="14" x2="31" y2="14" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/>
+              <line x1="17" y1="20" x2="27" y2="20" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
+              <line x1="17" y1="26" x2="29" y2="26" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
+              <!-- Olho sentinela -->
+              <circle cx="38" cy="40" r="10" fill="#4F46E5"/>
+              <ellipse cx="38" cy="40" rx="6" ry="4" fill="none" stroke="white" stroke-width="1.5"/>
+              <circle cx="38" cy="40" r="2" fill="white"/>
+            </svg>
+            <span class="wordmark">Clausent</span>
+          </div>
+        </div>
+        <div class="logo-info">
+          <h3><span class="option-number">2</span> Doc Eye</h3>
+          <p class="concept">Documento estilizado com um olho sentinela sobreposto no canto inferior direito. O olho observa e protege o conteúdo do documento. Comunica vigilância ativa.</p>
+          <div class="tags"><span class="tag">Documento</span><span class="tag">Sentinela</span><span class="tag">Vigilância</span></div>
+        </div>
+        <div class="variants">
+          <div class="variant-box light">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><rect x="10" y="4" width="28" height="36" rx="4" stroke="#4F46E5" stroke-width="2.5"/><line x1="17" y1="14" x2="31" y2="14" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="20" x2="27" y2="20" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="40" r="10" fill="#4F46E5"/><ellipse cx="38" cy="40" rx="6" ry="4" fill="none" stroke="white" stroke-width="1.5"/><circle cx="38" cy="40" r="2" fill="white"/></svg>
+          </div>
+          <div class="variant-box dark-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><rect x="10" y="4" width="28" height="36" rx="4" stroke="#818CF8" stroke-width="2.5"/><line x1="17" y1="14" x2="31" y2="14" stroke="#818CF8" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="20" x2="27" y2="20" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="40" r="10" fill="#818CF8"/><ellipse cx="38" cy="40" rx="6" ry="4" fill="none" stroke="#0F172A" stroke-width="1.5"/><circle cx="38" cy="40" r="2" fill="#0F172A"/></svg>
+          </div>
+          <div class="variant-box indigo-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><rect x="10" y="4" width="28" height="36" rx="4" stroke="white" stroke-width="2.5"/><line x1="17" y1="14" x2="31" y2="14" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="20" x2="27" y2="20" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="40" r="10" fill="white"/><ellipse cx="38" cy="40" rx="6" ry="4" fill="none" stroke="#4F46E5" stroke-width="1.5"/><circle cx="38" cy="40" r="2" fill="#4F46E5"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== OPÇÃO 3 ==================== -->
+      <div class="logo-card">
+        <div class="logo-preview">
+          <div class="lockup">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Escudo com linhas de documento — cantos arredondados, elegante -->
+              <path d="M26 3C26 3 44 10 44 10V28C44 38.5 35.5 47 26 49C16.5 47 8 38.5 8 28V10L26 3Z" stroke="#4F46E5" stroke-width="2.5" fill="none" stroke-linejoin="round"/>
+              <line x1="18" y1="18" x2="34" y2="18" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="18" y1="24" x2="30" y2="24" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
+              <line x1="18" y1="30" x2="32" y2="30" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/>
+              <line x1="18" y1="36" x2="26" y2="36" stroke="#C7D2FE" stroke-width="2" stroke-linecap="round"/>
+              <!-- Check no canto -->
+              <circle cx="38" cy="10" r="7" fill="#10B981"/>
+              <polyline points="34.5,10 37,12.5 41.5,7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="wordmark">Clausent</span>
+          </div>
+        </div>
+        <div class="logo-info">
+          <h3><span class="option-number">3</span> Shield Docs Check</h3>
+          <p class="concept">Escudo outline com cláusulas dentro (linhas de texto) e um badge de verificação verde no canto. Combina proteção, documento e validação. Visual limpo e profissional.</p>
+          <div class="tags"><span class="tag">Escudo</span><span class="tag">Documento</span><span class="tag">Verificação</span></div>
+        </div>
+        <div class="variants">
+          <div class="variant-box light">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M26 3C26 3 44 10 44 10V28C44 38.5 35.5 47 26 49C16.5 47 8 38.5 8 28V10L26 3Z" stroke="#4F46E5" stroke-width="2.5" fill="none" stroke-linejoin="round"/><line x1="18" y1="18" x2="34" y2="18" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="24" x2="30" y2="24" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="30" x2="32" y2="30" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="10" r="7" fill="#10B981"/><polyline points="34.5,10 37,12.5 41.5,7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="variant-box dark-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M26 3C26 3 44 10 44 10V28C44 38.5 35.5 47 26 49C16.5 47 8 38.5 8 28V10L26 3Z" stroke="#818CF8" stroke-width="2.5" fill="none" stroke-linejoin="round"/><line x1="18" y1="18" x2="34" y2="18" stroke="#818CF8" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="24" x2="30" y2="24" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="30" x2="32" y2="30" stroke="#A5B4FC" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="10" r="7" fill="#10B981"/><polyline points="34.5,10 37,12.5 41.5,7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="variant-box indigo-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M26 3C26 3 44 10 44 10V28C44 38.5 35.5 47 26 49C16.5 47 8 38.5 8 28V10L26 3Z" stroke="white" stroke-width="2.5" fill="none" stroke-linejoin="round"/><line x1="18" y1="18" x2="34" y2="18" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="24" x2="30" y2="24" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="30" x2="32" y2="30" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="10" r="7" fill="#10B981"/><polyline points="34.5,10 37,12.5 41.5,7.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== OPÇÃO 4 ==================== -->
+      <div class="logo-card">
+        <div class="logo-preview">
+          <div class="lockup">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- C abstrato formado por camadas de documentos empilhados -->
+              <rect x="16" y="8" width="24" height="30" rx="3" fill="#C7D2FE" transform="rotate(3 28 23)"/>
+              <rect x="14" y="10" width="24" height="30" rx="3" fill="#A5B4FC" transform="rotate(-2 26 25)"/>
+              <rect x="12" y="12" width="24" height="30" rx="3" fill="#4F46E5"/>
+              <line x1="18" y1="21" x2="30" y2="21" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              <line x1="18" y1="27" x2="27" y2="27" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+              <line x1="18" y1="33" x2="29" y2="33" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span class="wordmark">Clausent</span>
+          </div>
+        </div>
+        <div class="logo-info">
+          <h3><span class="option-number">4</span> Stacked Docs</h3>
+          <p class="concept">Documentos empilhados com leve rotação, criando profundidade. O documento frontal tem as cláusulas visíveis. Transmite ideia de portfólio de contratos sendo gerenciado.</p>
+          <div class="tags"><span class="tag">Documento</span><span class="tag">Profundidade</span><span class="tag">Portfólio</span></div>
+        </div>
+        <div class="variants">
+          <div class="variant-box light">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><rect x="16" y="8" width="24" height="30" rx="3" fill="#C7D2FE" transform="rotate(3 28 23)"/><rect x="14" y="10" width="24" height="30" rx="3" fill="#A5B4FC" transform="rotate(-2 26 25)"/><rect x="12" y="12" width="24" height="30" rx="3" fill="#4F46E5"/><line x1="18" y1="21" x2="30" y2="21" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="27" x2="27" y2="27" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="variant-box dark-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><rect x="16" y="8" width="24" height="30" rx="3" fill="#312E81" transform="rotate(3 28 23)"/><rect x="14" y="10" width="24" height="30" rx="3" fill="#3730A3" transform="rotate(-2 26 25)"/><rect x="12" y="12" width="24" height="30" rx="3" fill="#818CF8"/><line x1="18" y1="21" x2="30" y2="21" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="27" x2="27" y2="27" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="variant-box indigo-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><rect x="16" y="8" width="24" height="30" rx="3" fill="rgba(255,255,255,0.2)" transform="rotate(3 28 23)"/><rect x="14" y="10" width="24" height="30" rx="3" fill="rgba(255,255,255,0.35)" transform="rotate(-2 26 25)"/><rect x="12" y="12" width="24" height="30" rx="3" fill="white"/><line x1="18" y1="21" x2="30" y2="21" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="27" x2="27" y2="27" stroke="rgba(79,70,229,0.5)" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== OPÇÃO 5 ==================== -->
+      <div class="logo-card">
+        <div class="logo-preview">
+          <div class="lockup">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Hexágono com radar/scan lines -->
+              <polygon points="26,3 46,15 46,37 26,49 6,37 6,15" stroke="#4F46E5" stroke-width="2.5" fill="none"/>
+              <!-- Arcos de radar -->
+              <path d="M26 18 A8 8 0 0 1 34 26" stroke="#4F46E5" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <path d="M26 14 A12 12 0 0 1 38 26" stroke="#A5B4FC" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <path d="M26 10 A16 16 0 0 1 42 26" stroke="#C7D2FE" stroke-width="1" fill="none" stroke-linecap="round"/>
+              <!-- Ponto central -->
+              <circle cx="26" cy="26" r="3" fill="#4F46E5"/>
+              <!-- Linha vertical -->
+              <line x1="26" y1="26" x2="26" y2="15" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span class="wordmark">Clausent</span>
+          </div>
+        </div>
+        <div class="logo-info">
+          <h3><span class="option-number">5</span> Hex Radar</h3>
+          <p class="concept">Hexágono (estabilidade, tecnologia) com um radar de varredura interno. O radar comunica monitoramento contínuo e vigilância — a essência de "Sentinel". Visual tech-forward.</p>
+          <div class="tags"><span class="tag">Tecnologia</span><span class="tag">Radar</span><span class="tag">Monitoramento</span></div>
+        </div>
+        <div class="variants">
+          <div class="variant-box light">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><polygon points="26,3 46,15 46,37 26,49 6,37 6,15" stroke="#4F46E5" stroke-width="2.5" fill="none"/><path d="M26 18 A8 8 0 0 1 34 26" stroke="#4F46E5" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M26 14 A12 12 0 0 1 38 26" stroke="#A5B4FC" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="26" cy="26" r="3" fill="#4F46E5"/><line x1="26" y1="26" x2="26" y2="15" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="variant-box dark-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><polygon points="26,3 46,15 46,37 26,49 6,37 6,15" stroke="#818CF8" stroke-width="2.5" fill="none"/><path d="M26 18 A8 8 0 0 1 34 26" stroke="#818CF8" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M26 14 A12 12 0 0 1 38 26" stroke="#A5B4FC" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="26" cy="26" r="3" fill="#818CF8"/><line x1="26" y1="26" x2="26" y2="15" stroke="#818CF8" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="variant-box indigo-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><polygon points="26,3 46,15 46,37 26,49 6,37 6,15" stroke="white" stroke-width="2.5" fill="none"/><path d="M26 18 A8 8 0 0 1 34 26" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M26 14 A12 12 0 0 1 38 26" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="26" cy="26" r="3" fill="white"/><line x1="26" y1="26" x2="26" y2="15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== OPÇÃO 6 ==================== -->
+      <div class="logo-card">
+        <div class="logo-preview">
+          <div class="lockup">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Escudo moderno com gradiente e sparkle -->
+              <defs>
+                <linearGradient id="g6" x1="8" y1="4" x2="44" y2="48">
+                  <stop offset="0%" stop-color="#6366F1"/>
+                  <stop offset="100%" stop-color="#4F46E5"/>
+                </linearGradient>
+              </defs>
+              <path d="M26 4L42 12V26C42 37 35 45 26 48C17 45 10 37 10 26V12L26 4Z" fill="url(#g6)"/>
+              <!-- Sparkle/AI star -->
+              <path d="M26 16L28 22L34 24L28 26L26 32L24 26L18 24L24 22Z" fill="white"/>
+              <!-- Smaller sparkle -->
+              <path d="M35 14L36 16.5L38.5 17.5L36 18.5L35 21L34 18.5L31.5 17.5L34 16.5Z" fill="rgba(255,255,255,0.7)" />
+            </svg>
+            <span class="wordmark">Clausent</span>
+          </div>
+        </div>
+        <div class="logo-info">
+          <h3><span class="option-number">6</span> AI Shield</h3>
+          <p class="concept">Escudo com gradiente sólido e uma estrela/sparkle central representando inteligência artificial. Combina proteção com IA de forma elegante. Visual premium e moderno.</p>
+          <div class="tags"><span class="tag">Escudo</span><span class="tag">IA</span><span class="tag">Premium</span></div>
+        </div>
+        <div class="variants">
+          <div class="variant-box light">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><defs><linearGradient id="g6s" x1="8" y1="4" x2="44" y2="48"><stop offset="0%" stop-color="#6366F1"/><stop offset="100%" stop-color="#4F46E5"/></linearGradient></defs><path d="M26 4L42 12V26C42 37 35 45 26 48C17 45 10 37 10 26V12L26 4Z" fill="url(#g6s)"/><path d="M26 16L28 22L34 24L28 26L26 32L24 26L18 24L24 22Z" fill="white"/></svg>
+          </div>
+          <div class="variant-box dark-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M26 4L42 12V26C42 37 35 45 26 48C17 45 10 37 10 26V12L26 4Z" fill="#818CF8"/><path d="M26 16L28 22L34 24L28 26L26 32L24 26L18 24L24 22Z" fill="#0F172A"/></svg>
+          </div>
+          <div class="variant-box indigo-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M26 4L42 12V26C42 37 35 45 26 48C17 45 10 37 10 26V12L26 4Z" fill="white"/><path d="M26 16L28 22L34 24L28 26L26 32L24 26L18 24L24 22Z" fill="#4F46E5"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== OPÇÃO 7 ==================== -->
+      <div class="logo-card">
+        <div class="logo-preview">
+          <div class="lockup">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Lupa sobre cláusula -->
+              <rect x="6" y="6" width="30" height="40" rx="4" stroke="#CBD5E1" stroke-width="2" fill="none"/>
+              <line x1="12" y1="15" x2="30" y2="15" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/>
+              <line x1="12" y1="21" x2="28" y2="21" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/>
+              <line x1="12" y1="27" x2="26" y2="27" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/>
+              <line x1="12" y1="33" x2="24" y2="33" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/>
+              <!-- Lupa -->
+              <circle cx="36" cy="32" r="10" stroke="#4F46E5" stroke-width="2.5" fill="white"/>
+              <line x1="43" y1="39" x2="48" y2="46" stroke="#4F46E5" stroke-width="3" stroke-linecap="round"/>
+              <!-- Cláusula dentro da lupa ampliada -->
+              <line x1="30" y1="30" x2="40" y2="30" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/>
+              <line x1="31" y1="34" x2="38" y2="34" stroke="#A5B4FC" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="wordmark">Clausent</span>
+          </div>
+        </div>
+        <div class="logo-info">
+          <h3><span class="option-number">7</span> Clause Lens</h3>
+          <p class="concept">Lupa ampliando uma cláusula sobre um documento. Comunica análise detalhada e investigação profunda. O documento em cinza e a lupa em indigo criam hierarquia visual.</p>
+          <div class="tags"><span class="tag">Análise</span><span class="tag">Lupa</span><span class="tag">Detalhe</span></div>
+        </div>
+        <div class="variants">
+          <div class="variant-box light">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><rect x="6" y="6" width="30" height="40" rx="4" stroke="#CBD5E1" stroke-width="2"/><line x1="12" y1="15" x2="30" y2="15" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="21" x2="28" y2="21" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round"/><circle cx="36" cy="32" r="10" stroke="#4F46E5" stroke-width="2.5" fill="white"/><line x1="43" y1="39" x2="48" y2="46" stroke="#4F46E5" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="30" x2="40" y2="30" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/><line x1="31" y1="34" x2="38" y2="34" stroke="#A5B4FC" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="variant-box dark-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><rect x="6" y="6" width="30" height="40" rx="4" stroke="#475569" stroke-width="2"/><line x1="12" y1="15" x2="30" y2="15" stroke="#475569" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="21" x2="28" y2="21" stroke="#475569" stroke-width="2" stroke-linecap="round"/><circle cx="36" cy="32" r="10" stroke="#818CF8" stroke-width="2.5" fill="#0F172A"/><line x1="43" y1="39" x2="48" y2="46" stroke="#818CF8" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="30" x2="40" y2="30" stroke="#818CF8" stroke-width="2" stroke-linecap="round"/><line x1="31" y1="34" x2="38" y2="34" stroke="#A5B4FC" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="variant-box indigo-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><rect x="6" y="6" width="30" height="40" rx="4" stroke="rgba(255,255,255,0.3)" stroke-width="2"/><line x1="12" y1="15" x2="30" y2="15" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"/><circle cx="36" cy="32" r="10" stroke="white" stroke-width="2.5" fill="#4F46E5"/><line x1="43" y1="39" x2="48" y2="46" stroke="white" stroke-width="3" stroke-linecap="round"/><line x1="30" y1="30" x2="40" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== OPÇÃO 8 ==================== -->
+      <div class="logo-card">
+        <div class="logo-preview">
+          <div class="lockup">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- C tipográfico estilizado com barra de escudo -->
+              <path d="M36 12C33 8 29.5 6 25 6C15.1 6 8 14.1 8 26C8 37.9 15.1 46 25 46C29.5 46 33 44 36 40" stroke="#4F46E5" stroke-width="4" stroke-linecap="round" fill="none"/>
+              <!-- Barra vertical — pilar/sentinel -->
+              <line x1="42" y1="8" x2="42" y2="44" stroke="#4F46E5" stroke-width="4" stroke-linecap="round"/>
+              <!-- Dot sentinela -->
+              <circle cx="42" cy="8" r="5" fill="#10B981"/>
+            </svg>
+            <span class="wordmark">lausent</span>
+          </div>
+        </div>
+        <div class="logo-info">
+          <h3><span class="option-number">8</span> C + Pillar</h3>
+          <p class="concept">O "C" de Clausent como forma dominante, com uma barra vertical (pilar/sentinela) e um ponto verde de status ativo. O logo integra a própria letra do nome. Wordmark começa com "lausent" pois o ícone já é o "C".</p>
+          <div class="tags"><span class="tag">Tipográfico</span><span class="tag">Minimalista</span><span class="tag">Integrado</span></div>
+        </div>
+        <div class="variants">
+          <div class="variant-box light">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M36 12C33 8 29.5 6 25 6C15.1 6 8 14.1 8 26C8 37.9 15.1 46 25 46C29.5 46 33 44 36 40" stroke="#4F46E5" stroke-width="4" stroke-linecap="round" fill="none"/><line x1="42" y1="8" x2="42" y2="44" stroke="#4F46E5" stroke-width="4" stroke-linecap="round"/><circle cx="42" cy="8" r="5" fill="#10B981"/></svg>
+          </div>
+          <div class="variant-box dark-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M36 12C33 8 29.5 6 25 6C15.1 6 8 14.1 8 26C8 37.9 15.1 46 25 46C29.5 46 33 44 36 40" stroke="#818CF8" stroke-width="4" stroke-linecap="round" fill="none"/><line x1="42" y1="8" x2="42" y2="44" stroke="#818CF8" stroke-width="4" stroke-linecap="round"/><circle cx="42" cy="8" r="5" fill="#10B981"/></svg>
+          </div>
+          <div class="variant-box indigo-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M36 12C33 8 29.5 6 25 6C15.1 6 8 14.1 8 26C8 37.9 15.1 46 25 46C29.5 46 33 44 36 40" stroke="white" stroke-width="4" stroke-linecap="round" fill="none"/><line x1="42" y1="8" x2="42" y2="44" stroke="white" stroke-width="4" stroke-linecap="round"/><circle cx="42" cy="8" r="5" fill="#10B981"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== OPÇÃO 9 ==================== -->
+      <div class="logo-card">
+        <div class="logo-preview">
+          <div class="lockup">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Escudo composto por linhas paralelas (cláusulas formando escudo) -->
+              <path d="M26 5L26 5" stroke="none"/>
+              <!-- Linhas que formam a silhueta do escudo -->
+              <line x1="12" y1="12" x2="40" y2="12" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="11" y1="17" x2="41" y2="17" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="10" y1="22" x2="42" y2="22" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="11" y1="27" x2="41" y2="27" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="12.5" y1="32" x2="39.5" y2="32" stroke="#818CF8" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="15" y1="37" x2="37" y2="37" stroke="#A5B4FC" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="18" y1="42" x2="34" y2="42" stroke="#C7D2FE" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="22" y1="47" x2="30" y2="47" stroke="#E0E7FF" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span class="wordmark">Clausent</span>
+          </div>
+        </div>
+        <div class="logo-info">
+          <h3><span class="option-number">9</span> Clause Shield</h3>
+          <p class="concept">Linhas horizontais (cláusulas de contrato) que formam a silhueta de um escudo pelo espaçamento progressivo. As cláusulas literalmente constroem a proteção. Gradiente de opacidade cria profundidade.</p>
+          <div class="tags"><span class="tag">Abstrato</span><span class="tag">Cláusula</span><span class="tag">Criativo</span></div>
+        </div>
+        <div class="variants">
+          <div class="variant-box light">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><line x1="12" y1="12" x2="40" y2="12" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round"/><line x1="11" y1="17" x2="41" y2="17" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round"/><line x1="10" y1="22" x2="42" y2="22" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round"/><line x1="11" y1="27" x2="41" y2="27" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round"/><line x1="12.5" y1="32" x2="39.5" y2="32" stroke="#818CF8" stroke-width="2.5" stroke-linecap="round"/><line x1="15" y1="37" x2="37" y2="37" stroke="#A5B4FC" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="42" x2="34" y2="42" stroke="#C7D2FE" stroke-width="2.5" stroke-linecap="round"/><line x1="22" y1="47" x2="30" y2="47" stroke="#E0E7FF" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="variant-box dark-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><line x1="12" y1="12" x2="40" y2="12" stroke="#A5B4FC" stroke-width="2.5" stroke-linecap="round"/><line x1="11" y1="17" x2="41" y2="17" stroke="#A5B4FC" stroke-width="2.5" stroke-linecap="round"/><line x1="10" y1="22" x2="42" y2="22" stroke="#818CF8" stroke-width="2.5" stroke-linecap="round"/><line x1="11" y1="27" x2="41" y2="27" stroke="#6366F1" stroke-width="2.5" stroke-linecap="round"/><line x1="12.5" y1="32" x2="39.5" y2="32" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round"/><line x1="15" y1="37" x2="37" y2="37" stroke="#3730A3" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="42" x2="34" y2="42" stroke="#312E81" stroke-width="2.5" stroke-linecap="round"/><line x1="22" y1="47" x2="30" y2="47" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="variant-box indigo-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><line x1="12" y1="12" x2="40" y2="12" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="11" y1="17" x2="41" y2="17" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="10" y1="22" x2="42" y2="22" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="11" y1="27" x2="41" y2="27" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linecap="round"/><line x1="12.5" y1="32" x2="39.5" y2="32" stroke="rgba(255,255,255,0.6)" stroke-width="2.5" stroke-linecap="round"/><line x1="15" y1="37" x2="37" y2="37" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="42" x2="34" y2="42" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" stroke-linecap="round"/><line x1="22" y1="47" x2="30" y2="47" stroke="rgba(255,255,255,0.15)" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== OPÇÃO 10 ==================== -->
+      <div class="logo-card">
+        <div class="logo-preview">
+          <div class="lockup">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Dobra de documento formando escudo -->
+              <defs>
+                <linearGradient id="g10" x1="6" y1="4" x2="46" y2="48">
+                  <stop offset="0%" stop-color="#6366F1"/>
+                  <stop offset="100%" stop-color="#4338CA"/>
+                </linearGradient>
+              </defs>
+              <!-- Documento com canto dobrado -->
+              <path d="M12 4H36L44 14V44C44 46.2 42.2 48 40 48H12C9.8 48 8 46.2 8 44V8C8 5.8 9.8 4 12 4Z" fill="url(#g10)"/>
+              <!-- Dobra -->
+              <path d="M36 4V10C36 12.2 37.8 14 40 14H44" fill="#312E81"/>
+              <path d="M36 4L44 14H40C37.8 14 36 12.2 36 10V4Z" fill="#3730A3"/>
+              <!-- Linhas internas -->
+              <line x1="15" y1="22" x2="37" y2="22" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.9"/>
+              <line x1="15" y1="28" x2="33" y2="28" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+              <line x1="15" y1="34" x2="35" y2="34" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+              <line x1="15" y1="40" x2="28" y2="40" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.35"/>
+              <!-- Lock icon pequeno -->
+              <rect x="32" y="36" width="10" height="8" rx="2" fill="white" opacity="0.9"/>
+              <path d="M34 36V34C34 32.3 35.3 31 37 31C38.7 31 40 32.3 40 34V36" stroke="white" stroke-width="1.5" fill="none" opacity="0.9"/>
+              <circle cx="37" cy="40" r="1" fill="#4F46E5"/>
+            </svg>
+            <span class="wordmark">Clausent</span>
+          </div>
+        </div>
+        <div class="logo-info">
+          <h3><span class="option-number">10</span> Secure Doc</h3>
+          <p class="concept">Documento sólido com canto dobrado (realismo), cláusulas internas e um cadeado integrado. Comunica diretamente: documentos protegidos. Gradiente indigo cria profundidade e modernidade.</p>
+          <div class="tags"><span class="tag">Documento</span><span class="tag">Segurança</span><span class="tag">Realista</span></div>
+        </div>
+        <div class="variants">
+          <div class="variant-box light">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><defs><linearGradient id="g10s" x1="6" y1="4" x2="46" y2="48"><stop offset="0%" stop-color="#6366F1"/><stop offset="100%" stop-color="#4338CA"/></linearGradient></defs><path d="M12 4H36L44 14V44C44 46.2 42.2 48 40 48H12C9.8 48 8 46.2 8 44V8C8 5.8 9.8 4 12 4Z" fill="url(#g10s)"/><path d="M36 4L44 14H40C37.8 14 36 12.2 36 10V4Z" fill="#3730A3"/><line x1="15" y1="22" x2="37" y2="22" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.9"/><line x1="15" y1="28" x2="33" y2="28" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/><rect x="32" y="36" width="10" height="8" rx="2" fill="white" opacity="0.9"/><path d="M34 36V34C34 32.3 35.3 31 37 31C38.7 31 40 32.3 40 34V36" stroke="white" stroke-width="1.5" fill="none" opacity="0.9"/></svg>
+          </div>
+          <div class="variant-box dark-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M12 4H36L44 14V44C44 46.2 42.2 48 40 48H12C9.8 48 8 46.2 8 44V8C8 5.8 9.8 4 12 4Z" fill="#818CF8"/><path d="M36 4L44 14H40C37.8 14 36 12.2 36 10V4Z" fill="#6366F1"/><line x1="15" y1="22" x2="37" y2="22" stroke="#0F172A" stroke-width="2" stroke-linecap="round" opacity="0.9"/><line x1="15" y1="28" x2="33" y2="28" stroke="#0F172A" stroke-width="2" stroke-linecap="round" opacity="0.5"/><rect x="32" y="36" width="10" height="8" rx="2" fill="#0F172A" opacity="0.9"/><path d="M34 36V34C34 32.3 35.3 31 37 31C38.7 31 40 32.3 40 34V36" stroke="#0F172A" stroke-width="1.5" fill="none" opacity="0.9"/></svg>
+          </div>
+          <div class="variant-box indigo-bg">
+            <svg width="28" height="28" viewBox="0 0 52 52" fill="none"><path d="M12 4H36L44 14V44C44 46.2 42.2 48 40 48H12C9.8 48 8 46.2 8 44V8C8 5.8 9.8 4 12 4Z" fill="white"/><path d="M36 4L44 14H40C37.8 14 36 12.2 36 10V4Z" fill="#E0E7FF"/><line x1="15" y1="22" x2="37" y2="22" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" opacity="0.9"/><line x1="15" y1="28" x2="33" y2="28" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" opacity="0.5"/><rect x="32" y="36" width="10" height="8" rx="2" fill="#4F46E5" opacity="0.9"/><path d="M34 36V34C34 32.3 35.3 31 37 31C38.7 31 40 32.3 40 34V36" stroke="#4F46E5" stroke-width="1.5" fill="none" opacity="0.9"/></svg>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+
+    <!-- Resumo comparativo -->
+    <div style="margin-top: 60px; padding: 40px; background: white; border-radius: 16px; border: 1px solid #E2E8F0;">
+      <h2 class="section-title" style="margin-bottom: 24px;">Resumo Comparativo</h2>
+      <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+        <thead>
+          <tr style="background: #F8FAFC; text-align: left;">
+            <th style="padding: 12px 16px; border-bottom: 1px solid #E2E8F0; font-weight: 600; color: #64748B; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">#</th>
+            <th style="padding: 12px 16px; border-bottom: 1px solid #E2E8F0; font-weight: 600; color: #64748B; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Nome</th>
+            <th style="padding: 12px 16px; border-bottom: 1px solid #E2E8F0; font-weight: 600; color: #64748B; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Conceito</th>
+            <th style="padding: 12px 16px; border-bottom: 1px solid #E2E8F0; font-weight: 600; color: #64748B; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Estilo</th>
+            <th style="padding: 12px 16px; border-bottom: 1px solid #E2E8F0; font-weight: 600; color: #64748B; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Ideal para</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid #F1F5F9;"><td style="padding: 12px 16px; font-weight: 600; color: #4F46E5;">1</td><td style="padding: 12px 16px;">Shield C</td><td style="padding: 12px 16px; color: #64748B;">Escudo + Monograma</td><td style="padding: 12px 16px; color: #64748B;">Bold, confiante</td><td style="padding: 12px 16px; color: #64748B;">Marca forte e memorável</td></tr>
+          <tr style="border-bottom: 1px solid #F1F5F9; background: #FAFBFC;"><td style="padding: 12px 16px; font-weight: 600; color: #4F46E5;">2</td><td style="padding: 12px 16px;">Doc Eye</td><td style="padding: 12px 16px; color: #64748B;">Documento + Olho</td><td style="padding: 12px 16px; color: #64748B;">Detalhado, narrativo</td><td style="padding: 12px 16px; color: #64748B;">Comunicar vigilância direta</td></tr>
+          <tr style="border-bottom: 1px solid #F1F5F9;"><td style="padding: 12px 16px; font-weight: 600; color: #4F46E5;">3</td><td style="padding: 12px 16px;">Shield Docs Check</td><td style="padding: 12px 16px; color: #64748B;">Escudo + Cláusulas + Check</td><td style="padding: 12px 16px; color: #64748B;">Profissional, completo</td><td style="padding: 12px 16px; color: #64748B;">Transmitir confiança e verificação</td></tr>
+          <tr style="border-bottom: 1px solid #F1F5F9; background: #FAFBFC;"><td style="padding: 12px 16px; font-weight: 600; color: #4F46E5;">4</td><td style="padding: 12px 16px;">Stacked Docs</td><td style="padding: 12px 16px; color: #64748B;">Documentos empilhados</td><td style="padding: 12px 16px; color: #64748B;">Dinâmico, com profundidade</td><td style="padding: 12px 16px; color: #64748B;">Enfatizar gestão de portfólio</td></tr>
+          <tr style="border-bottom: 1px solid #F1F5F9;"><td style="padding: 12px 16px; font-weight: 600; color: #4F46E5;">5</td><td style="padding: 12px 16px;">Hex Radar</td><td style="padding: 12px 16px; color: #64748B;">Hexágono + Radar</td><td style="padding: 12px 16px; color: #64748B;">Tech-forward, futurista</td><td style="padding: 12px 16px; color: #64748B;">Posicionar como plataforma tech</td></tr>
+          <tr style="border-bottom: 1px solid #F1F5F9; background: #FAFBFC;"><td style="padding: 12px 16px; font-weight: 600; color: #4F46E5;">6</td><td style="padding: 12px 16px;">AI Shield</td><td style="padding: 12px 16px; color: #64748B;">Escudo + Sparkle IA</td><td style="padding: 12px 16px; color: #64748B;">Premium, moderno</td><td style="padding: 12px 16px; color: #64748B;">Destacar o diferencial de IA</td></tr>
+          <tr style="border-bottom: 1px solid #F1F5F9;"><td style="padding: 12px 16px; font-weight: 600; color: #4F46E5;">7</td><td style="padding: 12px 16px;">Clause Lens</td><td style="padding: 12px 16px; color: #64748B;">Lupa + Documento</td><td style="padding: 12px 16px; color: #64748B;">Analítico, investigativo</td><td style="padding: 12px 16px; color: #64748B;">Enfatizar análise profunda</td></tr>
+          <tr style="border-bottom: 1px solid #F1F5F9; background: #FAFBFC;"><td style="padding: 12px 16px; font-weight: 600; color: #4F46E5;">8</td><td style="padding: 12px 16px;">C + Pillar</td><td style="padding: 12px 16px; color: #64748B;">Tipográfico + Sentinela</td><td style="padding: 12px 16px; color: #64748B;">Minimalista, elegante</td><td style="padding: 12px 16px; color: #64748B;">Marca clean e sofisticada</td></tr>
+          <tr style="border-bottom: 1px solid #F1F5F9;"><td style="padding: 12px 16px; font-weight: 600; color: #4F46E5;">9</td><td style="padding: 12px 16px;">Clause Shield</td><td style="padding: 12px 16px; color: #64748B;">Cláusulas = Escudo</td><td style="padding: 12px 16px; color: #64748B;">Abstrato, conceitual</td><td style="padding: 12px 16px; color: #64748B;">Marca conceitual e criativa</td></tr>
+          <tr><td style="padding: 12px 16px; font-weight: 600; color: #4F46E5;">10</td><td style="padding: 12px 16px;">Secure Doc</td><td style="padding: 12px 16px; color: #64748B;">Documento + Cadeado</td><td style="padding: 12px 16px; color: #64748B;">Realista, tangível</td><td style="padding: 12px 16px; color: #64748B;">Comunicar segurança documental</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /container -->
+
+  <!-- Footer -->
+  <div style="text-align: center; padding: 48px 24px; color: #94A3B8; font-size: 13px;">
+    <p>Clausent — Identidade Visual • 10 Conceitos de Logomarca</p>
+    <p style="margin-top: 8px;">Escolha o número da sua opção favorita para prosseguir com o refinamento.</p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clausent — UX & Wireframes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Cal Sans via CDN */
+  @font-face {
+    font-family: 'Cal Sans';
+    src: url('https://cdn.jsdelivr.net/gh/calcom/font@1.1/fonts/web/CalSans-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* === RESET & BASE === */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #FFFDF5;
+    color: #1A1A1A;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === VARIÁVEIS === */
+  :root {
+    --teal-50: #f0fdfa; --teal-100: #ccfbf1; --teal-200: #99f6e4;
+    --teal-300: #5eead4; --teal-400: #2dd4bf; --teal-500: #14b8a6;
+    --teal-600: #0d9488; --teal-700: #0f766e; --teal-800: #115e59;
+    --teal-900: #134e4a; --teal-950: #042f2e;
+    --amber: #F59E0B; --amber-light: #FDE68A; --amber-dark: #D97706;
+    --bg: #FFFDF5; --ink: #1A1A1A;
+    --border: 3px solid #1A1A1A;
+    --shadow: 4px 4px 0px #1a1a1a;
+    --shadow-lg: 6px 6px 0px #1a1a1a;
+    --radius: 12px;
+    --font-display: 'Cal Sans', 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  /* === UTILITÁRIOS === */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 64px 0; }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin-bottom: 12px;
+    color: var(--teal-900);
+  }
+  .section-subtitle {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 40px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 2px solid var(--ink);
+  }
+  .badge-teal { background: var(--teal-100); color: var(--teal-800); }
+  .badge-amber { background: var(--amber-light); color: var(--amber-dark); }
+  .badge-red { background: #FEE2E2; color: #DC2626; }
+  .badge-green { background: #D1FAE5; color: #059669; }
+
+  /* === HERO === */
+  .hero {
+    background: var(--teal-950);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 span { color: var(--amber); }
+  .hero p { color: var(--teal-200); font-size: 1.15rem; max-width: 600px; margin: 0 auto; }
+
+  /* === SITE MAP === */
+  .sitemap-tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+  }
+  .sitemap-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .sitemap-node {
+    background: white;
+    border: var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    box-shadow: var(--shadow);
+    text-align: center;
+    min-width: 100px;
+  }
+  .sitemap-node.root { background: var(--teal-600); color: white; font-weight: 700; }
+  .sitemap-node.auth { background: var(--teal-50); }
+  .sitemap-connector {
+    width: 2px;
+    height: 16px;
+    background: var(--ink);
+    margin: 0 auto;
+  }
+  .sitemap-label {
+    font-size: 0.7rem;
+    color: #888;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+  }
+
+  /* === BROWSER FRAME === */
+  .browser-frame {
+    border: 3px solid var(--ink);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    background: white;
+    margin-bottom: 48px;
+  }
+  .browser-bar {
+    background: #F5F5F5;
+    border-bottom: 2px solid var(--ink);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .browser-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--ink);
+  }
+  .dot-red { background: #EF4444; }
+  .dot-yellow { background: #F59E0B; }
+  .dot-green { background: #22C55E; }
+  .browser-url {
+    margin-left: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #888;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    padding: 4px 12px;
+    flex: 1;
+  }
+  .browser-content { padding: 0; }
+
+  /* === WIREFRAME INTERNOS === */
+  .wf-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 2px solid #e5e5e5;
+  }
+  .wf-logo {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--teal-700);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .wf-logo .bracket { color: var(--amber); font-weight: 800; }
+  .wf-nav-links { display: flex; gap: 24px; font-size: 0.85rem; color: #666; }
+  .wf-btn {
+    display: inline-block;
+    padding: 8px 20px;
+    border: var(--border);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.1s;
+  }
+  .wf-btn-primary { background: var(--teal-600); color: white; box-shadow: var(--shadow); }
+  .wf-btn-outline { background: white; color: var(--ink); }
+
+  .wf-hero-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 48px 24px;
+    align-items: center;
+  }
+  .wf-hero-section h2 {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .wf-hero-section h2 em { color: var(--teal-600); font-style: normal; }
+  .wf-hero-section p { color: #666; margin: 16px 0 24px; font-size: 0.95rem; }
+  .wf-illustration {
+    background: var(--teal-50);
+    border: 2px dashed var(--teal-300);
+    border-radius: var(--radius);
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teal-400);
+    font-size: 0.85rem;
+  }
+
+  .wf-problems {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 32px 24px;
+    background: var(--teal-950);
+  }
+  .wf-problem-card {
+    background: var(--teal-900);
+    border: 2px solid var(--teal-700);
+    border-radius: var(--radius);
+    padding: 20px;
+    color: white;
+  }
+  .wf-problem-card .icon { font-size: 1.5rem; margin-bottom: 8px; }
+  .wf-problem-card h4 { font-size: 0.95rem; margin-bottom: 6px; color: var(--amber); }
+  .wf-problem-card p { font-size: 0.8rem; color: var(--teal-200); }
+
+  .wf-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  .wf-step {
+    position: relative;
+  }
+  .wf-step-number {
+    width: 40px; height: 40px;
+    background: var(--teal-600);
+    color: white;
+    border-radius: 50%;
+    border: var(--border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  .wf-step h4 { font-size: 0.95rem; margin-bottom: 6px; }
+  .wf-step p { font-size: 0.8rem; color: #666; }
+
+  .wf-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 32px 24px;
+  }
+  .wf-feature-card {
+    background: white;
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+  .wf-feature-card .icon { font-size: 1.3rem; margin-bottom: 8px; }
+  .wf-feature-card h4 { font-size: 0.9rem; margin-bottom: 4px; }
+  .wf-feature-card p { font-size: 0.78rem; color: #666; }
+
+  .wf-pricing-section {
+    padding: 40px 24px;
+    background: var(--teal-50);
+    text-align: center;
+  }
+  .wf-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .wf-pricing-card {
+    background: white;
+    border: var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    text-align: left;
+  }
+  .wf-pricing-card.popular {
+    border-color: var(--teal-600);
+    border-width: 3px;
+    position: relative;
+  }
+  .wf-pricing-card .plan-name { font-weight: 700; font-size: 1.1rem; }
+  .wf-pricing-card .price { font-family: var(--font-display); font-size: 2rem; margin: 8px 0; }
+  .wf-pricing-card .price span { font-size: 0.85rem; color: #888; font-family: 'Inter', sans-serif; }
+  .wf-pricing-card ul { list-style: none; margin: 16px 0; }
+  .wf-pricing-card ul li { font-size: 0.8rem; padding: 4px 0; color: #555; }
+  .wf-pricing-card ul li::before { content: "✓ "; color: var(--teal-600); font-weight: 700; }
+
+  .wf-cta-section {
+    padding: 48px 24px;
+    text-align: center;
+    background: linear-gradient(135deg, var(--teal-600), var(--teal-800));
+    color: white;
+  }
+  .wf-cta-section h3 { font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 12px; }
+  .wf-cta-section p { color: var(--teal-100); margin-bottom: 24px; }
+  .wf-btn-amber { background: var(--amber); color: var(--ink); box-shadow: var(--shadow); border: var(--border); }
+
+  /* === DASHBOARD WIREFRAME === */
+  .wf-dashboard { display: grid; grid-template-columns: 220px 1fr; min-height: 500px; }
+  .wf-sidebar {
+    background: var(--teal-950);
+    color: white;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .wf-sidebar-logo {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--teal-800);
+    margin-bottom: 12px;
+    color: white;
+  }
+  .wf-sidebar-logo .bracket { color: var(--amber); }
+  .wf-sidebar-section { font-size: 0.65rem; text-transform: uppercase; color: var(--teal-400); letter-spacing: 0.08em; margin: 12px 0 6px; }
+  .wf-sidebar-item {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: var(--teal-200);
+    cursor: pointer;
+  }
+  .wf-sidebar-item.active { background: var(--teal-800); color: white; font-weight: 600; }
+  .wf-sidebar-item:hover { background: var(--teal-900); }
+  .wf-main { padding: 24px; background: var(--bg); }
+  .wf-page-title { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 20px; }
+
+  .wf-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .wf-metric-card {
+    background: white;
+    border: var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+  .wf-metric-label { font-size: 0.75rem; color: #888; margin-bottom: 4px; }
+  .wf-metric-value { font-family: var(--font-display); font-size: 1.6rem; }
+  .wf-metric-change { font-size: 0.7rem; color: var(--teal-600); font-weight: 600; }
+
+  .wf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .wf-card {
+    background: white;
+    border: var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+  .wf-card-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+  .wf-chart-placeholder {
+    background: linear-gradient(135deg, var(--teal-50), var(--teal-100));
+    border: 2px dashed var(--teal-300);
+    border-radius: 8px;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teal-400);
+    font-size: 0.8rem;
+  }
+
+  /* === TABELA === */
+  .wf-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .wf-table th {
+    text-align: left;
+    padding: 8px 12px;
+    font-weight: 600;
+    color: #888;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid #e5e5e5;
+  }
+  .wf-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+  }
+  .wf-table tr:hover td { background: var(--teal-50); }
+
+  .wf-search-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .wf-input {
+    flex: 1;
+    padding: 8px 14px;
+    border: var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    background: white;
+  }
+  .wf-filter-btn {
+    padding: 8px 16px;
+    border: var(--border);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: white;
+    cursor: pointer;
+  }
+  .wf-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .wf-page-btn {
+    width: 32px; height: 32px;
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: white;
+  }
+  .wf-page-btn.active { background: var(--teal-600); color: white; }
+
+  /* === CONTRACT DETAIL === */
+  .wf-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e5e5e5;
+  }
+  .wf-detail-header h2 { font-family: var(--font-display); font-size: 1.4rem; }
+  .wf-detail-badges { display: flex; gap: 8px; margin-top: 6px; }
+
+  .wf-risk-circle {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    border: 6px solid #EF4444;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .wf-risk-circle .score { font-family: var(--font-display); font-size: 2rem; color: #EF4444; }
+  .wf-risk-circle .label { font-size: 0.65rem; color: #888; }
+
+  .wf-summary {
+    display: grid;
+    grid-template-columns: 1fr 140px;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .wf-summary-text { font-size: 0.88rem; color: #555; line-height: 1.7; }
+
+  .wf-clause-item {
+    border: var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: white;
+    box-shadow: 2px 2px 0px #1a1a1a;
+  }
+  .wf-clause-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .wf-clause-header h4 { font-size: 0.9rem; }
+  .wf-clause-body { font-size: 0.82rem; color: #666; }
+
+  /* === UPLOAD === */
+  .wf-dropzone {
+    border: 3px dashed var(--teal-400);
+    border-radius: var(--radius);
+    padding: 48px;
+    text-align: center;
+    background: var(--teal-50);
+    margin-bottom: 20px;
+  }
+  .wf-dropzone .icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .wf-dropzone p { color: var(--teal-700); font-weight: 500; }
+  .wf-dropzone span { font-size: 0.8rem; color: #888; }
+
+  .wf-file-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: white;
+  }
+  .wf-file-name { flex: 1; font-size: 0.85rem; font-weight: 600; }
+  .wf-file-size { font-size: 0.75rem; color: #888; }
+  .wf-progress-bar {
+    width: 120px; height: 6px;
+    background: #e5e5e5;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .wf-progress-fill { height: 100%; background: var(--teal-500); border-radius: 3px; }
+
+  /* === USER FLOWS === */
+  .wf-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .wf-flow-step {
+    background: white;
+    border: var(--border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    box-shadow: var(--shadow);
+    white-space: nowrap;
+  }
+  .wf-flow-step.highlight { background: var(--teal-100); color: var(--teal-800); }
+  .wf-flow-arrow {
+    font-size: 1.2rem;
+    color: var(--teal-500);
+    padding: 0 8px;
+    font-weight: 700;
+  }
+  .wf-flow-label { font-weight: 700; font-size: 0.9rem; margin-bottom: 12px; color: var(--teal-800); }
+
+  /* === RESPONSIVO MÍNIMO === */
+  @media (max-width: 768px) {
+    .wf-hero-section, .wf-problems, .wf-steps, .wf-features,
+    .wf-pricing-grid, .wf-metrics, .wf-grid-2, .wf-dashboard {
+      grid-template-columns: 1fr;
+    }
+    .hero h1 { font-size: 2rem; }
+    .wf-sidebar { display: none; }
+    .wf-flow { flex-direction: column; align-items: flex-start; }
+    .wf-flow-arrow { transform: rotate(90deg); padding: 4px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================ -->
+<!-- HERO -->
+<!-- ============================================ -->
+<section class="hero">
+  <div class="container">
+    <h1><span>{C}</span> Clausent — UX &amp; Wireframes</h1>
+    <p>Apresentação visual compacta das principais telas e fluxos de usuário da plataforma de inteligência contratual.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SITE MAP -->
+<!-- ============================================ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Mapa do Site</h2>
+    <p class="section-subtitle">Hierarquia de rotas e navegação principal da plataforma.</p>
+
+    <div class="sitemap-tree">
+      <!-- Nível 0 — Raiz -->
+      <div class="sitemap-row">
+        <div class="sitemap-node root">clausent.com /</div>
+      </div>
+      <div class="sitemap-connector"></div>
+
+      <!-- Nível 1 — Públicas + Dashboard -->
+      <div class="sitemap-row">
+        <div class="sitemap-node">/pricing</div>
+        <div class="sitemap-node">/sign-in</div>
+        <div class="sitemap-node">/sign-up</div>
+        <div class="sitemap-node auth">/dashboard</div>
+      </div>
+      <div class="sitemap-connector"></div>
+
+      <!-- Nível 2 — Dentro do Dashboard -->
+      <div class="sitemap-row">
+        <div class="sitemap-node auth">/contracts</div>
+        <div class="sitemap-node auth">/alerts</div>
+        <div class="sitemap-node auth">/benchmarks</div>
+        <div class="sitemap-node auth">/settings</div>
+      </div>
+      <div class="sitemap-connector"></div>
+
+      <!-- Nível 3 — Sub-rotas -->
+      <div class="sitemap-row">
+        <div class="sitemap-node auth">/upload</div>
+        <div class="sitemap-node auth">/[id]</div>
+        <div class="sitemap-node auth">/billing</div>
+      </div>
+      <div class="sitemap-connector"></div>
+
+      <!-- Nível 4 -->
+      <div class="sitemap-row">
+        <div class="sitemap-node auth">/renegotiate</div>
+      </div>
+
+      <p class="sitemap-label">Rotas com fundo claro = autenticadas</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- WIREFRAME 1: LANDING PAGE -->
+<!-- ============================================ -->
+<section class="section" style="background: #f5f5f0;">
+  <div class="container">
+    <h2 class="section-title">1. Landing Page</h2>
+    <p class="section-subtitle">Página principal de conversão — rota /</p>
+
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dot dot-red"></div>
+        <div class="browser-dot dot-yellow"></div>
+        <div class="browser-dot dot-green"></div>
+        <div class="browser-url">clausent.com</div>
+      </div>
+      <div class="browser-content">
+        <!-- Navbar -->
+        <div class="wf-navbar">
+          <div class="wf-logo"><span class="bracket">{C}</span> Clausent</div>
+          <div class="wf-nav-links">
+            <span>Funcionalidades</span>
+            <span>Preços</span>
+            <span>Blog</span>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <a class="wf-btn wf-btn-outline">Entrar</a>
+            <a class="wf-btn wf-btn-primary">Começar grátis</a>
+          </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="wf-hero-section">
+          <div>
+            <h2>Seus contratos escondem <em>riscos e oportunidades</em>. Nós encontramos.</h2>
+            <p>Inteligência contratual que analisa, monitora e alerta automaticamente. Proteja seu negócio antes que seja tarde.</p>
+            <div style="display:flex;gap:8px;">
+              <a class="wf-btn wf-btn-primary">Analisar meu contrato</a>
+              <a class="wf-btn wf-btn-outline">Ver demonstração</a>
+            </div>
+          </div>
+          <div class="wf-illustration">[ Ilustração: Escudo + Documento ]</div>
+        </div>
+
+        <!-- Problemas -->
+        <div class="wf-problems">
+          <div class="wf-problem-card">
+            <div class="icon">⚠️</div>
+            <h4>Cláusulas escondidas</h4>
+            <p>73% dos contratos têm cláusulas que podem custar caro e passam despercebidas.</p>
+          </div>
+          <div class="wf-problem-card">
+            <div class="icon">⏰</div>
+            <h4>Prazos esquecidos</h4>
+            <p>Renovações automáticas e deadlines perdidos geram prejuízos silenciosos.</p>
+          </div>
+          <div class="wf-problem-card">
+            <div class="icon">💸</div>
+            <h4>Dinheiro na mesa</h4>
+            <p>Empresas perdem até 9% da receita com contratos mal negociados.</p>
+          </div>
+        </div>
+
+        <!-- Como funciona (stepper) -->
+        <div style="padding: 40px 24px; text-align: center;">
+          <h3 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 8px;">Como funciona</h3>
+          <p style="color: #888; font-size: 0.9rem; margin-bottom: 32px;">Três passos para proteger seus contratos</p>
+          <div class="wf-steps">
+            <div class="wf-step">
+              <div class="wf-step-number">1</div>
+              <h4>Envie seus contratos</h4>
+              <p>Faça upload de PDFs ou conecte seu armazenamento em nuvem.</p>
+            </div>
+            <div class="wf-step">
+              <div class="wf-step-number">2</div>
+              <h4>Análise automática</h4>
+              <p>Nossa IA identifica riscos, prazos e oportunidades em minutos.</p>
+            </div>
+            <div class="wf-step">
+              <div class="wf-step-number">3</div>
+              <h4>Aja com confiança</h4>
+              <p>Receba alertas, benchmarks e sugestões de renegociação.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div style="padding:0 24px 32px; text-align:center;">
+          <h3 style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:24px;">Funcionalidades</h3>
+        </div>
+        <div class="wf-features" style="padding-top:0;">
+          <div class="wf-feature-card">
+            <div class="icon">🔍</div>
+            <h4>Análise de risco</h4>
+            <p>Score de 0-100 para cada contrato com detalhamento por cláusula.</p>
+          </div>
+          <div class="wf-feature-card">
+            <div class="icon">🔔</div>
+            <h4>Alertas inteligentes</h4>
+            <p>Notificações de prazos, renovações e mudanças regulatórias.</p>
+          </div>
+          <div class="wf-feature-card">
+            <div class="icon">📊</div>
+            <h4>Benchmarks</h4>
+            <p>Compare seus termos com o mercado e identifique oportunidades.</p>
+          </div>
+          <div class="wf-feature-card">
+            <div class="icon">🤝</div>
+            <h4>Renegociação</h4>
+            <p>Pacotes prontos com sugestões e argumentos para renegociar.</p>
+          </div>
+          <div class="wf-feature-card">
+            <div class="icon">🛡️</div>
+            <h4>Monitoramento contínuo</h4>
+            <p>Vigilância 24/7 dos seus contratos ativos com relatórios mensais.</p>
+          </div>
+          <div class="wf-feature-card">
+            <div class="icon">📄</div>
+            <h4>Resumo executivo</h4>
+            <p>Cada contrato resumido em linguagem clara para tomada de decisão.</p>
+          </div>
+        </div>
+
+        <!-- Pricing -->
+        <div class="wf-pricing-section">
+          <h3 style="font-family:var(--font-display);font-size:1.5rem;">Planos simples, sem surpresas</h3>
+          <p style="color:#666;font-size:0.9rem;">Comece grátis. Escale quando precisar.</p>
+          <div class="wf-pricing-grid">
+            <div class="wf-pricing-card">
+              <div class="plan-name">Starter</div>
+              <div class="price">$0 <span>/mês</span></div>
+              <ul>
+                <li>5 contratos</li>
+                <li>Análise básica de risco</li>
+                <li>Alertas por e-mail</li>
+              </ul>
+              <a class="wf-btn wf-btn-outline" style="width:100%;text-align:center;">Começar grátis</a>
+            </div>
+            <div class="wf-pricing-card popular">
+              <span class="badge badge-amber" style="position:absolute;top:-10px;right:16px;">Popular</span>
+              <div class="plan-name">Professional</div>
+              <div class="price">$49 <span>/mês</span></div>
+              <ul>
+                <li>50 contratos</li>
+                <li>Análise completa + benchmarks</li>
+                <li>Pacotes de renegociação</li>
+                <li>Suporte prioritário</li>
+              </ul>
+              <a class="wf-btn wf-btn-primary" style="width:100%;text-align:center;">Assinar agora</a>
+            </div>
+            <div class="wf-pricing-card">
+              <div class="plan-name">Enterprise</div>
+              <div class="price">$199 <span>/mês</span></div>
+              <ul>
+                <li>Contratos ilimitados</li>
+                <li>API de integração</li>
+                <li>SSO + compliance</li>
+                <li>Gerente de conta dedicado</li>
+              </ul>
+              <a class="wf-btn wf-btn-outline" style="width:100%;text-align:center;">Falar com vendas</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Final -->
+        <div class="wf-cta-section">
+          <h3>Pronto para proteger seus contratos?</h3>
+          <p>Comece em menos de 2 minutos. Sem cartão de crédito.</p>
+          <a class="wf-btn wf-btn-amber" style="font-size:1rem;padding:12px 32px;">Começar gratuitamente</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- WIREFRAME 2: DASHBOARD OVERVIEW -->
+<!-- ============================================ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">2. Dashboard — Overview</h2>
+    <p class="section-subtitle">Visão geral do portfólio de contratos — rota /dashboard</p>
+
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dot dot-red"></div>
+        <div class="browser-dot dot-yellow"></div>
+        <div class="browser-dot dot-green"></div>
+        <div class="browser-url">clausent.com/dashboard</div>
+      </div>
+      <div class="browser-content">
+        <div class="wf-dashboard">
+          <!-- Sidebar -->
+          <div class="wf-sidebar">
+            <div class="wf-sidebar-logo"><span class="bracket">{C}</span> Clausent</div>
+            <div class="wf-sidebar-section">Principal</div>
+            <div class="wf-sidebar-item active">📊 Overview</div>
+            <div class="wf-sidebar-item">📄 Contratos</div>
+            <div class="wf-sidebar-item">🔔 Alertas</div>
+            <div class="wf-sidebar-item">📈 Benchmarks</div>
+            <div class="wf-sidebar-section">Conta</div>
+            <div class="wf-sidebar-item">⚙️ Configurações</div>
+            <div class="wf-sidebar-item">💳 Billing</div>
+          </div>
+          <!-- Conteúdo principal -->
+          <div class="wf-main">
+            <div class="wf-page-title">Overview</div>
+
+            <!-- Métricas -->
+            <div class="wf-metrics">
+              <div class="wf-metric-card">
+                <div class="wf-metric-label">Contratos Ativos</div>
+                <div class="wf-metric-value">47</div>
+                <div class="wf-metric-change">+3 este mês</div>
+              </div>
+              <div class="wf-metric-card">
+                <div class="wf-metric-label">Valor Total</div>
+                <div class="wf-metric-value">$18.4k</div>
+                <div class="wf-metric-change">Anualizados</div>
+              </div>
+              <div class="wf-metric-card">
+                <div class="wf-metric-label" style="color:#EF4444;">Risk Score Médio</div>
+                <div class="wf-metric-value" style="color:#EF4444;">64</div>
+                <div class="wf-metric-change" style="color:#EF4444;">↑ 5 pontos</div>
+              </div>
+              <div class="wf-metric-card">
+                <div class="wf-metric-label">Economia Estimada</div>
+                <div class="wf-metric-value" style="color:var(--teal-600);">$4.2k</div>
+                <div class="wf-metric-change">Via renegociação</div>
+              </div>
+            </div>
+
+            <!-- Gráfico + Tabela lado a lado -->
+            <div class="wf-grid-2">
+              <div class="wf-card">
+                <div class="wf-card-title">Evolução de Risco <span class="badge badge-teal">Mensal</span></div>
+                <div class="wf-chart-placeholder">[ Gráfico de linha — Risco ao longo do tempo ]</div>
+              </div>
+              <div class="wf-card">
+                <div class="wf-card-title">Top Riscos <span class="badge badge-red">Atenção</span></div>
+                <table class="wf-table">
+                  <thead>
+                    <tr><th>Contrato</th><th>Risco</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Acme Corp — SaaS</td><td><span class="badge badge-red">89</span></td></tr>
+                    <tr><td>TechVen — Licença</td><td><span class="badge badge-red">82</span></td></tr>
+                    <tr><td>CloudSys — Infra</td><td><span class="badge badge-amber">71</span></td></tr>
+                    <tr><td>DataFlow — API</td><td><span class="badge badge-amber">65</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- WIREFRAME 3: CONTRACTS LIST -->
+<!-- ============================================ -->
+<section class="section" style="background: #f5f5f0;">
+  <div class="container">
+    <h2 class="section-title">3. Lista de Contratos</h2>
+    <p class="section-subtitle">Gestão centralizada do portfólio — rota /dashboard/contracts</p>
+
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dot dot-red"></div>
+        <div class="browser-dot dot-yellow"></div>
+        <div class="browser-dot dot-green"></div>
+        <div class="browser-url">clausent.com/dashboard/contracts</div>
+      </div>
+      <div class="browser-content">
+        <div class="wf-dashboard">
+          <div class="wf-sidebar">
+            <div class="wf-sidebar-logo"><span class="bracket">{C}</span> Clausent</div>
+            <div class="wf-sidebar-section">Principal</div>
+            <div class="wf-sidebar-item">📊 Overview</div>
+            <div class="wf-sidebar-item active">📄 Contratos</div>
+            <div class="wf-sidebar-item">🔔 Alertas</div>
+            <div class="wf-sidebar-item">📈 Benchmarks</div>
+            <div class="wf-sidebar-section">Conta</div>
+            <div class="wf-sidebar-item">⚙️ Configurações</div>
+            <div class="wf-sidebar-item">💳 Billing</div>
+          </div>
+          <div class="wf-main">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+              <div class="wf-page-title" style="margin-bottom:0;">Contratos</div>
+              <a class="wf-btn wf-btn-primary">+ Upload</a>
+            </div>
+
+            <!-- Busca e filtros -->
+            <div class="wf-search-bar">
+              <input class="wf-input" placeholder="Buscar por título, contraparte..." disabled>
+              <button class="wf-filter-btn">Status ▾</button>
+              <button class="wf-filter-btn">Risco ▾</button>
+              <button class="wf-filter-btn">Tipo ▾</button>
+            </div>
+
+            <!-- Tabela -->
+            <div class="wf-card" style="padding:0;overflow:hidden;">
+              <table class="wf-table">
+                <thead>
+                  <tr>
+                    <th>Título</th>
+                    <th>Contraparte</th>
+                    <th>Status</th>
+                    <th>Risco</th>
+                    <th>Valor Anual</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-weight:600;">Contrato SaaS Enterprise</td>
+                    <td>Acme Corp</td>
+                    <td><span class="badge badge-green">Ativo</span></td>
+                    <td><span class="badge badge-red">89</span></td>
+                    <td>$24,000</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">Licença de Software</td>
+                    <td>TechVen Inc</td>
+                    <td><span class="badge badge-green">Ativo</span></td>
+                    <td><span class="badge badge-red">82</span></td>
+                    <td>$8,400</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">Infraestrutura Cloud</td>
+                    <td>CloudSys</td>
+                    <td><span class="badge badge-amber">Renovação</span></td>
+                    <td><span class="badge badge-amber">71</span></td>
+                    <td>$36,000</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">API de Dados</td>
+                    <td>DataFlow</td>
+                    <td><span class="badge badge-green">Ativo</span></td>
+                    <td><span class="badge badge-amber">65</span></td>
+                    <td>$5,200</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600;">Consultoria Jurídica</td>
+                    <td>LegalPro</td>
+                    <td><span class="badge badge-teal">Analisando</span></td>
+                    <td><span class="badge badge-teal">—</span></td>
+                    <td>$12,000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginação -->
+            <div class="wf-pagination">
+              <div class="wf-page-btn">‹</div>
+              <div class="wf-page-btn active">1</div>
+              <div class="wf-page-btn">2</div>
+              <div class="wf-page-btn">3</div>
+              <div class="wf-page-btn">›</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- WIREFRAME 4: CONTRACT DETAIL -->
+<!-- ============================================ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">4. Detalhe do Contrato</h2>
+    <p class="section-subtitle">Análise completa com risk score e cláusulas — rota /dashboard/contracts/[id]</p>
+
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dot dot-red"></div>
+        <div class="browser-dot dot-yellow"></div>
+        <div class="browser-dot dot-green"></div>
+        <div class="browser-url">clausent.com/dashboard/contracts/c_8f2a...</div>
+      </div>
+      <div class="browser-content">
+        <div class="wf-dashboard">
+          <div class="wf-sidebar">
+            <div class="wf-sidebar-logo"><span class="bracket">{C}</span> Clausent</div>
+            <div class="wf-sidebar-section">Principal</div>
+            <div class="wf-sidebar-item">📊 Overview</div>
+            <div class="wf-sidebar-item active">📄 Contratos</div>
+            <div class="wf-sidebar-item">🔔 Alertas</div>
+            <div class="wf-sidebar-item">📈 Benchmarks</div>
+            <div class="wf-sidebar-section">Conta</div>
+            <div class="wf-sidebar-item">⚙️ Configurações</div>
+            <div class="wf-sidebar-item">💳 Billing</div>
+          </div>
+          <div class="wf-main">
+            <!-- Header do contrato -->
+            <div class="wf-detail-header">
+              <div>
+                <h2>Contrato SaaS Enterprise</h2>
+                <div class="wf-detail-badges">
+                  <span class="badge badge-green">Ativo</span>
+                  <span class="badge badge-red">Risco Alto</span>
+                  <span class="badge badge-teal">SaaS</span>
+                </div>
+                <p style="font-size:0.82rem;color:#888;margin-top:8px;">Acme Corp · Vigência: 01/03/2025 — 28/02/2026 · Valor: $24,000/ano</p>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <a class="wf-btn wf-btn-outline">Baixar PDF</a>
+                <a class="wf-btn wf-btn-primary">Renegociar</a>
+              </div>
+            </div>
+
+            <!-- Resumo + Risk Score -->
+            <div class="wf-summary">
+              <div>
+                <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px;">Resumo Executivo</h3>
+                <div class="wf-summary-text">
+                  Contrato de licenciamento SaaS com renovação automática e cláusula de reajuste agressiva (IPCA + 5%). Identificamos <strong>3 cláusulas de risco elevado</strong>, incluindo penalidade de rescisão desproporcional e limitação de responsabilidade favorável à contraparte. Economia potencial estimada em <strong>$2,400/ano</strong> via renegociação dos termos destacados.
+                </div>
+              </div>
+              <div style="text-align:center;">
+                <div class="wf-risk-circle">
+                  <div class="score">89</div>
+                  <div class="label">/ 100</div>
+                </div>
+                <p style="font-size:0.75rem;color:#EF4444;font-weight:600;margin-top:8px;">Risco Crítico</p>
+              </div>
+            </div>
+
+            <!-- Cláusulas -->
+            <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;">Cláusulas Identificadas</h3>
+            <div class="wf-clause-item">
+              <div class="wf-clause-header">
+                <h4>Cláusula 4.2 — Reajuste anual</h4>
+                <span class="badge badge-red">Risco Alto</span>
+              </div>
+              <div class="wf-clause-body">
+                Reajuste automático baseado em IPCA + 5% ao ano, sem teto máximo definido. Em cenários inflacionários, o custo pode dobrar em 7 anos. <strong>Recomendação:</strong> negociar teto de reajuste ou indexar apenas ao IPCA.
+              </div>
+            </div>
+            <div class="wf-clause-item">
+              <div class="wf-clause-header">
+                <h4>Cláusula 7.1 — Rescisão antecipada</h4>
+                <span class="badge badge-red">Risco Alto</span>
+              </div>
+              <div class="wf-clause-body">
+                Multa de 50% do valor restante do contrato em caso de rescisão antecipada pelo contratante. Valor significativamente acima da média de mercado (20-30%). <strong>Recomendação:</strong> reduzir para 25% com carência de 90 dias.
+              </div>
+            </div>
+            <div class="wf-clause-item">
+              <div class="wf-clause-header">
+                <h4>Cláusula 9.3 — Limitação de responsabilidade</h4>
+                <span class="badge badge-amber">Risco Médio</span>
+              </div>
+              <div class="wf-clause-body">
+                Responsabilidade do fornecedor limitada a 1x o valor mensal do contrato. Abaixo do padrão de mercado (3-6x). <strong>Recomendação:</strong> negociar limite de 3x o valor mensal.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- WIREFRAME 5: UPLOAD DE CONTRATO -->
+<!-- ============================================ -->
+<section class="section" style="background: #f5f5f0;">
+  <div class="container">
+    <h2 class="section-title">5. Upload de Contrato</h2>
+    <p class="section-subtitle">Envio de documentos para análise — rota /dashboard/contracts/upload</p>
+
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dot dot-red"></div>
+        <div class="browser-dot dot-yellow"></div>
+        <div class="browser-dot dot-green"></div>
+        <div class="browser-url">clausent.com/dashboard/contracts/upload</div>
+      </div>
+      <div class="browser-content">
+        <div class="wf-dashboard">
+          <div class="wf-sidebar">
+            <div class="wf-sidebar-logo"><span class="bracket">{C}</span> Clausent</div>
+            <div class="wf-sidebar-section">Principal</div>
+            <div class="wf-sidebar-item">📊 Overview</div>
+            <div class="wf-sidebar-item active">📄 Contratos</div>
+            <div class="wf-sidebar-item">🔔 Alertas</div>
+            <div class="wf-sidebar-item">📈 Benchmarks</div>
+            <div class="wf-sidebar-section">Conta</div>
+            <div class="wf-sidebar-item">⚙️ Configurações</div>
+            <div class="wf-sidebar-item">💳 Billing</div>
+          </div>
+          <div class="wf-main">
+            <div class="wf-page-title">Upload de Contrato</div>
+
+            <!-- Dropzone -->
+            <div class="wf-dropzone">
+              <div class="icon">📎</div>
+              <p>Arraste seus contratos aqui ou clique para selecionar</p>
+              <span>PDF, DOCX ou imagens — máximo 25MB por arquivo</span>
+            </div>
+
+            <!-- Lista de arquivos -->
+            <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:12px;">Arquivos enviados</h3>
+            <div class="wf-file-item">
+              <span style="font-size:1.2rem;">📄</span>
+              <div class="wf-file-name">contrato-acme-saas-2026.pdf</div>
+              <div class="wf-file-size">2.4 MB</div>
+              <div class="wf-progress-bar"><div class="wf-progress-fill" style="width:100%;"></div></div>
+              <span class="badge badge-green" style="border:none;">Concluído</span>
+            </div>
+            <div class="wf-file-item">
+              <span style="font-size:1.2rem;">📄</span>
+              <div class="wf-file-name">aditivo-techven-licenca.pdf</div>
+              <div class="wf-file-size">890 KB</div>
+              <div class="wf-progress-bar"><div class="wf-progress-fill" style="width:68%;"></div></div>
+              <span style="font-size:0.75rem;color:#888;font-weight:600;">68%</span>
+            </div>
+            <div class="wf-file-item">
+              <span style="font-size:1.2rem;">📄</span>
+              <div class="wf-file-name">nda-parceiro-estrategico.docx</div>
+              <div class="wf-file-size">156 KB</div>
+              <div class="wf-progress-bar"><div class="wf-progress-fill" style="width:25%;"></div></div>
+              <span style="font-size:0.75rem;color:#888;font-weight:600;">25%</span>
+            </div>
+
+            <div style="margin-top:20px;display:flex;gap:8px;justify-content:flex-end;">
+              <a class="wf-btn wf-btn-outline">Cancelar</a>
+              <a class="wf-btn wf-btn-primary">Iniciar análise</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- USER FLOWS -->
+<!-- ============================================ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">User Flows</h2>
+    <p class="section-subtitle">Fluxos principais de interação do usuário com a plataforma.</p>
+
+    <!-- Flow 1: Primeiro Acesso -->
+    <div class="wf-flow-label">Fluxo 1 — Primeiro Acesso</div>
+    <div class="wf-flow">
+      <div class="wf-flow-step">Landing Page</div>
+      <div class="wf-flow-arrow">→</div>
+      <div class="wf-flow-step">Sign Up</div>
+      <div class="wf-flow-arrow">→</div>
+      <div class="wf-flow-step highlight">Dashboard</div>
+      <div class="wf-flow-arrow">→</div>
+      <div class="wf-flow-step">Upload</div>
+      <div class="wf-flow-arrow">→</div>
+      <div class="wf-flow-step highlight">Análise</div>
+    </div>
+
+    <!-- Flow 2: Análise de Contrato -->
+    <div class="wf-flow-label">Fluxo 2 — Análise e Renegociação</div>
+    <div class="wf-flow">
+      <div class="wf-flow-step">Upload</div>
+      <div class="wf-flow-arrow">→</div>
+      <div class="wf-flow-step">Processamento</div>
+      <div class="wf-flow-arrow">→</div>
+      <div class="wf-flow-step highlight">Detalhe</div>
+      <div class="wf-flow-arrow">→</div>
+      <div class="wf-flow-step highlight">Renegociar</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- FOOTER -->
+<!-- ============================================ -->
+<footer style="background:var(--teal-950);color:var(--teal-300);text-align:center;padding:24px;">
+  <p style="font-size:0.8rem;">Clausent — Documento interno de UX/UI · Fevereiro 2026</p>
+</footer>
+
+</body>
+</html>

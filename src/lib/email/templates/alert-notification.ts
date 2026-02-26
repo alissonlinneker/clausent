@@ -2,7 +2,7 @@
  * Template de email para notificações de alerta de contrato.
  *
  * Gera HTML inline (sem dependências externas) com design profissional
- * usando a paleta de cores da Clausent (indigo/slate).
+ * usando a paleta de cores da Clausent (teal/slate).
  *
  * O template é compatível com a maioria dos clientes de email
  * (Gmail, Outlook, Apple Mail) por usar apenas estilos inline.
@@ -35,7 +35,7 @@ function getAlertTypeLabel(type: string): { label: string; color: string; bgColo
     case 'notice':
       return { label: 'Notice Period', color: '#2563eb', bgColor: '#dbeafe' }
     default:
-      return { label: type, color: '#6366f1', bgColor: '#e0e7ff' }
+      return { label: type, color: '#14B8A6', bgColor: '#CCFBF1' }
   }
 }
 
@@ -117,7 +117,7 @@ export function generateAlertEmailHtml(data: AlertEmailData): string {
                     <!-- Logo Clausent em texto com ícone -->
                     <table role="presentation" cellspacing="0" cellpadding="0">
                       <tr>
-                        <td style="background-color: #4f46e5; border-radius: 8px; width: 32px; height: 32px; text-align: center; vertical-align: middle;">
+                        <td style="background-color: #0D9488; border-radius: 8px; width: 32px; height: 32px; text-align: center; vertical-align: middle;">
                           <span style="color: #ffffff; font-size: 16px; font-weight: bold;">C</span>
                         </td>
                         <td style="padding-left: 10px;">
@@ -190,7 +190,7 @@ export function generateAlertEmailHtml(data: AlertEmailData): string {
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td align="center">
-                    <a href="${contractUrl}" style="display: inline-block; background-color: #4f46e5; color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 32px; border-radius: 8px; line-height: 1;">
+                    <a href="${contractUrl}" style="display: inline-block; background-color: #0D9488; color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 32px; border-radius: 8px; line-height: 1;">
                       View Contract
                     </a>
                   </td>

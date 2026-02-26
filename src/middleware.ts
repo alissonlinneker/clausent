@@ -1,34 +1,28 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-
-/**
- * Rotas que exigem autenticação.
- * Qualquer rota dentro de /dashboard ou chamadas tRPC
- * serão protegidas automaticamente pelo Clerk.
- */
-const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)',
-  '/api/trpc(.*)',
-])
+import createMiddleware from 'next-intl/middleware'
+import { routing } from '@/lib/i18n/routing'
 
 /**
  * Middleware principal da aplicação.
- * Intercepta todas as requisições e aplica proteção
- * nas rotas definidas acima.
+ *
+ * Responsável por:
+ * 1. Detectar o idioma do usuário via Accept-Language header
+ * 2. Redirecionar para o locale correto (/en, /pt, /es, etc.)
+ * 3. Definir o locale padrão como 'en' quando não detectado
+ *
+ * A proteção de rotas autenticadas é feita via Better Auth
+ * diretamente nos layouts/pages, não no middleware.
  */
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
-    await auth.protect()
-  }
-})
+const intlMiddleware = createMiddleware(routing)
+
+export default intlMiddleware
 
 /**
  * Configuração do matcher do middleware.
- * Exclui arquivos estáticos e assets do Next.js,
- * mas inclui todas as rotas de API e tRPC.
+ * Exclui arquivos estáticos, assets do Next.js e rotas de API.
+ * As rotas de API não precisam de i18n.
  */
 export const config = {
   matcher: [
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
+    '/((?!api|_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
   ],
 }

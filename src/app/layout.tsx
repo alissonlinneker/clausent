@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { ClerkProvider } from '@clerk/nextjs'
-import { Providers } from '@/components/providers'
-import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 
 /** Fonte Inter — limpa e profissional para SaaS B2B */
 const inter = Inter({ subsets: ['latin'] })
 
-/** Metadados globais da aplicação — SEO completo com Open Graph e Twitter Cards */
+/**
+ * Metadados globais da aplicação — SEO completo com Open Graph e Twitter Cards.
+ * Estes metadados servem como fallback; páginas individuais podem sobrescrever.
+ */
 export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL || 'https://clausent.com'
@@ -54,28 +54,15 @@ export const metadata: Metadata = {
 
 /**
  * Layout raiz da aplicação.
- * Envolve toda a árvore de componentes com o ClerkProvider
- * para garantir que a autenticação esteja disponível em todas as páginas.
- * A publishableKey é passada explicitamente para evitar erros em build time.
+ *
+ * Este é o layout mais externo — não inclui providers
+ * pois eles são adicionados no layout do [locale].
+ * A tag <html> recebe o lang dinamicamente via next-intl.
  */
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-      dynamic
-    >
-      <html lang="en">
-        <body className={inter.className}>
-          <Providers>
-            {children}
-          </Providers>
-          <Toaster />
-        </body>
-      </html>
-    </ClerkProvider>
-  )
+  return children
 }

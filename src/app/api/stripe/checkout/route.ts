@@ -1,9 +1,6 @@
-import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
-import { eq } from 'drizzle-orm'
-import { db } from '@/lib/db'
-import { organizations } from '@/lib/db/schema'
-import { getStripe, PLANS, type PlanId } from '@/lib/stripe/config'
+import { headers } from 'next/headers'
+import { getStripe, PLANS } from '@/lib/stripe'
 
 /**
  * POST /api/stripe/checkout
@@ -13,86 +10,105 @@ import { getStripe, PLANS, type PlanId } from '@/lib/stripe/config'
  * fornece os dados de pagamento. Após o pagamento,
  * o webhook processa a ativação do plano.
  *
- * Body esperado: { planId: 'starter' | 'professional' | 'business' }
+ * Body esperado: { priceId: string, isAnnual?: boolean }
+ *
+ * Autenticação: Better Auth (sessão via cookie/header).
  */
 export async function POST(req: Request) {
   try {
-    /** Verifica autenticação do Clerk */
-    const { userId, orgId } = await auth()
+    /**
+     * Obtém a sessão do usuário via Better Auth.
+     *
+     * O Better Auth armazena o token de sessão em cookies.
+     * Fazemos uma chamada interna à API de sessão para validar.
+     */
+    const headersList = await headers()
+    const sessionResponse = await fetch(
+      `${process.env.BETTER_AUTH_URL || process.env.NEXT_PUBLIC_APP_URL}/api/auth/get-session`,
+      {
+        headers: {
+          cookie: headersList.get('cookie') || '',
+        },
+      }
+    )
 
-    if (!userId || !orgId) {
+    /** Verifica se a sessão é válida */
+    if (!sessionResponse.ok) {
       return NextResponse.json(
         { error: 'Não autorizado' },
         { status: 401 }
       )
     }
 
-    /** Extrai o plano selecionado do corpo da requisição */
-    const body = await req.json()
-    const planId = body.planId as PlanId
+    const session = await sessionResponse.json()
+    const userId = session?.user?.id
+    const userEmail = session?.user?.email
 
-    /** Valida se o plano existe na configuração */
-    if (!planId || !PLANS[planId]) {
+    if (!userId) {
       return NextResponse.json(
-        { error: 'Plano inválido' },
+        { error: 'Não autorizado' },
+        { status: 401 }
+      )
+    }
+
+    /** Extrai o priceId e flag de plano anual do corpo da requisição */
+    const body = await req.json()
+    const { priceId } = body as { priceId: string; isAnnual?: boolean }
+
+    if (!priceId) {
+      return NextResponse.json(
+        { error: 'priceId é obrigatório' },
         { status: 400 }
       )
     }
 
-    const plan = PLANS[planId]
+    /**
+     * Identifica o plano pelo priceId recebido.
+     * Percorre todos os planos e compara tanto o price mensal
+     * quanto o anual para encontrar o plano correto.
+     */
+    const matchedPlan = Object.entries(PLANS).find(
+      ([, plan]) =>
+        plan.monthlyPriceId === priceId || plan.yearlyPriceId === priceId
+    )
 
-    /** Valida se o priceId está configurado para o plano */
-    if (!plan.priceId) {
+    if (!matchedPlan) {
       return NextResponse.json(
-        { error: 'Plano não configurado no Stripe' },
-        { status: 500 }
+        { error: 'Plano inválido ou não configurado no Stripe' },
+        { status: 400 }
       )
     }
 
-    /** Busca a organização do usuário no banco de dados */
-    const org = await db.query.organizations.findFirst({
-      where: eq(organizations.clerkOrgId, orgId),
-    })
-
-    if (!org) {
-      return NextResponse.json(
-        { error: 'Organização não encontrada' },
-        { status: 404 }
-      )
-    }
+    const [planSlug] = matchedPlan
 
     const stripe = getStripe()
 
     /**
      * Cria a sessão de checkout do Stripe.
-     * Passa o orgId como metadata para que o webhook
-     * consiga identificar qual organização ativar.
-     * Se a org já tem um stripeCustomerId, reutiliza o customer.
+     *
+     * Passa userId e planSlug como metadata para que o webhook
+     * consiga identificar qual usuário e plano ativar.
      */
-    const session = await stripe.checkout.sessions.create({
+    const checkoutSession = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
       line_items: [
         {
-          price: plan.priceId,
+          price: priceId,
           quantity: 1,
         },
       ],
-      /** Reutiliza customer existente ou cria novo */
-      ...(org.stripeCustomerId
-        ? { customer: org.stripeCustomerId }
-        : { customer_email: undefined }),
+      /** E-mail do usuário pré-preenchido no checkout */
+      customer_email: userEmail || undefined,
       /** Metadata para identificação no webhook */
       metadata: {
-        orgId: org.id,
-        clerkOrgId: orgId,
-        planId,
+        userId,
+        plan: planSlug,
       },
       subscription_data: {
         metadata: {
-          orgId: org.id,
-          clerkOrgId: orgId,
-          planId,
+          userId,
+          plan: planSlug,
         },
       },
       /** URLs de redirecionamento pós-checkout */
@@ -100,9 +116,9 @@ export async function POST(req: Request) {
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/settings/billing?canceled=true`,
     })
 
-    return NextResponse.json({ url: session.url })
+    return NextResponse.json({ url: checkoutSession.url })
   } catch (error) {
-    console.error('[STRIPE_CHECKOUT]', error)
+    console.error('[STRIPE_CHECKOUT] Erro ao criar sessão:', error)
     return NextResponse.json(
       { error: 'Erro ao criar sessão de checkout' },
       { status: 500 }

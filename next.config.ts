@@ -1,8 +1,22 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
+import createNextIntlPlugin from 'next-intl/plugin'
+
+/**
+ * Plugin do next-intl — habilita internacionalização
+ * com detecção automática de idioma e roteamento /[locale]/
+ */
+const withNextIntl = createNextIntlPlugin('./src/lib/i18n/request.ts')
 
 const nextConfig: NextConfig = {
-  /** Pacotes que precisam rodar no Node.js (não no edge) */
-  serverExternalPackages: ["pdf-parse"],
-};
+  /** Imagens de domínios externos permitidos */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.amazonaws.com',
+      },
+    ],
+  },
+}
 
-export default nextConfig;
+export default withNextIntl(nextConfig)

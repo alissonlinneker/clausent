@@ -3,30 +3,27 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 import { Upload, Zap, TrendingDown } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 /**
  * Passos do fluxo "How it Works".
- * Cada passo descreve uma etapa do processo de uso da plataforma.
+ * Cada passo utiliza uma chave de tradução em vez de strings fixas.
  */
 const STEPS = [
   {
     number: '01',
     icon: Upload,
-    title: 'Upload your contracts',
-    description:
-      'Drag and drop your PDF or DOCX files. Our engine extracts key terms, dates, obligations, and pricing in seconds.',
-    color: 'indigo',
-    gradient: 'from-indigo-500 to-indigo-600',
-    bgLight: 'bg-indigo-50',
-    textColor: 'text-indigo-600',
-    borderColor: 'border-indigo-200',
+    key: 'step1',
+    color: 'teal',
+    gradient: 'from-teal-500 to-teal-600',
+    bgLight: 'bg-teal-50',
+    textColor: 'text-teal-600',
+    borderColor: 'border-teal-200',
   },
   {
     number: '02',
     icon: Zap,
-    title: 'Get instant analysis',
-    description:
-      'Receive a comprehensive risk score, benchmark comparison, and actionable insights about each contract within moments.',
+    key: 'step2',
     color: 'emerald',
     gradient: 'from-emerald-500 to-emerald-600',
     bgLight: 'bg-emerald-50',
@@ -36,9 +33,7 @@ const STEPS = [
   {
     number: '03',
     icon: TrendingDown,
-    title: 'Save money',
-    description:
-      'Use our renegotiation playbooks and market benchmarks to cut costs. Companies save an average of 9.2% on contract expenses.',
+    key: 'step3',
     color: 'violet',
     gradient: 'from-violet-500 to-violet-600',
     bgLight: 'bg-violet-50',
@@ -91,6 +86,9 @@ export function HowItWorksSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
+  /** Hook de traduções para o namespace howItWorks */
+  const t = useTranslations('howItWorks')
+
   return (
     <section id="how-it-works" className="relative py-24 sm:py-32 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -103,16 +101,16 @@ export function HowItWorksSection() {
           className="text-center mb-16 sm:mb-20"
         >
           <span className="inline-flex items-center rounded-full bg-emerald-50 border border-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-600 mb-4">
-            How it Works
+            {t('badge')}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
-            Three steps to{' '}
-            <span className="bg-gradient-to-r from-emerald-600 to-indigo-600 bg-clip-text text-transparent">
-              smarter contracts
+            {t('title')}{' '}
+            <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+              {t('titleHighlight')}
             </span>
           </h2>
           <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-            From upload to savings in minutes, not weeks.
+            {t('subtitle')}
           </p>
         </motion.div>
 
@@ -123,7 +121,7 @@ export function HowItWorksSection() {
             variants={lineVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="absolute left-8 lg:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-300 via-emerald-300 to-violet-300"
+            className="absolute left-8 lg:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-teal-300 via-emerald-300 to-violet-300"
             style={{ originY: 0 }}
           />
 
@@ -153,7 +151,7 @@ export function HowItWorksSection() {
                         duration: 0.5,
                         ease: 'easeOut',
                       }}
-                      className={`w-16 h-16 rounded-2xl ${step.bgLight} border-2 ${step.borderColor} flex items-center justify-center shadow-sm`}
+                      className={`w-16 h-16 rounded-2xl ${step.bgLight} border border-slate-200 flex items-center justify-center shadow-[2px_2px_0px_rgba(0,0,0,0.06)]`}
                     >
                       <span
                         className={`text-xl font-bold bg-gradient-to-br ${step.gradient} bg-clip-text text-transparent`}
@@ -173,12 +171,12 @@ export function HowItWorksSection() {
                         <Icon className="h-4 w-4" strokeWidth={2} />
                       </div>
                       <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
-                        {step.title}
+                        {t(`${step.key}.title`)}
                       </h3>
                     </div>
 
                     <p className="text-base text-slate-500 leading-relaxed max-w-md">
-                      {step.description}
+                      {t(`${step.key}.description`)}
                     </p>
 
                     {/* Barra de progresso decorativa */}

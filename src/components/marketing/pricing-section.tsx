@@ -5,83 +5,80 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
-import Link from 'next/link'
+import { Link } from '@/lib/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 /**
- * Configuração dos planos de preço.
- * Cada plano possui nome, preço mensal/anual, features e destaque.
+ * Configuração dos 4 planos de preço exibidos na landing page.
+ * Cada plano utiliza chaves de tradução para nome, descrição e features.
+ * Professional é o plano destacado como MOST POPULAR.
  */
 const PRICING_PLANS = [
   {
-    name: 'Starter',
-    description: 'Perfect for small businesses getting started.',
+    key: 'starter',
+    monthlyPrice: 9,
+    yearlyPrice: 7,
+    popular: false,
+    featureKeys: ['upTo5', 'aiAnalysis', 'riskScoring', 'renewalAlerts', 'pdfDocx', 'emailSupport'],
+    ctaKey: 'getStarted',
+    href: '/sign-up',
+  },
+  {
+    key: 'professional',
     monthlyPrice: 29,
     yearlyPrice: 23,
-    popular: false,
-    features: [
-      'Up to 10 contracts',
-      'Basic risk analysis',
-      'Renewal alerts',
-      'Email support',
-      'PDF & DOCX upload',
-    ],
-    cta: 'Get Started',
-    href: '/sign-up',
-  },
-  {
-    name: 'Professional',
-    description: 'Full analysis and benchmarks for growing teams.',
-    monthlyPrice: 59,
-    yearlyPrice: 47,
     popular: true,
-    features: [
-      'Up to 50 contracts',
-      'Full risk analysis',
-      'Market benchmarks',
-      'Renewal alerts',
-      'Priority email support',
-      'Team collaboration',
-      'Export reports',
+    featureKeys: [
+      'upTo25',
+      'advancedAiAnalysis',
+      'fullRiskScoring',
+      'smartAlerts',
+      'marketBenchmarks',
+      'renegotiationPlaybooks',
+      'teamSeats3',
+      'exportPdfCsv',
+      'priorityEmail',
     ],
-    cta: 'Get Started',
+    ctaKey: 'getStarted',
     href: '/sign-up',
   },
   {
-    name: 'Business',
-    description: 'Advanced tools for established organizations.',
-    monthlyPrice: 99,
-    yearlyPrice: 79,
+    key: 'business',
+    monthlyPrice: 79,
+    yearlyPrice: 63,
     popular: false,
-    features: [
-      'Up to 200 contracts',
-      'Full risk analysis',
-      'Market benchmarks',
-      'Renegotiation kit',
-      'Priority support',
-      'Team collaboration',
-      'Custom templates',
-      'API access',
+    featureKeys: [
+      'upTo100',
+      'fullAiSuite',
+      'benchmarksTrends',
+      'advancedRenegotiation',
+      'teamSeats10',
+      'customTemplates',
+      'apiAccess',
+      'priorityChatEmail',
+      'auditLog',
+      'whiteLabelReports',
     ],
-    cta: 'Get Started',
+    ctaKey: 'getStarted',
     href: '/sign-up',
   },
   {
-    name: 'Enterprise',
-    description: 'Custom solutions for large organizations.',
+    key: 'enterprise',
     monthlyPrice: null,
     yearlyPrice: null,
     popular: false,
-    features: [
-      'Unlimited contracts',
-      'Custom integrations',
-      'Dedicated support',
-      'SSO & SAML',
-      'Custom SLA',
-      'On-premise option',
-      'Training & onboarding',
-      'Audit log',
+    featureKeys: [
+      'unlimitedContracts',
+      'unlimitedSeats',
+      'dedicatedManager',
+      'customSla',
+      'ssoSaml',
+      'onPremise',
+      'customAiTraining',
+      'trainingOnboarding',
+      'phoneSupport',
     ],
-    cta: 'Contact Sales',
+    ctaKey: 'contactSales',
     href: '#',
   },
 ] as const
@@ -120,20 +117,24 @@ const cardVariants = {
  *
  * Design:
  * - 4 cards em grid responsivo (1 col mobile → 2 tablet → 4 desktop)
- * - Card "Professional" destacado como POPULAR
- * - Switch mensal/anual com desconto de 20%
+ * - Card "Professional" destacado como MOST POPULAR
+ * - Switch mensal/anual com desconto de ~20%
  * - Hover lift effect (translateY -8px) em cada card
  * - Checkmarks verdes na lista de features
  * - Animação stagger de entrada via Framer Motion
  */
 export function PricingSection() {
-  /** Controla se está exibindo preço anual (true) ou mensal (false) */
-  const [isAnnual, setIsAnnual] = useState(false)
+  /** Controla se está exibindo preço anual (true) ou mensal (false) — padrão: anual */
+  const [isAnnual, setIsAnnual] = useState(true)
+
+  /** Hooks de traduções para os namespaces pricing e common */
+  const t = useTranslations('pricing')
+  const tCommon = useTranslations('common')
 
   return (
-    <section id="pricing" className="relative py-24 sm:py-32 bg-[#F8FAFC]">
+    <section id="pricing" className="relative py-24 sm:py-32 bg-[#FFFDF5]">
       {/* Decorações de fundo */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-100/40 rounded-full blur-[120px]" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-100/40 rounded-full blur-[120px]" />
       <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-emerald-100/30 rounded-full blur-[100px]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -145,18 +146,18 @@ export function PricingSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="inline-flex items-center rounded-full bg-indigo-50 border border-indigo-100 px-4 py-1.5 text-sm font-medium text-indigo-600 mb-4">
-            Pricing
+          <span className="inline-flex items-center rounded-full bg-teal-50 border border-teal-100 px-4 py-1.5 text-sm font-medium text-teal-600 mb-4">
+            {t('badge')}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
-            Simple,{' '}
-            <span className="bg-gradient-to-r from-indigo-600 to-emerald-600 bg-clip-text text-transparent">
-              transparent
+            {t('title')}{' '}
+            <span className="bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
+              {t('titleHighlight')}
             </span>{' '}
-            pricing
+            {t('titleEnd')}
           </h2>
           <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-            Start free, upgrade when you need more. No hidden fees.
+            {t('subtitle')}
           </p>
         </motion.div>
 
@@ -173,7 +174,7 @@ export function PricingSection() {
               !isAnnual ? 'text-slate-900' : 'text-slate-400'
             }`}
           >
-            Monthly
+            {tCommon('monthly')}
           </span>
           <Switch checked={isAnnual} onCheckedChange={setIsAnnual} />
           <span
@@ -181,7 +182,7 @@ export function PricingSection() {
               isAnnual ? 'text-slate-900' : 'text-slate-400'
             }`}
           >
-            Annual
+            {tCommon('annual')}
           </span>
           {/* Badge de desconto */}
           <AnimatePresence>
@@ -192,7 +193,7 @@ export function PricingSection() {
                 exit={{ opacity: 0, scale: 0.8, x: -10 }}
                 className="inline-flex items-center rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-xs font-semibold text-emerald-600"
               >
-                Save 20%
+                {tCommon('save20')}
               </motion.span>
             )}
           </AnimatePresence>
@@ -208,7 +209,7 @@ export function PricingSection() {
         >
           {PRICING_PLANS.map((plan) => (
             <motion.div
-              key={plan.name}
+              key={plan.key}
               variants={cardVariants}
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
               className={`relative group ${plan.popular ? 'lg:-mt-4 lg:mb-4' : ''}`}
@@ -216,25 +217,25 @@ export function PricingSection() {
               {/* Tag POPULAR com gradiente (apenas no card destacado) */}
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                  <span className="inline-flex items-center rounded-full bg-gradient-to-r from-indigo-600 to-emerald-500 px-4 py-1 text-xs font-bold text-white shadow-lg shadow-indigo-500/25">
-                    MOST POPULAR
+                  <span className="inline-flex items-center rounded-full bg-teal-600 px-4 py-1 text-xs font-bold text-white shadow-[2px_2px_0px_rgba(13,148,136,0.2)]">
+                    {tCommon('mostPopular')}
                   </span>
                 </div>
               )}
 
               {/* Card */}
               <div
-                className={`relative h-full rounded-2xl border p-8 flex flex-col transition-all duration-300 ${
+                className={`relative h-full rounded-2xl p-8 flex flex-col transition-all duration-300 ${
                   plan.popular
-                    ? 'bg-white border-indigo-200 shadow-xl shadow-indigo-500/10 ring-1 ring-indigo-100'
-                    : 'bg-white/80 backdrop-blur-sm border-slate-200/60 shadow-sm hover:shadow-lg hover:shadow-indigo-500/5'
+                    ? 'bg-white border-2 border-teal-200 shadow-[4px_4px_0px_rgba(13,148,136,0.1)] ring-0'
+                    : 'bg-white border border-slate-200 shadow-[3px_3px_0px_rgba(0,0,0,0.06)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.08)] hover:-translate-x-0.5 hover:-translate-y-0.5'
                 }`}
               >
                 {/* Nome do plano */}
                 <h3 className="text-lg font-semibold text-slate-900">
-                  {plan.name}
+                  {t(`${plan.key}.name`)}
                 </h3>
-                <p className="text-sm text-slate-500 mt-1">{plan.description}</p>
+                <p className="text-sm text-slate-500 mt-1">{t(`${plan.key}.description`)}</p>
 
                 {/* Preço */}
                 <div className="mt-6 mb-6">
@@ -243,29 +244,29 @@ export function PricingSection() {
                       <span className="text-4xl font-bold text-slate-900">
                         ${isAnnual ? plan.yearlyPrice : plan.monthlyPrice}
                       </span>
-                      <span className="text-sm text-slate-400">/mo</span>
+                      <span className="text-sm text-slate-400">{tCommon('perMonth')}</span>
                     </div>
                   ) : (
                     <div>
                       <span className="text-4xl font-bold text-slate-900">
-                        Custom
+                        {tCommon('custom')}
                       </span>
                     </div>
                   )}
                   {/* Indicação de cobrança anual */}
                   {isAnnual && plan.monthlyPrice !== null && (
                     <p className="text-xs text-slate-400 mt-1">
-                      Billed annually
+                      {tCommon('billedAnnually')}
                     </p>
                   )}
                 </div>
 
                 {/* Lista de features com checkmarks */}
                 <ul className="space-y-3 mb-8 flex-1">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2.5">
+                  {plan.featureKeys.map((featureKey) => (
+                    <li key={featureKey} className="flex items-start gap-2.5">
                       <Check className="h-4 w-4 text-emerald-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-slate-600">{feature}</span>
+                      <span className="text-sm text-slate-600">{t(`features.${featureKey}`)}</span>
                     </li>
                   ))}
                 </ul>
@@ -275,11 +276,11 @@ export function PricingSection() {
                   asChild
                   className={`w-full rounded-full font-semibold transition-all duration-300 ${
                     plan.popular
-                      ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40'
-                      : 'bg-slate-900 hover:bg-slate-800 text-white'
+                      ? 'bg-teal-600 hover:bg-teal-700 text-white shadow-[2px_2px_0px_rgba(13,148,136,0.15)] hover:shadow-[3px_3px_0px_rgba(13,148,136,0.2)] hover:-translate-x-0.5 hover:-translate-y-0.5'
+                      : 'bg-slate-900 hover:bg-slate-800 text-white shadow-[2px_2px_0px_rgba(0,0,0,0.1)] hover:shadow-[3px_3px_0px_rgba(0,0,0,0.12)] hover:-translate-x-0.5 hover:-translate-y-0.5'
                   }`}
                 >
-                  <Link href={plan.href}>{plan.cta}</Link>
+                  <Link href={plan.href}>{tCommon(plan.ctaKey)}</Link>
                 </Button>
               </div>
             </motion.div>

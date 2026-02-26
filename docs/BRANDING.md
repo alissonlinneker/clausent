@@ -17,7 +17,8 @@
 7. [Animações e Efeitos](#7-animações-e-efeitos)
 8. [Componentes UI](#8-componentes-ui)
 9. [Design Tokens (Tailwind CSS)](#9-design-tokens-tailwind-css)
-10. [Gradientes e Efeitos Especiais](#10-gradientes-e-efeitos-especiais)
+10. [Estilo Neobrutalism](#10-estilo-neobrutalism)
+11. [Gradientes e Efeitos Especiais](#11-gradientes-e-efeitos-especiais)
 
 ---
 
@@ -101,39 +102,59 @@ Se o Clausent fosse uma pessoa, seria um **consultor de negócios nos seus 35 an
 
 ## 2. Logo
 
-### 2.1 Conceito
+### 2.1 Conceito — "Bracket Clause"
 
-O logo do Clausent combina dois elementos visuais fundamentais:
+O logo do Clausent é batizado de **Bracket Clause** e combina dois universos simbólicos em um único ícone:
 
-1. **Escudo estilizado** — representando proteção, segurança e vigilância (o "Sentinel")
-2. **Documento/cláusula** — representando contratos, cláusulas e o universo jurídico (o "Clause")
+1. **Chaves de programação `{ }`** — representando tecnologia, código e automação inteligente
+2. **Letra C centralizada** — representando "Clause" (cláusula contratual) e "Clausent" (a marca)
 
-A integração desses elementos resulta em um ícone onde as linhas de um documento se fundem organicamente com a forma de um escudo, criando um símbolo único que comunica simultaneamente "proteção contratual".
+A fusão desses elementos cria uma dupla leitura poderosa: as chaves `{ }` remetem simultaneamente a **chaves de termos legais** (cláusulas contratuais envolvidas por delimitadores) e a **chaves de código** (blocos de programação), sintetizando a essência do produto — inteligência tecnológica aplicada ao universo contratual.
 
 #### Descrição detalhada do ícone:
 
-O ícone consiste em um **escudo com cantos arredondados** (border-radius generoso para suavizar a seriedade) com três **linhas horizontais estilizadas** no interior — representando cláusulas de um contrato. A linha superior é mais larga (título/cabeçalho), as duas inferiores são mais curtas e alinhadas à esquerda (corpo do texto). Na parte superior direita do escudo, há um **pequeno elemento circular** que remete a um "olho de sentinela" ou um ponto de verificação (checkmark implícito), reforçando o conceito de vigilância ativa.
+O ícone consiste em três elementos dispostos horizontalmente com alinhamento central:
 
-O traço do ícone é **semi-bold** (2.5px em tamanho padrão), garantindo legibilidade em tamanhos pequenos sem parecer pesado em tamanhos grandes.
+- **Chave esquerda `{`** — Forma curvilínea aberta à direita, com as pontas superiores e inferiores suavemente arredondadas. Posicionada à esquerda, serve como "porta de entrada" visual, envolvendo e protegendo o conteúdo central. A curvatura é levemente mais generosa do que uma chave tipográfica pura, transmitindo modernidade.
+
+- **Letra C centralizada** — A letra "C" ocupa o centro do ícone, em peso **bold**. É a âncora visual e conceitual: representa tanto a inicial de "Clausent" quanto a ideia de "Clause" (cláusula). A letra tem proporções geométricas com terminais levemente abertos, evocando acessibilidade e clareza.
+
+- **Chave direita `}`** — Forma curvilínea aberta à esquerda, espelhando a chave esquerda. Fecha o "bloco" visual, completando o encapsulamento do C central.
+
+O traço de todo o ícone é **semi-bold** (3.5px em tamanho padrão), garantindo presença visual forte em tamanhos pequenos sem parecer pesado em tamanhos grandes. As três peças (chave esquerda, C, chave direita) compartilham o mesmo peso de traço para coesão visual.
+
+#### SVG conceitual:
+
+```svg
+<!-- Representação simplificada do Bracket Clause -->
+<svg viewBox="0 0 120 48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Chave esquerda { -->
+  <path d="M 20 8 Q 14 8 14 16 L 14 20 Q 14 24 8 24 Q 14 24 14 28 L 14 32 Q 14 40 20 40" />
+  <!-- Letra C central -->
+  <path d="M 72 14 A 14 14 0 1 0 72 34" />
+  <!-- Chave direita } -->
+  <path d="M 100 8 Q 106 8 106 16 L 106 20 Q 106 24 112 24 Q 106 24 106 28 L 106 32 Q 106 40 100 40" />
+</svg>
+```
 
 ### 2.2 Versões
 
 | Versão | Uso | Descrição |
 |--------|-----|-----------|
-| **Ícone (Brandmark)** | Favicon, ícone de app, avatar em redes sociais, espaços reduzidos | Apenas o símbolo do escudo-documento, sem texto |
+| **Ícone (Brandmark)** | Favicon, ícone de app, avatar em redes sociais, espaços reduzidos | Apenas o símbolo `{C}` (Bracket Clause), sem texto |
 | **Logotipo (Wordmark)** | Rodapés, assinaturas de e-mail, menções em texto | Apenas o nome "Clausent" na tipografia proprietária |
-| **Combinado (Lockup Horizontal)** | Header de aplicação, website, materiais de marketing | Ícone à esquerda + logotipo à direita, alinhados ao centro vertical |
-| **Combinado (Lockup Vertical)** | Splash screens, camisetas, materiais impressos | Ícone acima + logotipo abaixo, centralizados |
+| **Combinado (Lockup Horizontal)** | Header de aplicação, website, materiais de marketing | Ícone `{C}` à esquerda + logotipo à direita, alinhados ao centro vertical |
+| **Combinado (Lockup Vertical)** | Splash screens, camisetas, materiais impressos | Ícone `{C}` acima + logotipo abaixo, centralizados |
 
 #### Tipografia do logotipo:
 
-O nome "Clausent" no logotipo usa a fonte **Cal Sans** com peso **semibold (600)**. A letra "C" inicial tem um tratamento sutil — um traço levemente mais grosso que as demais letras, criando um ponto de ancoragem visual. O tracking (letter-spacing) é de **-0.02em** para criar uma sensação de coesão e solidez.
+O nome "Clausent" no logotipo usa a fonte **Cal Sans** com peso **semibold (600)**. A letra "C" inicial tem um tratamento sutil — um traço levemente mais grosso que as demais letras, criando conexão visual com o ícone Bracket Clause. O tracking (letter-spacing) é de **-0.02em** para criar uma sensação de coesão e solidez.
 
 ### 2.3 Espaçamento e Área de Proteção
 
 A **área de proteção** (clear space) ao redor do logo garante que ele respire e mantenha sua integridade visual em qualquer contexto.
 
-- **Unidade de medida:** A altura do ícone do escudo define a unidade "S"
+- **Unidade de medida:** A altura do ícone Bracket Clause `{C}` define a unidade "S"
 - **Área de proteção mínima:** 0.5S em todos os lados (superior, inferior, esquerda, direita)
 - **Entre ícone e logotipo (lockup horizontal):** 0.35S
 - **Entre ícone e logotipo (lockup vertical):** 0.25S
@@ -153,7 +174,7 @@ Para garantir legibilidade e integridade visual:
 
 | Variante | Uso |
 |----------|-----|
-| **Primary** (Indigo 600 sobre fundo claro) | Uso padrão na maioria dos contextos |
+| **Primary** (Teal 600 sobre fundo claro) | Uso padrão na maioria dos contextos |
 | **White** (branco sobre fundo escuro/colorido) | Headers escuros, banners com gradiente, hero sections |
 | **Dark** (Slate 900 sobre fundo claro) | Quando a cor primária não é adequada (impressão P&B, por exemplo) |
 | **Monochrome** (preto puro ou branco puro) | Documentos legais, carimbos, contextos de alto contraste |
@@ -168,7 +189,7 @@ Estas são violações graves da identidade visual e devem ser evitadas sem exce
 4. **Não adicionar efeitos** — Proibido drop shadow, bevel, emboss, glow ou qualquer efeito sobre o logo
 5. **Não colocar sobre fundos complexos** — Se o fundo for uma imagem, usar uma camada de overlay ou o logo em versão branca
 6. **Não recriar o logotipo** — Nunca reescrever "Clausent" em outra fonte; usar sempre o arquivo oficial
-7. **Não separar elementos do lockup** — Nos lockups, o ícone e o logotipo são uma unidade; não reposicionar um em relação ao outro
+7. **Não separar elementos do lockup** — Nos lockups, o ícone `{C}` e o logotipo são uma unidade; não reposicionar um em relação ao outro
 8. **Não usar em tamanho menor que o mínimo** — Preferir a versão ícone quando o espaço é muito reduzido
 9. **Não adicionar outline ou bordas** — O logo já foi desenhado para funcionar sem contornos extras
 10. **Não colocar texto tocando a área de proteção** — Respeitar sempre o clear space definido
@@ -181,29 +202,29 @@ Estas são violações graves da identidade visual e devem ser evitadas sem exce
 
 A paleta do Clausent foi construída em torno de três pilares:
 
-- **Confiança** — Tons de índigo/azul profundo que transmitem seriedade, segurança e tecnologia
-- **Economia** — Tons de esmeralda/verde que remetem a dinheiro, crescimento e resultados positivos
+- **Confiança** — Tons de teal/verde-azulado que transmitem seriedade, equilíbrio e tecnologia
+- **Economia** — Tons de âmbar/dourado que remetem a dinheiro, crescimento e resultados positivos
 - **Clareza** — Neutros limpos e bem definidos que garantem legibilidade e hierarquia visual
 
 ### 3.2 Cores Primárias
 
-#### Primary — Indigo
+#### Primary — Teal
 
 A cor principal da marca. Usada em CTAs, links, elementos de destaque, header da aplicação e qualquer elemento que represente a identidade do Clausent.
 
 | Token | Nome | Hex | HSL | Uso |
 |-------|------|-----|-----|-----|
-| `primary-50` | Indigo Mist | `#EEF2FF` | `hsl(226, 100%, 97%)` | Fundo sutil de seções destacadas, hover backgrounds |
-| `primary-100` | Indigo Cloud | `#E0E7FF` | `hsl(226, 100%, 94%)` | Fundo de badges, tags leves, áreas de destaque suave |
-| `primary-200` | Indigo Light | `#C7D2FE` | `hsl(226, 98%, 89%)` | Bordas de inputs em foco (mais leve), divisores temáticos |
-| `primary-300` | Indigo Soft | `#A5B4FC` | `hsl(226, 95%, 82%)` | Ícones secundários, ilustrações, elementos decorativos |
-| `primary-400` | Indigo Medium | `#818CF8` | `hsl(226, 90%, 74%)` | Ícones interativos, links hover, elementos de UI intermediários |
-| `primary-500` | Indigo Vivid | `#6366F1` | `hsl(239, 84%, 67%)` | Links de texto, ícones ativos, bordas de seleção |
-| `primary-600` | Indigo Core | `#4F46E5` | `hsl(245, 75%, 59%)` | **Cor principal da marca.** CTAs primários, botões, header, elementos-chave |
-| `primary-700` | Indigo Deep | `#4338CA` | `hsl(244, 58%, 51%)` | Hover de CTAs primários, estados ativos de botões |
-| `primary-800` | Indigo Dark | `#3730A3` | `hsl(244, 47%, 42%)` | Textos sobre fundos claros quando primary-600 é pouco legível |
-| `primary-900` | Indigo Abyss | `#312E81` | `hsl(244, 47%, 35%)` | Fundos escuros de seções hero, deep backgrounds |
-| `primary-950` | Indigo Night | `#1E1B4B` | `hsl(244, 47%, 20%)` | Fundo de modais escuros, overlays profundos |
+| `primary-50` | Teal Mist | `#F0FDFA` | `hsl(167, 85%, 97%)` | Fundo sutil de seções destacadas, hover backgrounds |
+| `primary-100` | Teal Cloud | `#CCFBF1` | `hsl(167, 92%, 89%)` | Fundo de badges, tags leves, áreas de destaque suave |
+| `primary-200` | Teal Light | `#99F6E4` | `hsl(165, 84%, 78%)` | Bordas de inputs em foco (mais leve), divisores temáticos |
+| `primary-300` | Teal Soft | `#5EEAD4` | `hsl(168, 76%, 64%)` | Ícones secundários, ilustrações, elementos decorativos |
+| `primary-400` | Teal Medium | `#2DD4BF` | `hsl(171, 66%, 50%)` | Ícones interativos, links hover, elementos de UI intermediários |
+| `primary-500` | Teal Vivid | `#14B8A6` | `hsl(173, 80%, 40%)` | Links de texto, ícones ativos, bordas de seleção |
+| `primary-600` | Teal Core | `#0D9488` | `hsl(175, 84%, 32%)` | **Cor principal da marca.** CTAs primários, botões, header, elementos-chave |
+| `primary-700` | Teal Deep | `#0F766E` | `hsl(175, 77%, 26%)` | Hover de CTAs primários, estados ativos de botões |
+| `primary-800` | Teal Dark | `#115E59` | `hsl(176, 69%, 22%)` | Textos sobre fundos claros quando primary-600 é pouco legível |
+| `primary-900` | Teal Abyss | `#134E4A` | `hsl(176, 61%, 19%)` | Fundos escuros de seções hero, deep backgrounds |
+| `primary-950` | Teal Night | `#042F2E` | `hsl(179, 84%, 10%)` | Fundo de modais escuros, overlays profundos |
 
 #### Uso principal:
 - **primary-600** é a cor padrão para botões, links e elementos interativos
@@ -233,28 +254,29 @@ Cor de suporte principal, usada para textos, bordas, backgrounds neutros e eleme
 
 ### 3.4 Cor de Destaque (Accent)
 
-#### Accent — Emerald
+#### Accent — Amber
 
-A cor de destaque representa **economia, sucesso, crescimento e resultados positivos**. É usada estrategicamente para chamar atenção para valores monetários economizados, métricas positivas e estados de sucesso.
+A cor de destaque representa **economia, destaque, energia e resultados positivos**. É usada estrategicamente para chamar atenção para valores monetários economizados, métricas positivas e CTAs secundários. Amber foi escolhido em vez de Emerald para evitar ambiguidade com a paleta primária Teal (tons próximos). Emerald é reservado **exclusivamente** para a cor semântica de sucesso (success).
 
 | Token | Nome | Hex | HSL | Uso |
 |-------|------|-----|-----|-----|
-| `accent-50` | Emerald Glow | `#ECFDF5` | `hsl(152, 81%, 96%)` | Fundo de cards de economia, alertas positivos |
-| `accent-100` | Emerald Breeze | `#D1FAE5` | `hsl(149, 80%, 90%)` | Background de badges de sucesso, áreas de resultado positivo |
-| `accent-200` | Emerald Light | `#A7F3D0` | `hsl(152, 76%, 80%)` | Ícones de sucesso (leve), barras de progresso |
-| `accent-300` | Emerald Soft | `#6EE7B7` | `hsl(156, 72%, 67%)` | Ícones de economia, indicadores de tendência positiva |
-| `accent-400` | Emerald Bright | `#34D399` | `hsl(158, 64%, 52%)` | Valores monetários economizados, métricas positivas destacadas |
-| `accent-500` | Emerald Core | `#10B981` | `hsl(160, 84%, 39%)` | **Cor accent principal.** Botões de ação positiva, CTAs de economia |
-| `accent-600` | Emerald Deep | `#059669` | `hsl(161, 94%, 30%)` | Hover de botões accent, texto de economia sobre fundo claro |
-| `accent-700` | Emerald Forest | `#047857` | `hsl(163, 94%, 24%)` | Texto de economia de alto contraste |
-| `accent-800` | Emerald Dark | `#065F46` | `hsl(164, 86%, 16%)` | Fundos de tags de economia em dark mode |
-| `accent-900` | Emerald Shadow | `#064E3B` | `hsl(166, 72%, 14%)` | Backgrounds profundos accent |
-| `accent-950` | Emerald Abyss | `#022C22` | `hsl(164, 86%, 10%)` | Uso restrito, fundos extremamente escuros |
+| `accent-50` | Amber Glow | `#FFFBEB` | `hsl(48, 100%, 96%)` | Fundo de cards de economia, alertas positivos |
+| `accent-100` | Amber Breeze | `#FEF3C7` | `hsl(48, 96%, 89%)` | Background de badges de destaque, áreas de resultado positivo |
+| `accent-200` | Amber Light | `#FDE68A` | `hsl(48, 97%, 77%)` | Ícones de destaque (leve), barras de progresso |
+| `accent-300` | Amber Soft | `#FCD34D` | `hsl(46, 97%, 65%)` | Ícones de economia, indicadores de tendência positiva |
+| `accent-400` | Amber Bright | `#FBBF24` | `hsl(45, 93%, 47%)` | Valores monetários economizados, métricas positivas destacadas |
+| `accent-500` | Amber Core | `#F59E0B` | `hsl(38, 92%, 50%)` | **Cor accent principal.** Botões de ação positiva, CTAs de economia |
+| `accent-600` | Amber Deep | `#D97706` | `hsl(32, 95%, 44%)` | Hover de botões accent, texto de economia sobre fundo claro |
+| `accent-700` | Amber Forest | `#B45309` | `hsl(26, 90%, 37%)` | Texto de economia de alto contraste |
+| `accent-800` | Amber Dark | `#92400E` | `hsl(23, 83%, 31%)` | Fundos de tags de economia em dark mode |
+| `accent-900` | Amber Shadow | `#78350F` | `hsl(22, 78%, 26%)` | Backgrounds profundos accent |
+| `accent-950` | Amber Abyss | `#451A03` | `hsl(21, 92%, 14%)` | Uso restrito, fundos extremamente escuros |
 
 #### Uso principal:
-- **accent-500** é a cor padrão para elementos de economia/savings
+- **accent-500** (#F59E0B) é a cor padrão para elementos de economia/savings
 - Valores monetários economizados devem usar **accent-400** ou **accent-500**
 - Cards de "economia identificada" usam **accent-50** como background com **accent-700** para texto
+- **Importante:** Emerald **não** é usado como accent — é reservado exclusivamente para a cor semântica `success`
 
 ### 3.5 Cores Semânticas
 
@@ -948,12 +970,12 @@ A sequência de cores para séries de dados em gráficos segue esta ordem:
 
 | Posição | Cor | Hex | Uso |
 |---------|-----|-----|-----|
-| 1 | Primary 500 | `#6366F1` | Série principal |
-| 2 | Accent 500 | `#10B981` | Segunda série / comparação |
+| 1 | Primary 500 | `#14B8A6` | Série principal |
+| 2 | Accent 500 | `#F59E0B` | Segunda série / comparação |
 | 3 | Info 500 | `#3B82F6` | Terceira série |
 | 4 | Warning 400 | `#FBBF24` | Quarta série |
 | 5 | Danger 400 | `#F87171` | Quinta série |
-| 6 | Primary 300 | `#A5B4FC` | Sexta série |
+| 6 | Primary 300 | `#5EEAD4` | Sexta série |
 
 #### Estilos de Gráficos
 
@@ -1011,19 +1033,19 @@ const config: Config = {
        * CORES — Paleta completa do Clausent
        * ======================================== */
       colors: {
-        /* --- Primary: Indigo --- */
+        /* --- Primary: Teal --- */
         primary: {
-          50: "#EEF2FF",
-          100: "#E0E7FF",
-          200: "#C7D2FE",
-          300: "#A5B4FC",
-          400: "#818CF8",
-          500: "#6366F1",
-          600: "#4F46E5",
-          700: "#4338CA",
-          800: "#3730A3",
-          900: "#312E81",
-          950: "#1E1B4B",
+          50: "#F0FDFA",
+          100: "#CCFBF1",
+          200: "#99F6E4",
+          300: "#5EEAD4",
+          400: "#2DD4BF",
+          500: "#14B8A6",
+          600: "#0D9488",
+          700: "#0F766E",
+          800: "#115E59",
+          900: "#134E4A",
+          950: "#042F2E",
         },
         /* --- Secondary: Slate --- */
         secondary: {
@@ -1039,19 +1061,19 @@ const config: Config = {
           900: "#0F172A",
           950: "#020617",
         },
-        /* --- Accent: Emerald --- */
+        /* --- Accent: Amber --- */
         accent: {
-          50: "#ECFDF5",
-          100: "#D1FAE5",
-          200: "#A7F3D0",
-          300: "#6EE7B7",
-          400: "#34D399",
-          500: "#10B981",
-          600: "#059669",
-          700: "#047857",
-          800: "#065F46",
-          900: "#064E3B",
-          950: "#022C22",
+          50: "#FFFBEB",
+          100: "#FEF3C7",
+          200: "#FDE68A",
+          300: "#FCD34D",
+          400: "#FBBF24",
+          500: "#F59E0B",
+          600: "#D97706",
+          700: "#B45309",
+          800: "#92400E",
+          900: "#78350F",
+          950: "#451A03",
         },
         /* --- Success: Emerald (alias) --- */
         success: {
@@ -1151,8 +1173,8 @@ const config: Config = {
         "elevated": "0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04)",
         "dropdown": "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.06)",
         "modal": "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-        "glow-primary": "0 0 20px rgba(79, 70, 229, 0.3)",
-        "glow-accent": "0 0 20px rgba(16, 185, 129, 0.3)",
+        "glow-primary": "0 0 20px rgba(13, 148, 136, 0.3)",
+        "glow-accent": "0 0 20px rgba(245, 158, 11, 0.3)",
         "inner-light": "inset 0 1px 0 0 rgba(255, 255, 255, 0.05)",
       },
 
@@ -1307,9 +1329,9 @@ Para valores que não são facilmente expressos como tokens do Tailwind, usar CS
 @layer base {
   :root {
     /* Gradientes da marca */
-    --gradient-primary: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%);
-    --gradient-accent: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);
-    --gradient-hero: linear-gradient(135deg, #1E1B4B 0%, #312E81 30%, #4F46E5 100%);
+    --gradient-primary: linear-gradient(135deg, #0D9488 0%, #14B8A6 50%, #2DD4BF 100%);
+    --gradient-accent: linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #FBBF24 100%);
+    --gradient-hero: linear-gradient(135deg, #042F2E 0%, #134E4A 30%, #0D9488 100%);
     --gradient-card-shine: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
 
     /* Glass morphism */
@@ -1318,9 +1340,9 @@ Para valores que não são facilmente expressos como tokens do Tailwind, usar CS
     --glass-blur: 12px;
 
     /* Glow effects */
-    --glow-primary: 0 0 20px rgba(79, 70, 229, 0.3);
-    --glow-accent: 0 0 20px rgba(16, 185, 129, 0.3);
-    --glow-primary-strong: 0 0 40px rgba(79, 70, 229, 0.4);
+    --glow-primary: 0 0 20px rgba(13, 148, 136, 0.3);
+    --glow-accent: 0 0 20px rgba(245, 158, 11, 0.3);
+    --glow-primary-strong: 0 0 40px rgba(13, 148, 136, 0.4);
 
     /* Dot pattern */
     --dot-color: rgba(148, 163, 184, 0.3);
@@ -1330,7 +1352,7 @@ Para valores que não são facilmente expressos como tokens do Tailwind, usar CS
     /* Focus ring */
     --ring-width: 2px;
     --ring-offset: 2px;
-    --ring-color: rgba(99, 102, 241, 0.5);
+    --ring-color: rgba(20, 184, 166, 0.5);
 
     /* Overlay */
     --overlay-opacity: 0.6;
@@ -1340,9 +1362,261 @@ Para valores que não são facilmente expressos como tokens do Tailwind, usar CS
 
 ---
 
-## 10. Gradientes e Efeitos Especiais
+## 10. Estilo Neobrutalism
 
-### 10.1 Gradientes da Marca
+### 10.1 Filosofia
+
+O Clausent adota um estilo **neobrutalism leve** — não é brutalismo puro (que seria agressivo e incompatível com o público B2B), mas uma **interpretação contemporânea com personalidade**. O objetivo é criar uma identidade visual que se destaque no mercado SaaS sem sacrificar profissionalismo e usabilidade.
+
+O neobrutalism leve empresta do brutalismo web a honestidade visual, as sombras sólidas e o contraste forte, mas suaviza com border-radius generoso, tipografia refinada e dosagem inteligente por contexto.
+
+#### Princípios:
+
+- **Personalidade sem agressividade** — Elementos neobrutalist são usados como tempero, não como base
+- **Dosagem por contexto** — No marketing (landing pages, pricing), mais expressivo; no dashboard (área logada), mais contido
+- **Contraste intencional** — As bordas e sombras sólidas criam hierarquia visual clara e imediata
+- **Funcionalidade primeiro** — Nenhum elemento decorativo deve comprometer usabilidade ou legibilidade
+
+### 10.2 Bordas
+
+Componentes de destaque utilizam bordas sólidas de **2-3px** na cor `#1a1a1a` (quase-preto quente) para criar o efeito neobrutalist.
+
+| Contexto | Espessura | Cor | Uso |
+|----------|-----------|-----|-----|
+| **Cards de destaque (marketing)** | 2px | `#1a1a1a` | Feature cards, pricing cards, testimonials |
+| **CTAs primários (marketing)** | 2px | `#1a1a1a` | Botões hero, CTAs de conversão |
+| **Cards de destaque (dashboard)** | 1.5px | `#1a1a1a` | Apenas cards de KPI principal ou alertas críticos |
+| **Inputs em foco (global)** | 2px | primary-600 | Inputs ativos — mantém a cor da marca, não o preto |
+| **Badges neobrutalist** | 2px | `#1a1a1a` | Tags de plano (Pro, Enterprise), badges especiais |
+
+```css
+/* Classe utilitária */
+.neo-border {
+  border: 2px solid #1a1a1a;
+}
+
+.neo-border-sm {
+  border: 1.5px solid #1a1a1a;
+}
+```
+
+### 10.3 Sombras Sólidas
+
+A assinatura visual mais forte do neobrutalism: sombras **completamente sólidas, sem blur**. Criam um efeito de "elevação gráfica" que transmite confiança e peso visual.
+
+| Variante | Valor | Uso |
+|----------|-------|-----|
+| **neo-sm** | `2px 2px 0px #1a1a1a` | Badges, tags, botões menores |
+| **neo-md** | `4px 4px 0px #1a1a1a` | Cards, botões primários, inputs |
+| **neo-lg** | `6px 6px 0px #1a1a1a` | Cards hero, pricing destaque, modais de marketing |
+| **neo-xl** | `8px 8px 0px #1a1a1a` | Uso restrito: apenas 1 elemento por página, máximo impacto |
+
+```typescript
+/* Adicionar ao tailwind.config.ts > boxShadow */
+"neo-sm": "2px 2px 0px #1a1a1a",
+"neo-md": "4px 4px 0px #1a1a1a",
+"neo-lg": "6px 6px 0px #1a1a1a",
+"neo-xl": "8px 8px 0px #1a1a1a",
+```
+
+### 10.4 Background Marketing
+
+Seções de marketing utilizam um **off-white quente** como background base, em contraste com o branco puro do dashboard. Isso cria uma atmosfera mais acolhedora e editorial.
+
+| Token | Hex | HSL | Uso |
+|-------|-----|-----|-----|
+| `bg-marketing` | `#FFFDF5` | `hsl(45, 100%, 98%)` | Background base de seções marketing (landing, pricing, blog) |
+| `bg-marketing-alt` | `#FFF9E6` | `hsl(45, 100%, 95%)` | Seções alternadas de marketing, áreas de destaque |
+
+```typescript
+/* Adicionar ao tailwind.config.ts > colors > surface */
+"marketing": "#FFFDF5",
+"marketing-alt": "#FFF9E6",
+```
+
+**Regra importante:** O off-white quente é usado **exclusivamente** em páginas de marketing (landing page, pricing, about, blog). O dashboard e toda a área logada mantêm `bg-default` (#FFFFFF) e `bg-subtle` (#F8FAFC) para preservar a limpeza e neutralidade esperada em ferramentas de trabalho.
+
+### 10.5 Border Radius
+
+Diferente do brutalismo puro (que usa cantos retos, 0px), o neobrutalism leve do Clausent **mantém border-radius** em todos os componentes. Isso é intencional: o arredondamento suaviza a dureza das bordas e sombras sólidas, criando o equilíbrio entre personalidade e acessibilidade.
+
+| Componente | Border Radius | Justificativa |
+|------------|---------------|---------------|
+| Cards | 12px | Mantido — suaviza as bordas sólidas de 2px |
+| Botões | 8-12px | Mantido — arredondamento cria contraste agradável com sombra sólida |
+| Inputs | 8px | Mantido — legibilidade e conforto visual |
+| Badges | 9999px (pill) | Mantido — formato pill é essencial para badges |
+| Modais | 16px | Mantido — cantos retos em modais seriam agressivos demais |
+
+### 10.6 Interações Hover e Active
+
+O neobrutalism traz interações físicas e táteis — o elemento "se move" em relação à sua sombra, criando uma sensação de profundidade mecânica.
+
+#### Hover (elevação)
+
+O elemento sobe levemente e a sombra cresce, como se o elemento estivesse se afastando da superfície.
+
+```css
+.neo-interactive:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1a1a1a; /* sombra cresce */
+}
+```
+
+| Estado | Transform | Sombra | Transição |
+|--------|-----------|--------|-----------|
+| Default | `translate(0, 0)` | `4px 4px 0px #1a1a1a` | — |
+| Hover | `translate(-2px, -2px)` | `6px 6px 0px #1a1a1a` | 150ms ease-out |
+
+#### Active / Press (pressão)
+
+O elemento desce e a sombra reduz, como se estivesse sendo pressionado contra a superfície.
+
+```css
+.neo-interactive:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #1a1a1a; /* sombra reduz */
+}
+```
+
+| Estado | Transform | Sombra | Transição |
+|--------|-----------|--------|-----------|
+| Active | `translate(2px, 2px)` | `2px 2px 0px #1a1a1a` | 75ms ease-in |
+| Release | `translate(0, 0)` | `4px 4px 0px #1a1a1a` | 150ms ease-out |
+
+### 10.7 Dosagem por Contexto
+
+A aplicação do neobrutalism varia significativamente entre marketing e dashboard:
+
+| Aspecto | Marketing (landing, pricing) | Dashboard (área logada) |
+|---------|------------------------------|------------------------|
+| **Bordas sólidas** | Sim, 2-3px em cards e CTAs | Apenas em 1-2 elementos de destaque por página |
+| **Sombras neo** | `neo-md` a `neo-lg` | `neo-sm` apenas, e com parcimônia |
+| **Background** | Off-white quente (#FFFDF5) | Branco puro / bg-subtle |
+| **Interações hover** | Translate + crescimento de sombra completo | Sutil — apenas sombra leve, sem translate exagerado |
+| **Badges neobrutalist** | Sim — badges de plano, destaque de features | Não — badges mantêm estilo padrão (pill, sem borda grossa) |
+| **Tipografia** | Cal Sans em headings com tracking mais apertado | Padrão — sem alterações |
+
+#### Regra de ouro:
+
+> No marketing, o neobrutalism é o **protagonista visual**. No dashboard, é um **coadjuvante discreto**. O usuário deve sentir personalidade na marca ao navegar o site, mas eficiência e clareza ao usar a ferramenta.
+
+### 10.8 Exemplos de Aplicação
+
+#### Card de Feature (Marketing)
+
+```css
+.feature-card {
+  background: #FFFFFF;
+  border: 2px solid #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 4px 4px 0px #1a1a1a;
+  padding: 24px;
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.feature-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1a1a1a;
+}
+```
+
+#### Botão CTA Hero (Marketing)
+
+```css
+.btn-hero {
+  background: #0D9488; /* primary-600 */
+  color: white;
+  border: 2px solid #1a1a1a;
+  border-radius: 10px;
+  box-shadow: 4px 4px 0px #1a1a1a;
+  padding: 12px 32px;
+  font-weight: 600;
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.btn-hero:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1a1a1a;
+  background: #0F766E; /* primary-700 */
+}
+
+.btn-hero:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #1a1a1a;
+}
+```
+
+#### Card de KPI (Dashboard — uso contido)
+
+```css
+.kpi-card-highlight {
+  background: #FFFFFF;
+  border: 1.5px solid #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 2px 2px 0px #1a1a1a;
+  padding: 20px;
+  /* Sem hover translate no dashboard — manter profissional */
+}
+```
+
+### 10.9 Classes Utilitárias Tailwind
+
+```typescript
+/* Adicionar ao tailwind.config.ts */
+
+// Em boxShadow:
+"neo-sm": "2px 2px 0px #1a1a1a",
+"neo-md": "4px 4px 0px #1a1a1a",
+"neo-lg": "6px 6px 0px #1a1a1a",
+"neo-xl": "8px 8px 0px #1a1a1a",
+
+// Em colors > surface:
+"marketing": "#FFFDF5",
+"marketing-alt": "#FFF9E6",
+```
+
+```css
+/* Adicionar ao globals.css */
+
+/* Bordas neobrutalist */
+.neo-border {
+  border: 2px solid #1a1a1a;
+}
+
+.neo-border-sm {
+  border: 1.5px solid #1a1a1a;
+}
+
+/* Interação neobrutalist completa */
+.neo-interactive {
+  border: 2px solid #1a1a1a;
+  box-shadow: 4px 4px 0px #1a1a1a;
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.neo-interactive:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #1a1a1a;
+}
+
+.neo-interactive:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #1a1a1a;
+}
+
+/* Versão contida para dashboard */
+.neo-subtle {
+  border: 1.5px solid #1a1a1a;
+  box-shadow: 2px 2px 0px #1a1a1a;
+}
+```
+
+---
+
+## 11. Gradientes e Efeitos Especiais
+
+### 11.1 Gradientes da Marca
 
 #### Gradiente Primário
 
@@ -1350,7 +1624,7 @@ O gradiente principal do Clausent — usado em hero sections, CTAs especiais, he
 
 ```css
 /* Direção: 135deg (diagonal superior-esquerda → inferior-direita) */
-background: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%);
+background: linear-gradient(135deg, #0D9488 0%, #14B8A6 50%, #2DD4BF 100%);
 ```
 
 **Tailwind:** `bg-gradient-to-br from-primary-600 via-primary-500 to-primary-400`
@@ -1362,7 +1636,7 @@ background: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #818CF8 100%);
 Usado para destacar seções de economia, savings e resultados positivos.
 
 ```css
-background: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);
+background: linear-gradient(135deg, #D97706 0%, #F59E0B 50%, #FBBF24 100%);
 ```
 
 **Tailwind:** `bg-gradient-to-br from-accent-600 via-accent-500 to-accent-400`
@@ -1374,7 +1648,7 @@ background: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);
 Gradiente escuro e impactante para hero sections e backgrounds de seções de impacto.
 
 ```css
-background: linear-gradient(135deg, #1E1B4B 0%, #312E81 30%, #4F46E5 100%);
+background: linear-gradient(135deg, #042F2E 0%, #134E4A 30%, #0D9488 100%);
 ```
 
 **Tailwind:** `bg-gradient-to-br from-primary-950 via-primary-900 to-primary-600`
@@ -1386,7 +1660,7 @@ background: linear-gradient(135deg, #1E1B4B 0%, #312E81 30%, #4F46E5 100%);
 Gradiente muito sutil para cards premium ou de destaque.
 
 ```css
-background: linear-gradient(135deg, #EEF2FF 0%, #F8FAFC 100%);
+background: linear-gradient(135deg, #F0FDFA 0%, #F8FAFC 100%);
 ```
 
 **Tailwind:** `bg-gradient-to-br from-primary-50 to-secondary-50`
@@ -1398,7 +1672,7 @@ background: linear-gradient(135deg, #EEF2FF 0%, #F8FAFC 100%);
 Para texto com gradiente (usado com moderação, apenas em headlines de impacto).
 
 ```css
-background: linear-gradient(135deg, #4F46E5, #10B981);
+background: linear-gradient(135deg, #0D9488, #F59E0B);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
@@ -1408,7 +1682,7 @@ background-clip: text;
 
 **Uso:** Headline principal da landing page, títulos de seções de impacto. Máximo 1 por página.
 
-### 10.2 Glass Morphism
+### 11.2 Glass Morphism
 
 Efeito de vidro translúcido — usado em componentes que flutuam sobre conteúdo ou backgrounds com gradiente.
 
@@ -1444,10 +1718,10 @@ color: white;
 #### Variante Colorida (sobre qualquer fundo)
 
 ```css
-background: rgba(79, 70, 229, 0.1);
+background: rgba(13, 148, 136, 0.1);
 backdrop-filter: blur(12px);
 -webkit-backdrop-filter: blur(12px);
-border: 1px solid rgba(79, 70, 229, 0.15);
+border: 1px solid rgba(13, 148, 136, 0.15);
 border-radius: 12px;
 ```
 
@@ -1455,14 +1729,14 @@ border-radius: 12px;
 
 **Uso:** Cards de feature sobre backgrounds complexos, elementos de destaque.
 
-### 10.3 Glow Effects
+### 11.3 Glow Effects
 
 Efeitos de brilho ao redor de elementos — usados com parcimônia para criar foco e hierarquia.
 
 #### Glow Primário
 
 ```css
-box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
+box-shadow: 0 0 20px rgba(13, 148, 136, 0.3);
 ```
 
 **Tailwind:** `shadow-glow-primary`
@@ -1472,7 +1746,7 @@ box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
 #### Glow Accent
 
 ```css
-box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
 ```
 
 **Tailwind:** `shadow-glow-accent`
@@ -1482,7 +1756,7 @@ box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
 #### Glow Forte (hover/foco)
 
 ```css
-box-shadow: 0 0 40px rgba(79, 70, 229, 0.4);
+box-shadow: 0 0 40px rgba(13, 148, 136, 0.4);
 ```
 
 **Uso:** Estado hover de CTAs com glow, elementos focados com alto impacto visual.
@@ -1491,12 +1765,12 @@ box-shadow: 0 0 40px rgba(79, 70, 229, 0.4);
 
 ```css
 /* Usa pseudo-elemento ou ring do Tailwind */
-box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.3), 0 0 20px rgba(79, 70, 229, 0.15);
+box-shadow: 0 0 0 1px rgba(13, 148, 136, 0.3), 0 0 20px rgba(13, 148, 136, 0.15);
 ```
 
 **Uso:** Inputs em foco com efeito premium, cards selecionados.
 
-### 10.4 Dot Pattern Background
+### 11.4 Dot Pattern Background
 
 Padrão de pontos para backgrounds de seções — cria textura visual sutil sem distrair do conteúdo.
 
@@ -1531,7 +1805,7 @@ background-size: 24px 24px;
 
 **Uso:** Background de hero sections (atrás do gradiente, com opacidade), seções de landing page, backgrounds de áreas administrativas.
 
-### 10.5 Grid Pattern Background
+### 11.5 Grid Pattern Background
 
 Padrão de grid/grade para backgrounds — alternativa ao dot pattern, transmite mais "tech".
 
@@ -1562,7 +1836,7 @@ background-size: 48px 48px;
 
 **Uso:** Background de dashboards, seções técnicas, áreas de dados.
 
-### 10.6 Noise Texture
+### 11.6 Noise Texture
 
 Textura de ruído sutil para adicionar profundidade a backgrounds sólidos ou com gradiente.
 
@@ -1580,7 +1854,7 @@ Textura de ruído sutil para adicionar profundidade a backgrounds sólidos ou co
 
 **Uso:** Sobre hero sections com gradiente, backgrounds de auth pages, seções de destaque. Opacidade máxima de 3% para não interferir na legibilidade.
 
-### 10.7 Combinações Recomendadas
+### 11.7 Combinações Recomendadas
 
 | Contexto | Combinação |
 |----------|-----------|
@@ -1607,8 +1881,10 @@ Use esta checklist ao implementar a identidade visual no projeto:
 - [ ] Criar componentes base: Button, Card, Input, Badge, Table
 - [ ] Implementar tema de cores nos componentes shadcn/ui
 - [ ] Configurar `prefers-reduced-motion` no layout raiz
-- [ ] Criar classes utilitárias (dot-pattern, grid-pattern, noise) em globals.css
-- [ ] Gerar assets do logo em SVG (ícone, wordmark, lockup horizontal, lockup vertical)
+- [ ] Criar classes utilitárias (dot-pattern, grid-pattern, noise, neo-border, neo-interactive) em globals.css
+- [ ] Adicionar sombras neobrutalist (neo-sm, neo-md, neo-lg, neo-xl) ao tailwind.config.ts
+- [ ] Configurar backgrounds de marketing (#FFFDF5) no tailwind.config.ts
+- [ ] Gerar assets do logo Bracket Clause `{C}` em SVG (ícone, wordmark, lockup horizontal, lockup vertical)
 - [ ] Criar favicon e ícones de app a partir do brandmark
 
 ---
