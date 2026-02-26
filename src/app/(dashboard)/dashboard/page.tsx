@@ -1,3 +1,5 @@
+'use client'
+
 import {
   FileText,
   DollarSign,
@@ -6,6 +8,7 @@ import {
   TrendingUp,
   Inbox,
   AlertTriangle,
+  Loader2,
 } from 'lucide-react'
 import {
   Card,
@@ -13,54 +16,76 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { trpc } from '@/lib/trpc/react'
 
 /**
- * Dados mockados para os cards de estatísticas.
- * Cada item define ícone, cor de destaque, label e valor.
- * Serão substituídos por dados reais quando o backend estiver pronto.
+ * Formata um valor numérico como moeda USD.
+ * Ex: "1234.56" → "$1,234.56"
  */
-const STATS_CARDS = [
-  {
-    label: 'Total Contracts',
-    value: '0',
-    icon: FileText,
-    /** Cor indigo para contratos */
-    iconBgColor: 'bg-indigo-100',
-    iconColor: 'text-indigo-600',
-    trend: '+0%',
-    trendLabel: 'from last month',
-  },
-  {
-    label: 'Active Value',
-    value: '$0',
-    icon: DollarSign,
-    /** Cor emerald para valores financeiros */
-    iconBgColor: 'bg-emerald-100',
-    iconColor: 'text-emerald-600',
-    trend: '+0%',
-    trendLabel: 'from last month',
-  },
-  {
-    label: 'Upcoming Renewals',
-    value: '0',
-    icon: Bell,
-    /** Cor amber para alertas de renovação */
-    iconBgColor: 'bg-amber-100',
-    iconColor: 'text-amber-600',
-    trend: '0',
-    trendLabel: 'in next 30 days',
-  },
-  {
-    label: 'Avg Risk Score',
-    value: 'N/A',
-    icon: Shield,
-    /** Cor vermelha para indicadores de risco */
-    iconBgColor: 'bg-red-100',
-    iconColor: 'text-red-600',
-    trend: '--',
-    trendLabel: 'no data yet',
-  },
-] as const
+function formatCurrency(value: string | number): string {
+  const num = typeof value === 'string' ? parseFloat(value) : value
+  if (isNaN(num)) return '$0'
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(num)
+}
+
+/**
+ * Gera os dados dos cards de estatísticas com base nos dados do tRPC.
+ * Se os dados não estiverem disponíveis (loading ou erro), usa fallback mockado.
+ */
+function buildStatsCards(stats?: {
+  totalContracts: number
+  avgRiskScore: number | null
+  totalMonthlyValue: string
+  upcomingRenewals: number
+}) {
+  return [
+    {
+      label: 'Total Contracts',
+      value: stats ? String(stats.totalContracts) : '0',
+      icon: FileText,
+      /** Cor indigo para contratos */
+      iconBgColor: 'bg-indigo-100',
+      iconColor: 'text-indigo-600',
+      trend: '+0%',
+      trendLabel: 'from last month',
+    },
+    {
+      label: 'Active Value',
+      value: stats ? formatCurrency(stats.totalMonthlyValue) : '$0',
+      icon: DollarSign,
+      /** Cor emerald para valores financeiros */
+      iconBgColor: 'bg-emerald-100',
+      iconColor: 'text-emerald-600',
+      trend: '+0%',
+      trendLabel: 'from last month',
+    },
+    {
+      label: 'Upcoming Renewals',
+      value: stats ? String(stats.upcomingRenewals) : '0',
+      icon: Bell,
+      /** Cor amber para alertas de renovação */
+      iconBgColor: 'bg-amber-100',
+      iconColor: 'text-amber-600',
+      trend: '0',
+      trendLabel: 'in next 90 days',
+    },
+    {
+      label: 'Avg Risk Score',
+      value: stats?.avgRiskScore != null ? String(stats.avgRiskScore) : 'N/A',
+      icon: Shield,
+      /** Cor vermelha para indicadores de risco */
+      iconBgColor: 'bg-red-100',
+      iconColor: 'text-red-600',
+      trend: '--',
+      trendLabel: 'no data yet',
+    },
+  ] as const
+}
 
 /**
  * Página Overview do dashboard.
@@ -70,10 +95,16 @@ const STATS_CARDS = [
  * 2. Seção "Recent Contracts" (empty state)
  * 3. Seção "Recent Alerts" (empty state)
  *
- * Todos os dados são mockados nesta fase inicial.
- * Serão conectados ao tRPC quando os routers estiverem prontos.
+ * Os dados são carregados via tRPC (dashboard.stats).
+ * Se a query estiver em loading ou falhar, exibe dados de fallback (zeros/N/A).
  */
 export default function DashboardOverviewPage() {
+  /** Busca estatísticas do dashboard via tRPC */
+  const { data: stats, isLoading } = trpc.dashboard.stats.useQuery()
+
+  /** Monta os cards com dados reais ou fallback */
+  const statsCards = buildStatsCards(stats)
+
   return (
     <div className="space-y-6">
       {/* Cabeçalho da página */}
@@ -88,7 +119,7 @@ export default function DashboardOverviewPage() {
 
       {/* Grid de cards de estatísticas */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {STATS_CARDS.map((stat) => {
+        {statsCards.map((stat) => {
           const Icon = stat.icon
 
           return (
@@ -110,7 +141,11 @@ export default function DashboardOverviewPage() {
               <CardContent>
                 {/* Valor principal — grande e destacado */}
                 <p className="text-2xl font-bold text-[#0F172A]">
-                  {stat.value}
+                  {isLoading ? (
+                    <Loader2 className="h-6 w-6 animate-spin text-[#64748B]" />
+                  ) : (
+                    stat.value
+                  )}
                 </p>
                 {/* Indicador de tendência (placeholder) */}
                 <div className="mt-1 flex items-center gap-1 text-xs text-[#64748B]">
