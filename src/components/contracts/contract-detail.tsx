@@ -468,9 +468,11 @@ export function ContractDetail({ contract }: ContractDetailProps) {
             </Button>
 
             {/* Botão Gerar Pacote de Renegociação — primary indigo */}
-            <Button className="bg-indigo-600 text-white hover:bg-indigo-700">
-              <Package className="mr-2 h-4 w-4" />
-              Generate Renegotiation Package
+            <Button className="bg-indigo-600 text-white hover:bg-indigo-700" asChild>
+              <Link href={`/dashboard/contracts/${contract.id}/renegotiate`}>
+                <Package className="mr-2 h-4 w-4" />
+                Generate Renegotiation Package
+              </Link>
             </Button>
           </div>
         </CardContent>
