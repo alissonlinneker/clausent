@@ -3,6 +3,8 @@ import { HeroSection } from '@/components/marketing/hero-section'
 import { FeaturesSection } from '@/components/marketing/features-section'
 import { HowItWorksSection } from '@/components/marketing/how-it-works-section'
 import { PricingSection } from '@/components/marketing/pricing-section'
+import { FAQSection } from '@/components/marketing/faq-section'
+import { CTASection } from '@/components/marketing/cta-section'
 
 /** Metadados SEO específicos da landing page */
 export const metadata: Metadata = {
@@ -21,6 +23,8 @@ export const metadata: Metadata = {
  * 2. Features — grade de 6 funcionalidades com glass morphism
  * 3. How it Works — 3 passos com timeline vertical animada
  * 4. Pricing — cards de preço com toggle mensal/anual
+ * 5. FAQ — perguntas frequentes com acordeão animado
+ * 6. CTA — chamada para ação final com estatísticas
  *
  * Todas as seções usam Framer Motion para animações de scroll e interação.
  * As strings de UI são carregadas via next-intl (useTranslations) dentro
@@ -33,6 +37,8 @@ export default function MarketingPage() {
       <FeaturesSection />
       <HowItWorksSection />
       <PricingSection />
+      <FAQSection />
+      <CTASection />
     </>
   )
 }

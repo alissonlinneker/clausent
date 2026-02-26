@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { CreditCard, ArrowUpRight, Check } from 'lucide-react'
+import { CreditCard, ArrowUpRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/lib/i18n/navigation'
 

@@ -28,7 +28,6 @@ const MAX_SIZE = 25 * 1024 * 1024
  */
 export function UploadForm() {
   const t = useTranslations('upload')
-  const tCommon = useTranslations('common')
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   /** Estado de drag */
@@ -58,7 +57,7 @@ export function UploadForm() {
     }
 
     setSelectedFile(file)
-  }, [])
+  }, [t])
 
   /** Handlers de drag & drop */
   const handleDragOver = useCallback((e: React.DragEvent) => {
