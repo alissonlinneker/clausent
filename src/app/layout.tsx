@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
+import { Providers } from '@/components/providers'
 import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 
@@ -32,7 +33,9 @@ export default function RootLayout({
     >
       <html lang="en">
         <body className={inter.className}>
-          {children}
+          <Providers>
+            {children}
+          </Providers>
           <Toaster />
         </body>
       </html>
