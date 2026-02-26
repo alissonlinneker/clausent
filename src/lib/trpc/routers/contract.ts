@@ -3,6 +3,7 @@ import { router, protectedProcedure } from '../init'
 import { contracts } from '@/lib/db/schema'
 import { createContractSchema, updateContractSchema } from '@/lib/validators/contract'
 import { eq, and, desc } from 'drizzle-orm'
+import { inngest } from '@/lib/inngest/client'
 
 /**
  * Router de contratos — CRUD completo com isolamento por organização.
@@ -57,6 +58,18 @@ export const contractRouter = router({
         startDate: input.startDate ? new Date(input.startDate) : undefined,
         endDate: input.endDate ? new Date(input.endDate) : undefined,
       }).returning()
+
+      /**
+       * Se o contrato possui arquivo anexado, dispara o pipeline
+       * de processamento assíncrono via Inngest:
+       * download → extração de texto → análise → alertas
+       */
+      if (contract.originalFileUrl) {
+        await inngest.send({
+          name: 'contract/uploaded',
+          data: { contractId: contract.id, fileUrl: contract.originalFileUrl },
+        })
+      }
 
       return contract
     }),
