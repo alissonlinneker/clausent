@@ -40,6 +40,9 @@ export const createContractSchema = z.object({
 
   /** Moeda no padrão ISO 4217 (ex: USD, BRL) — padrão USD */
   currency: z.string().length(3).default('USD'),
+
+  /** URL do arquivo original do contrato no Blob Storage */
+  originalFileUrl: z.string().url().optional(),
 })
 
 /**
