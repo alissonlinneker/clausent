@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useTranslations } from 'next-intl'
 import { Link } from '@/lib/i18n/navigation'
 import { BracketClauseLogo } from '@/components/shared/bracket-clause-logo'
 import { cn } from '@/lib/utils'
@@ -38,40 +39,40 @@ import { cn } from '@/lib/utils'
    Opções de seleção para o formulário de perfil da empresa.
    ================================================================= */
 
-/** Setores de indústria disponíveis no dropdown */
+/** Setores de indústria disponíveis no dropdown — chave i18n como labelKey */
 const INDUSTRIES = [
-  { value: 'technology', label: 'Technology' },
-  { value: 'finance', label: 'Finance' },
-  { value: 'healthcare', label: 'Healthcare' },
-  { value: 'manufacturing', label: 'Manufacturing' },
-  { value: 'retail', label: 'Retail' },
-  { value: 'legal', label: 'Legal' },
-  { value: 'other', label: 'Other' },
+  { value: 'technology', labelKey: 'industryTechnology' },
+  { value: 'finance', labelKey: 'industryFinance' },
+  { value: 'healthcare', labelKey: 'industryHealthcare' },
+  { value: 'manufacturing', labelKey: 'industryManufacturing' },
+  { value: 'retail', labelKey: 'industryRetail' },
+  { value: 'legal', labelKey: 'industryLegal' },
+  { value: 'other', labelKey: 'industryOther' },
 ] as const
 
-/** Faixas de tamanho de empresa */
+/** Faixas de tamanho de empresa — chave i18n como labelKey */
 const COMPANY_SIZES = [
-  { value: '1-10', label: '1–10 employees' },
-  { value: '11-50', label: '11–50 employees' },
-  { value: '51-200', label: '51–200 employees' },
-  { value: '201-500', label: '201–500 employees' },
-  { value: '500+', label: '500+ employees' },
+  { value: '1-10', labelKey: 'size1to10' },
+  { value: '11-50', labelKey: 'size11to50' },
+  { value: '51-200', labelKey: 'size51to200' },
+  { value: '201-500', labelKey: 'size201to500' },
+  { value: '500+', labelKey: 'size500plus' },
 ] as const
 
-/** Faixas de quantidade de contratos ativos */
+/** Faixas de quantidade de contratos ativos — chave i18n como labelKey */
 const CONTRACT_RANGES = [
-  { value: '1-5', label: '1–5 contracts' },
-  { value: '6-25', label: '6–25 contracts' },
-  { value: '26-100', label: '26–100 contracts' },
-  { value: '100+', label: '100+ contracts' },
+  { value: '1-5', labelKey: 'contracts1to5' },
+  { value: '6-25', labelKey: 'contracts6to25' },
+  { value: '26-100', labelKey: 'contracts26to100' },
+  { value: '100+', labelKey: 'contracts100plus' },
 ] as const
 
-/** Casos de uso primários — radio buttons */
+/** Casos de uso primários — radio buttons, chave i18n */
 const USE_CASES = [
-  { value: 'cost-optimization', label: 'Cost Optimization' },
-  { value: 'risk-management', label: 'Risk Management' },
-  { value: 'compliance', label: 'Compliance' },
-  { value: 'all', label: 'All of the above' },
+  { value: 'cost-optimization', labelKey: 'costOptimization' },
+  { value: 'risk-management', labelKey: 'riskManagement' },
+  { value: 'compliance', labelKey: 'compliance' },
+  { value: 'all', labelKey: 'allAbove' },
 ] as const
 
 /** Tipos MIME aceitos para upload de contratos */
@@ -83,53 +84,53 @@ const ACCEPTED_TYPES = [
 /** Número total de passos do wizard */
 const TOTAL_STEPS = 4
 
-/** Proposta de valor — 3 pontos destacados na tela de boas-vindas */
+/** Proposta de valor — 3 pontos destacados na tela de boas-vindas (i18n) */
 const VALUE_PROPOSITIONS = [
   {
     icon: DollarSign,
-    title: 'Save Money',
-    description: 'Identify cost-saving opportunities across all your contracts.',
+    titleKey: 'valueSaveMoney',
+    descriptionKey: 'valueSaveMoneyDesc',
     bgColor: 'bg-emerald-50',
     textColor: 'text-emerald-600',
   },
   {
     icon: ShieldCheck,
-    title: 'Reduce Risk',
-    description: 'AI-powered risk scoring to catch unfavorable terms early.',
+    titleKey: 'valueReduceRisk',
+    descriptionKey: 'valueReduceRiskDesc',
     bgColor: 'bg-teal-50',
     textColor: 'text-teal-600',
   },
   {
     icon: Bell,
-    title: 'Never Miss Renewals',
-    description: 'Smart alerts ensure you always renegotiate on time.',
+    titleKey: 'valueNeverMissRenewals',
+    descriptionKey: 'valueNeverMissRenewalsDesc',
     bgColor: 'bg-sky-50',
     textColor: 'text-sky-600',
   },
 ] as const
 
-/** Cards de ação rápida exibidos no step final */
+/** Cards de ação rápida exibidos no step final (i18n) */
 const QUICK_ACTIONS = [
   {
     icon: Upload,
-    title: 'Upload a Contract',
-    description: 'Start analyzing your first contract now.',
+    titleKey: 'uploadContract',
+    descriptionKey: 'uploadContractDesc',
     href: '/dashboard/contracts/new',
     bgColor: 'bg-teal-50',
     textColor: 'text-teal-600',
   },
   {
     icon: LayoutDashboard,
-    title: 'Explore Dashboard',
-    description: 'See your portfolio overview and insights.',
+    titleKey: 'exploreDashboard',
+    descriptionKey: 'exploreDashboardDesc',
     href: '/dashboard',
     bgColor: 'bg-emerald-50',
     textColor: 'text-emerald-600',
   },
   {
     icon: UserPlus,
-    title: 'Invite Team Members',
-    description: 'Collaborate with your team on contracts.',
+    titleKey: 'inviteTeam',
+    descriptionKey: 'inviteTeamDesc',
     href: '/dashboard/team',
     bgColor: 'bg-sky-50',
     textColor: 'text-sky-600',
@@ -280,6 +281,8 @@ const CONFETTI_COLORS = [
  * Estado gerenciado localmente via useState.
  */
 export function OnboardingWizard() {
+  /** Hook de tradução — namespace onboarding */
+  const t = useTranslations('onboarding')
   /** Passo atual do wizard (1–4) */
   const [currentStep, setCurrentStep] = useState(1)
   /** Direção da animação para slide correto */
@@ -413,15 +416,14 @@ export function OnboardingWizard() {
         variants={staggerItem}
         className="text-3xl font-bold text-slate-900 mb-2"
       >
-        Welcome to Clausent!
+        {t('welcomeTitle')}
       </motion.h2>
 
       <motion.p
         variants={staggerItem}
         className="text-slate-500 mb-10 max-w-md"
       >
-        Your AI-powered contract intelligence platform. Let&apos;s set things up
-        so you can start saving time and money.
+        {t('welcomeSubtitle')}
       </motion.p>
 
       {/* 3 cards de proposta de valor */}
@@ -430,7 +432,7 @@ export function OnboardingWizard() {
           const Icon = prop.icon
           return (
             <motion.div
-              key={prop.title}
+              key={prop.titleKey}
               variants={staggerItem}
               className="rounded-2xl bg-white border border-slate-200 p-5 shadow-[3px_3px_0px_rgba(0,0,0,0.06)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.08)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200"
             >
@@ -443,10 +445,10 @@ export function OnboardingWizard() {
                 <Icon className={cn('h-5 w-5', prop.textColor)} />
               </div>
               <h3 className="font-semibold text-slate-900 text-sm mb-1">
-                {prop.title}
+                {t(prop.titleKey)}
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
-                {prop.description}
+                {t(prop.descriptionKey)}
               </p>
             </motion.div>
           )
@@ -460,7 +462,7 @@ export function OnboardingWizard() {
           className="bg-teal-600 hover:bg-teal-700 text-white rounded-full px-8 py-2.5 shadow-[2px_2px_0px_rgba(0,0,0,0.1)] gap-2 text-sm font-medium"
         >
           <Sparkles className="h-4 w-4" />
-          Let&apos;s get started
+          {t('letsGetStarted')}
           <ArrowRight className="h-4 w-4" />
         </Button>
       </motion.div>
@@ -484,10 +486,10 @@ export function OnboardingWizard() {
           <Building2 className="h-7 w-7 text-teal-600" />
         </div>
         <h2 className="text-2xl font-bold text-slate-900 mb-1">
-          Tell us about your company
+          {t('tellUsAboutCompany')}
         </h2>
         <p className="text-sm text-slate-500">
-          This helps us tailor Clausent to your needs.
+          {t('tailorToNeeds')}
         </p>
       </motion.div>
 
@@ -495,10 +497,10 @@ export function OnboardingWizard() {
       <div className="space-y-5">
         {/* Nome da empresa */}
         <motion.div variants={staggerItem} className="space-y-2">
-          <Label htmlFor="companyName">Company Name</Label>
+          <Label htmlFor="companyName">{t('companyName')}</Label>
           <Input
             id="companyName"
-            placeholder="e.g. Acme Corp"
+            placeholder={t('companyNamePlaceholder')}
             value={formData.companyName}
             onChange={(e) => updateField('companyName', e.target.value)}
             className="rounded-xl border-slate-200 focus-visible:border-teal-400 focus-visible:ring-teal-400/20"
@@ -507,18 +509,18 @@ export function OnboardingWizard() {
 
         {/* Setor de indústria */}
         <motion.div variants={staggerItem} className="space-y-2">
-          <Label>Industry</Label>
+          <Label>{t('industry')}</Label>
           <Select
             value={formData.industry}
             onValueChange={(val) => updateField('industry', val)}
           >
             <SelectTrigger className="w-full rounded-xl border-slate-200">
-              <SelectValue placeholder="Select your industry" />
+              <SelectValue placeholder={t('industryPlaceholder')} />
             </SelectTrigger>
             <SelectContent>
               {INDUSTRIES.map((ind) => (
                 <SelectItem key={ind.value} value={ind.value}>
-                  {ind.label}
+                  {t(ind.labelKey)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -527,18 +529,18 @@ export function OnboardingWizard() {
 
         {/* Tamanho da empresa */}
         <motion.div variants={staggerItem} className="space-y-2">
-          <Label>Company Size</Label>
+          <Label>{t('companySize')}</Label>
           <Select
             value={formData.companySize}
             onValueChange={(val) => updateField('companySize', val)}
           >
             <SelectTrigger className="w-full rounded-xl border-slate-200">
-              <SelectValue placeholder="How many employees?" />
+              <SelectValue placeholder={t('companySizePlaceholder')} />
             </SelectTrigger>
             <SelectContent>
               {COMPANY_SIZES.map((size) => (
                 <SelectItem key={size.value} value={size.value}>
-                  {size.label}
+                  {t(size.labelKey)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -547,18 +549,18 @@ export function OnboardingWizard() {
 
         {/* Número aproximado de contratos */}
         <motion.div variants={staggerItem} className="space-y-2">
-          <Label>Active Contracts</Label>
+          <Label>{t('activeContracts')}</Label>
           <Select
             value={formData.contractCount}
             onValueChange={(val) => updateField('contractCount', val)}
           >
             <SelectTrigger className="w-full rounded-xl border-slate-200">
-              <SelectValue placeholder="Approximate number" />
+              <SelectValue placeholder={t('contractsPlaceholder')} />
             </SelectTrigger>
             <SelectContent>
               {CONTRACT_RANGES.map((range) => (
                 <SelectItem key={range.value} value={range.value}>
-                  {range.label}
+                  {t(range.labelKey)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -567,7 +569,7 @@ export function OnboardingWizard() {
 
         {/* Caso de uso primário — radio buttons estilizados */}
         <motion.div variants={staggerItem} className="space-y-3">
-          <Label>Primary Use Case</Label>
+          <Label>{t('primaryUseCase')}</Label>
           <div className="grid grid-cols-2 gap-3">
             {USE_CASES.map((uc) => (
               <button
@@ -581,7 +583,7 @@ export function OnboardingWizard() {
                     : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50'
                 )}
               >
-                {uc.label}
+                {t(uc.labelKey)}
               </button>
             ))}
           </div>
@@ -607,10 +609,10 @@ export function OnboardingWizard() {
           <FileText className="h-7 w-7 text-emerald-600" />
         </div>
         <h2 className="text-2xl font-bold text-slate-900 mb-1">
-          Upload your first contract
+          {t('uploadFirst')}
         </h2>
         <p className="text-sm text-slate-500">
-          Upload your first contract to see Clausent in action.
+          {t('uploadFirstDesc')}
         </p>
       </motion.div>
 
@@ -667,7 +669,7 @@ export function OnboardingWizard() {
                 </button>
               </div>
               <p className="text-xs text-emerald-600 font-medium">
-                Ready to be analyzed
+                {t('readyToAnalyze')}
               </p>
             </div>
           ) : (
@@ -678,15 +680,15 @@ export function OnboardingWizard() {
               </div>
               <div>
                 <p className="text-sm font-medium text-slate-600">
-                  Drag & drop your contract here
+                  {t('dragAndDrop')}
                 </p>
                 <p className="text-xs text-slate-400 mt-1">
-                  or{' '}
-                  <span className="text-teal-600 font-medium">browse files</span>
+                  {t('orBrowse')}{' '}
+                  <span className="text-teal-600 font-medium">{t('browseFiles')}</span>
                 </p>
               </div>
               <p className="text-xs text-slate-400">
-                Supported: PDF, DOCX (max 25MB)
+                {t('supportedFormats')}
               </p>
             </div>
           )}
@@ -700,7 +702,7 @@ export function OnboardingWizard() {
           onClick={handleNext}
           className="text-sm text-slate-400 hover:text-slate-600 font-medium transition-colors"
         >
-          Or skip for now
+          {t('skipForNow')}
         </button>
       </motion.div>
     </motion.div>
@@ -753,14 +755,14 @@ export function OnboardingWizard() {
         variants={staggerItem}
         className="text-3xl font-bold text-slate-900 mb-2"
       >
-        You&apos;re all set!
+        {t('allSet')}
       </motion.h2>
 
       <motion.p
         variants={staggerItem}
         className="text-slate-500 mb-3 max-w-md"
       >
-        Your account is ready. Here&apos;s what you can do with Clausent:
+        {t('allSetSubtitle')}
       </motion.p>
 
       {/* Resumo de capacidades */}
@@ -769,18 +771,18 @@ export function OnboardingWizard() {
         className="flex flex-wrap items-center justify-center gap-2 mb-10"
       >
         {[
-          { icon: FileText, label: 'Analyze contracts' },
-          { icon: Bell, label: 'Set up alerts' },
-          { icon: DollarSign, label: 'View benchmarks' },
+          { icon: FileText, labelKey: 'capAnalyzeContracts' as const },
+          { icon: Bell, labelKey: 'capSetUpAlerts' as const },
+          { icon: DollarSign, labelKey: 'capViewBenchmarks' as const },
         ].map((item) => {
           const Icon = item.icon
           return (
             <span
-              key={item.label}
+              key={item.labelKey}
               className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-700 bg-teal-50 border border-teal-100 rounded-full px-3 py-1.5"
             >
               <Icon className="h-3.5 w-3.5" />
-              {item.label}
+              {t(item.labelKey)}
             </span>
           )
         })}
@@ -791,7 +793,7 @@ export function OnboardingWizard() {
         {QUICK_ACTIONS.map((action) => {
           const Icon = action.icon
           return (
-            <motion.div key={action.title} variants={staggerItem}>
+            <motion.div key={action.titleKey} variants={staggerItem}>
               <Link href={action.href} className="block group">
                 <div className="rounded-2xl bg-white border border-slate-200 p-5 shadow-[3px_3px_0px_rgba(0,0,0,0.06)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.08)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 h-full">
                   <div
@@ -803,10 +805,10 @@ export function OnboardingWizard() {
                     <Icon className={cn('h-5 w-5', action.textColor)} />
                   </div>
                   <h3 className="font-semibold text-slate-900 text-sm mb-1 group-hover:text-teal-600 transition-colors">
-                    {action.title}
+                    {t(action.titleKey)}
                   </h3>
                   <p className="text-xs text-slate-500 leading-relaxed">
-                    {action.description}
+                    {t(action.descriptionKey)}
                   </p>
                 </div>
               </Link>
@@ -819,7 +821,7 @@ export function OnboardingWizard() {
       <motion.div variants={staggerItem}>
         <Link href="/dashboard">
           <Button className="bg-teal-600 hover:bg-teal-700 text-white rounded-full px-8 py-2.5 shadow-[2px_2px_0px_rgba(0,0,0,0.1)] gap-2 text-sm font-medium">
-            Go to Dashboard
+            {t('goToDashboard')}
             <ArrowRight className="h-4 w-4" />
           </Button>
         </Link>
@@ -849,10 +851,10 @@ export function OnboardingWizard() {
           {/* Indicador textual do passo */}
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-medium text-slate-500">
-              Step {currentStep} of {TOTAL_STEPS}
+              {t('step', { current: currentStep, total: TOTAL_STEPS })}
             </span>
             <span className="text-xs font-medium text-teal-600">
-              {Math.round(progressPercent)}% complete
+              {t('percentComplete', { percent: Math.round(progressPercent) })}
             </span>
           </div>
 
@@ -892,10 +894,10 @@ export function OnboardingWizard() {
                     step === currentStep ? 'text-slate-700' : 'text-slate-400'
                   )}
                 >
-                  {step === 1 && 'Welcome'}
-                  {step === 2 && 'Company'}
-                  {step === 3 && 'Upload'}
-                  {step === 4 && 'Done'}
+                  {step === 1 && t('stepWelcome')}
+                  {step === 2 && t('stepCompany')}
+                  {step === 3 && t('stepUpload')}
+                  {step === 4 && t('stepDone')}
                 </span>
               </div>
             ))}
@@ -937,7 +939,7 @@ export function OnboardingWizard() {
               className="text-slate-500 hover:text-slate-700 rounded-full gap-1.5"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back
+              {t('back')}
             </Button>
 
             {/* Botão avançar */}
@@ -945,7 +947,7 @@ export function OnboardingWizard() {
               onClick={handleNext}
               className="bg-teal-600 hover:bg-teal-700 text-white rounded-full px-6 shadow-[2px_2px_0px_rgba(0,0,0,0.1)] gap-1.5"
             >
-              {currentStep === 3 ? 'Continue' : 'Next'}
+              {currentStep === 3 ? t('continue') : t('next')}
               <ArrowRight className="h-4 w-4" />
             </Button>
           </div>

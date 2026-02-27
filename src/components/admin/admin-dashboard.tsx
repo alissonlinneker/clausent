@@ -16,6 +16,7 @@ import {
   Headphones,
   Clock,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import {
   AreaChart,
@@ -83,57 +84,57 @@ const PLAN_DISTRIBUTION = [
  */
 const KPI_CARDS = [
   {
-    title: 'MRR',
+    titleKey: 'mrr',
     value: '$12,450',
-    change: '+8.3%',
+    changeKey: 'mrrChange',
     trend: 'up' as const,
     icon: DollarSign,
-    description: 'Receita recorrente mensal',
+    descriptionKey: 'mrrDesc',
     color: 'indigo',
   },
   {
-    title: 'Total de Usuários',
+    titleKey: 'totalUsers',
     value: '342',
-    change: '+24 este mês',
+    changeKey: 'totalUsersChange',
     trend: 'up' as const,
     icon: Users,
-    description: 'Cadastros ativos na plataforma',
+    descriptionKey: 'totalUsersDesc',
     color: 'violet',
   },
   {
-    title: 'Assinaturas Ativas',
+    titleKey: 'activeSubscriptions',
     value: '189',
-    change: '+12',
+    changeKey: 'activeSubsChange',
     trend: 'up' as const,
     icon: CreditCard,
-    description: 'Planos pagos ativos',
+    descriptionKey: 'activeSubsDesc',
     color: 'blue',
   },
   {
-    title: 'Churn Rate',
+    titleKey: 'churnRate',
     value: '2.1%',
-    change: '-0.3%',
+    changeKey: 'churnRateChange',
     trend: 'down' as const,
     icon: TrendingDown,
-    description: 'Taxa de cancelamento mensal',
+    descriptionKey: 'churnRateDesc',
     color: 'emerald',
   },
   {
-    title: 'Contratos Analisados',
+    titleKey: 'contractsAnalyzed',
     value: '1,247',
-    change: 'este mês',
+    changeKey: 'contractsAnalyzedChange',
     trend: 'up' as const,
     icon: FileText,
-    description: 'Análises concluídas no mês',
+    descriptionKey: 'contractsAnalyzedDesc',
     color: 'amber',
   },
   {
-    title: 'Requisições API',
+    titleKey: 'apiRequests',
     value: '45,230',
-    change: 'hoje',
+    changeKey: 'apiRequestsChange',
     trend: 'up' as const,
     icon: Zap,
-    description: 'Chamadas de API hoje',
+    descriptionKey: 'apiRequestsDesc',
     color: 'rose',
   },
 ]
@@ -149,9 +150,9 @@ const RECENT_ACTIVITY = [
     icon: UserPlus,
     iconColor: 'text-emerald-600',
     bgColor: 'bg-emerald-50',
-    title: 'Novo cadastro',
+    titleKey: 'activityNewSignup',
     description: 'Maria Santos criou uma conta com plano Starter',
-    time: 'Há 12 minutos',
+    timeKey: 'activity12min',
   },
   {
     id: 2,
@@ -159,9 +160,9 @@ const RECENT_ACTIVITY = [
     icon: ArrowUpCircle,
     iconColor: 'text-indigo-600',
     bgColor: 'bg-indigo-50',
-    title: 'Upgrade de plano',
+    titleKey: 'activityPlanUpgrade',
     description: 'Tech Solutions Ltda. migrou de Professional para Business',
-    time: 'Há 45 minutos',
+    timeKey: 'activity45min',
   },
   {
     id: 3,
@@ -169,9 +170,9 @@ const RECENT_ACTIVITY = [
     icon: FileSearch,
     iconColor: 'text-violet-600',
     bgColor: 'bg-violet-50',
-    title: 'Análise concluída',
+    titleKey: 'activityAnalysisComplete',
     description: 'Contrato "Acordo de Serviços AWS" — 23 cláusulas de risco identificadas',
-    time: 'Há 1 hora',
+    timeKey: 'activity1h',
   },
   {
     id: 4,
@@ -179,9 +180,9 @@ const RECENT_ACTIVITY = [
     icon: Headphones,
     iconColor: 'text-amber-600',
     bgColor: 'bg-amber-50',
-    title: 'Ticket de suporte',
+    titleKey: 'activitySupportTicket',
     description: 'João Oliveira abriu ticket #1247 — "Erro ao exportar relatório"',
-    time: 'Há 2 horas',
+    timeKey: 'activity2h',
   },
   {
     id: 5,
@@ -189,9 +190,9 @@ const RECENT_ACTIVITY = [
     icon: DollarSign,
     iconColor: 'text-emerald-600',
     bgColor: 'bg-emerald-50',
-    title: 'Pagamento recebido',
+    titleKey: 'activityPaymentReceived',
     description: 'Banco Central Consulting — $299.00 (Professional anual)',
-    time: 'Há 3 horas',
+    timeKey: 'activity3h',
   },
 ]
 
@@ -277,6 +278,9 @@ function CustomTooltip({ active, payload, label }: {
  * Dados: Todos mockados para prototipagem.
  */
 export function AdminDashboard() {
+  /** Hook de tradução — namespace admin */
+  const t = useTranslations('admin')
+
   return (
     <motion.div
       variants={containerVariants}
@@ -288,17 +292,17 @@ export function AdminDashboard() {
       <motion.div variants={itemVariants} className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Painel Administrativo
+            {t('dashboardTitle')}
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Visão geral de métricas e atividades do sistema
+            {t('dashboardSubtitle')}
           </p>
         </div>
 
         {/* Indicador de último refresh */}
         <div className="flex items-center gap-2 text-xs text-slate-400">
           <Clock className="h-3.5 w-3.5" />
-          <span>Atualizado há 2 min</span>
+          <span>{t('updatedAgo')}</span>
         </div>
       </motion.div>
 
@@ -313,7 +317,7 @@ export function AdminDashboard() {
 
           return (
             <motion.div
-              key={card.title}
+              key={card.titleKey}
               whileHover={{ y: -2 }}
               className={cn(
                 'bg-white rounded-2xl border border-slate-200 p-5',
@@ -331,21 +335,21 @@ export function AdminDashboard() {
                 <div
                   className={cn(
                     'flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-lg',
-                    card.title === 'Churn Rate'
+                    card.titleKey === 'churnRate'
                       ? 'bg-emerald-50 text-emerald-700'
                       : card.trend === 'up'
                         ? 'bg-emerald-50 text-emerald-700'
                         : 'bg-red-50 text-red-700'
                   )}
                 >
-                  {card.title === 'Churn Rate' ? (
+                  {card.titleKey === 'churnRate' ? (
                     <ArrowDownRight className="h-3.5 w-3.5" />
                   ) : card.trend === 'up' ? (
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   ) : (
                     <ArrowDownRight className="h-3.5 w-3.5" />
                   )}
-                  <span>{card.change}</span>
+                  <span>{t(card.changeKey)}</span>
                 </div>
               </div>
 
@@ -354,11 +358,11 @@ export function AdminDashboard() {
                 <p className="text-2xl font-bold text-slate-900 tracking-tight">
                   {card.value}
                 </p>
-                <p className="text-sm text-slate-500 mt-0.5">{card.title}</p>
+                <p className="text-sm text-slate-500 mt-0.5">{t(card.titleKey)}</p>
               </div>
 
               {/* Descrição */}
-              <p className="text-[11px] text-slate-400 mt-2">{card.description}</p>
+              <p className="text-[11px] text-slate-400 mt-2">{t(card.descriptionKey)}</p>
             </motion.div>
           )
         })}
@@ -376,11 +380,11 @@ export function AdminDashboard() {
         >
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-sm font-semibold text-slate-900">Tendência de Receita</h3>
-              <p className="text-xs text-slate-500 mt-0.5">MRR dos últimos 12 meses</p>
+              <h3 className="text-sm font-semibold text-slate-900">{t('revenueOverTime')}</h3>
+              <p className="text-xs text-slate-500 mt-0.5">{t('revenueLast12Months')}</p>
             </div>
             <span className="text-xs font-medium text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg">
-              +196% no período
+              {t('revenuePeriodGrowth')}
             </span>
           </div>
 
@@ -429,18 +433,18 @@ export function AdminDashboard() {
         >
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-sm font-semibold text-slate-900">Crescimento de Usuários</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Novos vs ativos nos últimos 6 meses</p>
+              <h3 className="text-sm font-semibold text-slate-900">{t('userGrowth')}</h3>
+              <p className="text-xs text-slate-500 mt-0.5">{t('userGrowthDesc')}</p>
             </div>
             {/* Legenda */}
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-sm bg-indigo-500" />
-                <span className="text-[10px] text-slate-500">Novos</span>
+                <span className="text-[10px] text-slate-500">{t('legendNew')}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-sm bg-violet-300" />
-                <span className="text-[10px] text-slate-500">Ativos</span>
+                <span className="text-[10px] text-slate-500">{t('legendActive')}</span>
               </div>
             </div>
           </div>
@@ -490,8 +494,8 @@ export function AdminDashboard() {
           )}
         >
           <div className="mb-4">
-            <h3 className="text-sm font-semibold text-slate-900">Distribuição de Planos</h3>
-            <p className="text-xs text-slate-500 mt-0.5">Proporção de usuários por plano</p>
+            <h3 className="text-sm font-semibold text-slate-900">{t('planDistribution')}</h3>
+            <p className="text-xs text-slate-500 mt-0.5">{t('planDistributionDesc')}</p>
           </div>
 
           <ResponsiveContainer width="100%" height={200}>
@@ -553,13 +557,13 @@ export function AdminDashboard() {
         >
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-sm font-semibold text-slate-900">Atividade Recente</h3>
+              <h3 className="text-sm font-semibold text-slate-900">{t('recentActivity')}</h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Últimos eventos relevantes no sistema
+                {t('recentActivityDesc')}
               </p>
             </div>
             <button className="text-xs font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
-              Ver tudo
+              {t('viewAll')}
             </button>
           </div>
 
@@ -582,7 +586,7 @@ export function AdminDashboard() {
 
                   {/* Conteúdo do evento */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-900">{activity.title}</p>
+                    <p className="text-sm font-medium text-slate-900">{t(activity.titleKey)}</p>
                     <p className="text-xs text-slate-500 mt-0.5 truncate">
                       {activity.description}
                     </p>
@@ -590,7 +594,7 @@ export function AdminDashboard() {
 
                   {/* Timestamp */}
                   <span className="text-[10px] text-slate-400 whitespace-nowrap flex-shrink-0">
-                    {activity.time}
+                    {t(activity.timeKey)}
                   </span>
                 </motion.div>
               )

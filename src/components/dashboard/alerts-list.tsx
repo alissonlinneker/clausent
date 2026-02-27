@@ -162,13 +162,13 @@ const TYPE_ICON_MAP: Record<AlertType, typeof Calendar> = {
   analysis: FileText,
 }
 
-/** Labels legíveis por tipo de alerta */
-const TYPE_LABEL_MAP: Record<AlertType, string> = {
-  renewal: 'Renewal',
-  risk: 'Risk',
-  price: 'Price',
-  compliance: 'Compliance',
-  analysis: 'Analysis',
+/** Chaves i18n por tipo de alerta */
+const TYPE_LABEL_KEY_MAP: Record<AlertType, string> = {
+  renewal: 'alertTypeRenewal',
+  risk: 'alertTypeRisk',
+  price: 'alertTypePrice',
+  compliance: 'alertTypeCompliance',
+  analysis: 'alertTypeAnalysis',
 }
 
 /** Cores da borda esquerda do card por prioridade */
@@ -187,12 +187,12 @@ const PRIORITY_BADGE_MAP: Record<AlertPriority, string> = {
   low: 'bg-slate-100 text-slate-600 border-slate-200',
 }
 
-/** Labels por prioridade */
-const PRIORITY_LABEL_MAP: Record<AlertPriority, string> = {
-  critical: 'Critical',
-  high: 'High',
-  medium: 'Medium',
-  low: 'Low',
+/** Chaves i18n por prioridade */
+const PRIORITY_LABEL_KEY_MAP: Record<AlertPriority, string> = {
+  critical: 'alertPriorityCritical',
+  high: 'alertPriorityHigh',
+  medium: 'alertPriorityMedium',
+  low: 'alertPriorityLow',
 }
 
 /** Cores de fundo do ícone por tipo */
@@ -208,30 +208,30 @@ const TYPE_BG_MAP: Record<AlertType, string> = {
  * Opções dos filtros de pills/chips
  * ───────────────────────────────────────────── */
 
-/** Opções de filtro por prioridade */
-const PRIORITY_OPTIONS: { value: string; label: string }[] = [
-  { value: 'all', label: 'All' },
-  { value: 'critical', label: 'Critical' },
-  { value: 'high', label: 'High' },
-  { value: 'medium', label: 'Medium' },
-  { value: 'low', label: 'Low' },
+/** Opções de filtro por prioridade — chave i18n */
+const PRIORITY_OPTIONS: { value: string; labelKey: string }[] = [
+  { value: 'all', labelKey: 'filterAll' },
+  { value: 'critical', labelKey: 'alertPriorityCritical' },
+  { value: 'high', labelKey: 'alertPriorityHigh' },
+  { value: 'medium', labelKey: 'alertPriorityMedium' },
+  { value: 'low', labelKey: 'alertPriorityLow' },
 ]
 
-/** Opções de filtro por tipo */
-const TYPE_OPTIONS: { value: string; label: string }[] = [
-  { value: 'all', label: 'All' },
-  { value: 'renewal', label: 'Renewal' },
-  { value: 'risk', label: 'Risk' },
-  { value: 'price', label: 'Price' },
-  { value: 'compliance', label: 'Compliance' },
-  { value: 'analysis', label: 'Analysis' },
+/** Opções de filtro por tipo — chave i18n */
+const TYPE_OPTIONS: { value: string; labelKey: string }[] = [
+  { value: 'all', labelKey: 'filterAll' },
+  { value: 'renewal', labelKey: 'alertTypeRenewal' },
+  { value: 'risk', labelKey: 'alertTypeRisk' },
+  { value: 'price', labelKey: 'alertTypePrice' },
+  { value: 'compliance', labelKey: 'alertTypeCompliance' },
+  { value: 'analysis', labelKey: 'alertTypeAnalysis' },
 ]
 
-/** Opções de filtro por status de leitura */
-const STATUS_OPTIONS: { value: string; label: string }[] = [
-  { value: 'all', label: 'All' },
-  { value: 'unread', label: 'Unread' },
-  { value: 'read', label: 'Read' },
+/** Opções de filtro por status de leitura — chave i18n */
+const STATUS_OPTIONS: { value: string; labelKey: string }[] = [
+  { value: 'all', labelKey: 'filterAll' },
+  { value: 'unread', labelKey: 'alertStatusUnread' },
+  { value: 'read', labelKey: 'alertStatusRead' },
 ]
 
 /* ─────────────────────────────────────────────
@@ -406,7 +406,7 @@ export function AlertsList() {
             className="rounded-xl border-slate-200 gap-2 text-sm hover:bg-slate-50"
           >
             <CheckCheck className="h-4 w-4" />
-            Mark all as read
+            {t('markAllAsRead')}
           </Button>
         )}
       </div>
@@ -421,7 +421,7 @@ export function AlertsList() {
             </div>
             <div>
               <p className="text-2xl font-bold text-slate-900">{stats.total}</p>
-              <p className="text-xs text-slate-500">Total Alerts</p>
+              <p className="text-xs text-slate-500">{t('totalAlerts')}</p>
             </div>
           </div>
         </div>
@@ -434,7 +434,7 @@ export function AlertsList() {
             </div>
             <div>
               <p className="text-2xl font-bold text-slate-900">{stats.unread}</p>
-              <p className="text-xs text-slate-500">Unread</p>
+              <p className="text-xs text-slate-500">{t('alertStatusUnread')}</p>
             </div>
           </div>
         </div>
@@ -447,7 +447,7 @@ export function AlertsList() {
             </div>
             <div>
               <p className="text-2xl font-bold text-slate-900">{stats.critical}</p>
-              <p className="text-xs text-slate-500">Critical</p>
+              <p className="text-xs text-slate-500">{t('alertPriorityCritical')}</p>
             </div>
           </div>
         </div>
@@ -460,7 +460,7 @@ export function AlertsList() {
             </div>
             <div>
               <p className="text-2xl font-bold text-slate-900">{stats.high}</p>
-              <p className="text-xs text-slate-500">High</p>
+              <p className="text-xs text-slate-500">{t('alertPriorityHigh')}</p>
             </div>
           </div>
         </div>
@@ -471,12 +471,12 @@ export function AlertsList() {
         {/* Filtro por prioridade */}
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-medium text-slate-400 uppercase tracking-wider w-16 shrink-0">
-            Priority
+            {t('filterPriority')}
           </span>
           {PRIORITY_OPTIONS.map((opt) => (
             <FilterPill
               key={`priority-${opt.value}`}
-              label={opt.label}
+              label={t(opt.labelKey)}
               active={priorityFilter === opt.value}
               onClick={() => setPriorityFilter(opt.value)}
             />
@@ -486,12 +486,12 @@ export function AlertsList() {
         {/* Filtro por tipo */}
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-medium text-slate-400 uppercase tracking-wider w-16 shrink-0">
-            Type
+            {t('filterType')}
           </span>
           {TYPE_OPTIONS.map((opt) => (
             <FilterPill
               key={`type-${opt.value}`}
-              label={opt.label}
+              label={t(opt.labelKey)}
               active={typeFilter === opt.value}
               onClick={() => setTypeFilter(opt.value)}
             />
@@ -501,12 +501,12 @@ export function AlertsList() {
         {/* Filtro por status de leitura */}
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-medium text-slate-400 uppercase tracking-wider w-16 shrink-0">
-            Status
+            {t('filterStatus')}
           </span>
           {STATUS_OPTIONS.map((opt) => (
             <FilterPill
               key={`status-${opt.value}`}
-              label={opt.label}
+              label={t(opt.labelKey)}
               active={statusFilter === opt.value}
               onClick={() => setStatusFilter(opt.value)}
             />
@@ -613,7 +613,7 @@ export function AlertsList() {
                             PRIORITY_BADGE_MAP[alert.priority]
                           )}
                         >
-                          {PRIORITY_LABEL_MAP[alert.priority]}
+                          {t(PRIORITY_LABEL_KEY_MAP[alert.priority])}
                         </Badge>
                       </div>
 
@@ -645,12 +645,12 @@ export function AlertsList() {
                             {alert.read ? (
                               <>
                                 <Eye className="h-3 w-3" />
-                                Read
+                                {t('alertStatusRead')}
                               </>
                             ) : (
                               <>
                                 <EyeOff className="h-3 w-3" />
-                                Unread
+                                {t('alertStatusUnread')}
                               </>
                             )}
                           </span>

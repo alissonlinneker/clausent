@@ -109,13 +109,13 @@ const MOCK_INSIGHTS = [
   { contract: 'WeWork Office Lease', savings: 4800, category: 'Facilities' },
 ]
 
-/** Opções do filtro de período temporal */
+/** Opções do filtro de período temporal — chave i18n */
 const DATE_RANGE_OPTIONS = [
-  { label: 'This Month', value: 'this-month' },
-  { label: 'Last 3 Months', value: 'last-3-months' },
-  { label: 'Last 6 Months', value: 'last-6-months' },
-  { label: 'This Year', value: 'this-year' },
-  { label: 'Custom', value: 'custom' },
+  { labelKey: 'dateRangeThisMonth', value: 'this-month' },
+  { labelKey: 'dateRangeLast3Months', value: 'last-3-months' },
+  { labelKey: 'dateRangeLast6Months', value: 'last-6-months' },
+  { labelKey: 'dateRangeThisYear', value: 'this-year' },
+  { labelKey: 'dateRangeCustom', value: 'custom' },
 ]
 
 /* =================================================================
@@ -126,40 +126,40 @@ const DATE_RANGE_OPTIONS = [
 /** Definição dos 4 cards de métricas do topo */
 const STAT_CARDS = [
   {
-    label: 'Total Savings',
+    labelKey: 'statTotalSavings',
     value: `$${MOCK_STATS.totalSavings.toLocaleString('en-US')}`,
     change: `+${MOCK_STATS.savingsChange}%`,
-    changeDescription: 'vs last month',
+    changeDescKey: 'statVsLastMonth',
     changePositive: true,
     icon: DollarSign,
     bgLight: 'bg-teal-50',
     textColor: 'text-teal-600',
   },
   {
-    label: 'Contracts Analyzed',
+    labelKey: 'statContractsAnalyzed',
     value: MOCK_STATS.contractsAnalyzed.toString(),
     change: `+${MOCK_STATS.contractsWeekChange}`,
-    changeDescription: 'this week',
+    changeDescKey: 'statThisWeek',
     changePositive: true,
     icon: FileText,
     bgLight: 'bg-emerald-50',
     textColor: 'text-emerald-600',
   },
   {
-    label: 'Average Risk Score',
+    labelKey: 'statAverageRisk',
     value: `${MOCK_STATS.averageRisk}/100`,
     change: `${MOCK_STATS.riskChange}`,
-    changeDescription: 'vs last month',
+    changeDescKey: 'statVsLastMonth',
     changePositive: true,
     icon: Shield,
     bgLight: 'bg-sky-50',
     textColor: 'text-sky-600',
   },
   {
-    label: 'Time Saved',
+    labelKey: 'statTimeSaved',
     value: `${MOCK_STATS.timeSaved}h`,
     change: 'estimated',
-    changeDescription: '',
+    changeDescKey: '',
     changePositive: true,
     icon: Clock,
     bgLight: 'bg-violet-50',
@@ -185,14 +185,24 @@ function SavingsTooltip({
   payload?: Array<{ value: number; dataKey: string }>
   label?: string
 }) {
+  /** Hook de tradução para labels do tooltip */
+  const t = useTranslations('dashboard')
+
   if (!active || !payload || payload.length === 0) return null
+
+  /** Mapa de labels traduzidos por dataKey */
+  const labelMap: Record<string, string> = {
+    savings: t('tooltipSavings'),
+    uploads: t('tooltipUploads'),
+    analyses: t('tooltipAnalyses'),
+  }
 
   return (
     <div className="rounded-xl bg-white border border-slate-200 px-4 py-3 shadow-[3px_3px_0px_rgba(0,0,0,0.06)]">
       <p className="text-sm font-semibold text-slate-900 mb-1">{label}</p>
       {payload.map((entry) => (
         <p key={entry.dataKey} className="text-xs text-slate-500">
-          {entry.dataKey === 'savings' ? 'Savings' : entry.dataKey === 'uploads' ? 'Uploads' : 'Analyses'}:{' '}
+          {labelMap[entry.dataKey] ?? entry.dataKey}:{' '}
           <span className="font-medium text-slate-700">
             {entry.dataKey === 'savings'
               ? `$${entry.value.toLocaleString('en-US')}`
@@ -216,13 +226,16 @@ function CategoryTooltip({
   payload?: Array<{ value: number; dataKey: string }>
   label?: string
 }) {
+  /** Hook de tradução para labels do tooltip */
+  const t = useTranslations('dashboard')
+
   if (!active || !payload || payload.length === 0) return null
 
   return (
     <div className="rounded-xl bg-white border border-slate-200 px-4 py-3 shadow-[3px_3px_0px_rgba(0,0,0,0.06)]">
       <p className="text-sm font-semibold text-slate-900 mb-1">{label}</p>
       <p className="text-xs text-slate-500">
-        Contracts: <span className="font-medium text-slate-700">{payload[0].value}</span>
+        {t('tooltipContracts')}: <span className="font-medium text-slate-700">{payload[0].value}</span>
       </p>
     </div>
   )
@@ -238,13 +251,16 @@ function RiskPieTooltip({
   active?: boolean
   payload?: Array<{ name: string; value: number }>
 }) {
+  /** Hook de tradução para labels do tooltip */
+  const t = useTranslations('dashboard')
+
   if (!active || !payload || payload.length === 0) return null
 
   return (
     <div className="rounded-xl bg-white border border-slate-200 px-4 py-3 shadow-[3px_3px_0px_rgba(0,0,0,0.06)]">
-      <p className="text-sm font-semibold text-slate-900">{payload[0].name} Risk</p>
+      <p className="text-sm font-semibold text-slate-900">{payload[0].name} {t('riskSuffix')}</p>
       <p className="text-xs text-slate-500 mt-0.5">
-        <span className="font-medium text-slate-700">{payload[0].value}%</span> of contracts
+        <span className="font-medium text-slate-700">{payload[0].value}%</span> {t('tooltipOfContracts')}
       </p>
     </div>
   )
@@ -346,9 +362,9 @@ export function AnalyticsDashboard() {
         variants={cardVariants}
       >
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Analytics</h1>
+          <h1 className="text-2xl font-bold text-slate-900">{t('analytics')}</h1>
           <p className="text-sm text-slate-500 mt-1">
-            Detailed insights into your contract portfolio performance
+            {t('analyticsSubtitle')}
           </p>
         </div>
 
@@ -365,7 +381,7 @@ export function AnalyticsDashboard() {
                   : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
               )}
             >
-              {option.label}
+              {t(option.labelKey)}
             </button>
           ))}
         </div>
@@ -379,7 +395,7 @@ export function AnalyticsDashboard() {
           const Icon = card.icon
           return (
             <motion.div
-              key={card.label}
+              key={card.labelKey}
               variants={cardVariants}
               className="rounded-2xl bg-white border border-slate-200 p-6 shadow-[3px_3px_0px_rgba(0,0,0,0.06)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.08)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-default"
             >
@@ -400,7 +416,7 @@ export function AnalyticsDashboard() {
 
               {/* Label descritivo e indicador de variação */}
               <div className="flex items-center justify-between mt-1">
-                <p className="text-sm text-slate-500">{card.label}</p>
+                <p className="text-sm text-slate-500">{t(card.labelKey)}</p>
               </div>
 
               {/* Badge de variação com contexto */}
@@ -415,9 +431,9 @@ export function AnalyticsDashboard() {
                 >
                   {card.change}
                 </span>
-                {card.changeDescription && (
+                {card.changeDescKey && (
                   <span className="text-xs text-slate-400">
-                    {card.changeDescription}
+                    {t(card.changeDescKey)}
                   </span>
                 )}
               </div>
@@ -440,15 +456,15 @@ export function AnalyticsDashboard() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">
-                Savings Over Time
+                {t('savingsOverTime')}
               </h2>
               <p className="text-sm text-slate-500 mt-0.5">
-                12-month cumulative savings trend
+                {t('savingsOverTimeDesc')}
               </p>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-teal-500" />
-              <span className="text-xs text-slate-500">Total Savings</span>
+              <span className="text-xs text-slate-500">{t('totalSavingsAmount')}</span>
             </div>
           </div>
 
@@ -518,10 +534,10 @@ export function AnalyticsDashboard() {
         >
           <div className="mb-6">
             <h2 className="text-lg font-semibold text-slate-900">
-              Risk Distribution
+              {t('riskDistribution')}
             </h2>
             <p className="text-sm text-slate-500 mt-0.5">
-              Contract risk breakdown
+              {t('riskDistributionBreakdown')}
             </p>
           </div>
 
@@ -583,10 +599,10 @@ export function AnalyticsDashboard() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">
-                Contracts by Category
+                {t('contractsByCategory')}
               </h2>
               <p className="text-sm text-slate-500 mt-0.5">
-                Distribution across business areas
+                {t('contractsByCategoryDesc')}
               </p>
             </div>
           </div>
@@ -637,10 +653,10 @@ export function AnalyticsDashboard() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-lg font-semibold text-slate-900">
-                Monthly Activity
+                {t('monthlyActivity')}
               </h2>
               <p className="text-sm text-slate-500 mt-0.5">
-                Uploads vs completed analyses
+                {t('monthlyActivityDesc')}
               </p>
             </div>
 
@@ -648,11 +664,11 @@ export function AnalyticsDashboard() {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-teal-500" />
-                <span className="text-xs text-slate-500">Uploads</span>
+                <span className="text-xs text-slate-500">{t('tooltipUploads')}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                <span className="text-xs text-slate-500">Analyses</span>
+                <span className="text-xs text-slate-500">{t('tooltipAnalyses')}</span>
               </div>
             </div>
           </div>
@@ -750,10 +766,10 @@ export function AnalyticsDashboard() {
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-slate-900">
-                  Top Insights
+                  {t('topInsights')}
                 </h2>
                 <p className="text-sm text-slate-500 mt-0.5">
-                  Top cost-saving opportunities identified by analysis
+                  {t('topInsightsDesc')}
                 </p>
               </div>
             </div>
@@ -780,7 +796,7 @@ export function AnalyticsDashboard() {
                     : 'text-red-700'
                 )}
               >
-                Risk {riskTrending === 'improving' ? 'Improving' : 'Worsening'}
+                {riskTrending === 'improving' ? t('riskImproving') : t('riskWorsening')}
               </span>
             </div>
           </div>
@@ -824,7 +840,7 @@ export function AnalyticsDashboard() {
                     ${insight.savings.toLocaleString('en-US')}
                   </p>
                   <p className="text-[10px] text-slate-400 uppercase tracking-wider">
-                    potential savings
+                    {t('potentialSavings')}
                   </p>
                 </div>
 
@@ -834,7 +850,7 @@ export function AnalyticsDashboard() {
                     size="sm"
                     className="text-teal-600 hover:text-teal-700 hover:bg-teal-50 rounded-lg h-8 px-3"
                   >
-                    Review
+                    {t('insightReview')}
                     <ChevronRight className="h-3.5 w-3.5 ml-0.5" />
                   </Button>
                 </Link>
@@ -847,7 +863,7 @@ export function AnalyticsDashboard() {
         <div className="px-6 py-4 bg-gradient-to-r from-teal-50 to-emerald-50 border-t border-teal-100">
           <div className="flex items-center justify-between">
             <p className="text-sm text-slate-600">
-              Total potential savings from top opportunities
+              {t('totalPotentialSavings')}
             </p>
             <p className="text-lg font-bold text-teal-600">
               ${MOCK_INSIGHTS.reduce((sum, i) => sum + i.savings, 0).toLocaleString('en-US')}
