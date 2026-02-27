@@ -415,28 +415,51 @@ export function ChangelogContent() {
                             {entry.description}
                           </p>
 
-                          {/* Imagem placeholder (quando aplicável) */}
+                          {/* Ilustração visual da feature/atualização */}
                           {entry.hasImage && (
                             <div className="mt-6 ml-13 sm:ml-[52px] relative h-40 sm:h-52 rounded-xl overflow-hidden border border-slate-200 shadow-[2px_2px_0px_rgba(0,0,0,0.04)]">
-                              <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-teal-50 flex items-center justify-center">
-                                <div className="text-center">
-                                  <div
-                                    className={cn(
-                                      'w-12 h-12 rounded-xl border flex items-center justify-center mx-auto mb-2',
-                                      config.bgBadge,
-                                      config.borderBadge
-                                    )}
-                                  >
-                                    <Icon
-                                      className={cn(
-                                        'h-6 w-6',
-                                        config.textBadge
-                                      )}
-                                    />
+                              <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-teal-50/60">
+                                {/* Elementos decorativos de fundo */}
+                                <div className="absolute top-3 right-3 w-16 h-16 rounded-full bg-teal-100/30" />
+                                <div className="absolute bottom-3 left-3 w-14 h-14 rounded-full bg-amber-100/30" />
+                                <div className="absolute top-1/2 left-1/4 w-10 h-10 rounded-lg bg-slate-100/50 rotate-12" />
+
+                                {/* Conteúdo central */}
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                  <div className="flex items-end gap-3">
+                                    {/* Card esquemático principal com ícone da feature */}
+                                    <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-white border border-slate-200 shadow-[2px_2px_0px_rgba(0,0,0,0.04)] p-3 flex flex-col items-center justify-center gap-2">
+                                      <div
+                                        className={cn(
+                                          'w-10 h-10 rounded-xl border flex items-center justify-center',
+                                          config.bgBadge,
+                                          config.borderBadge
+                                        )}
+                                      >
+                                        <Icon
+                                          className={cn(
+                                            'h-5 w-5',
+                                            config.textBadge
+                                          )}
+                                        />
+                                      </div>
+                                      <div className="w-full space-y-1">
+                                        <div className="h-1 w-full rounded-full bg-slate-200" />
+                                        <div className="h-1 w-3/4 rounded-full bg-slate-100" />
+                                      </div>
+                                    </div>
+                                    {/* Card lateral menor com badge de versão */}
+                                    <div className="w-16 h-20 sm:w-20 sm:h-24 rounded-xl bg-white border border-slate-200 shadow-[2px_2px_0px_rgba(0,0,0,0.04)] p-2 flex flex-col items-center justify-center gap-1.5">
+                                      <span className="text-[10px] font-mono font-semibold text-slate-500">
+                                        {entry.version}
+                                      </span>
+                                      <div className="flex gap-0.5">
+                                        <div className={cn('w-1.5 h-3 rounded-sm', config.dotColor, 'opacity-60')} />
+                                        <div className={cn('w-1.5 h-5 rounded-sm', config.dotColor, 'opacity-80')} />
+                                        <div className={cn('w-1.5 h-4 rounded-sm', config.dotColor, 'opacity-70')} />
+                                      </div>
+                                    </div>
                                   </div>
-                                  <p className="text-xs text-slate-400">
-                                    {entry.title} — preview
-                                  </p>
                                 </div>
                               </div>
                             </div>

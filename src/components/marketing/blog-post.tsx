@@ -14,6 +14,9 @@ import {
   Tag,
   ArrowRight,
   Mail,
+  FileText,
+  BarChart3,
+  Shield,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/lib/i18n/navigation'
@@ -249,13 +252,34 @@ export function BlogPost() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="flex-1 max-w-4xl"
             >
-              {/* Imagem de capa placeholder */}
+              {/* Ilustração decorativa da capa do artigo */}
               <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden mb-10 border border-slate-200 shadow-[3px_3px_0px_rgba(0,0,0,0.06)]">
-                <div className="absolute inset-0 bg-gradient-to-br from-teal-400 via-emerald-500 to-teal-600">
-                  <div className="absolute top-12 left-12 w-24 h-24 rounded-full bg-white/10 blur-sm" />
-                  <div className="absolute bottom-16 right-16 w-36 h-36 rounded-2xl bg-white/10 rotate-12 blur-sm" />
-                  <div className="absolute top-1/2 left-1/3 w-20 h-20 rounded-xl bg-white/15 -rotate-6" />
-                  <div className="absolute bottom-10 left-20 w-16 h-16 rounded-full bg-white/10" />
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-500 via-emerald-500 to-teal-600">
+                  {/* Formas geométricas decorativas */}
+                  <div className="absolute top-8 left-8 w-28 h-28 rounded-full bg-white/10" />
+                  <div className="absolute top-12 left-12 w-20 h-20 rounded-full bg-white/10" />
+                  <div className="absolute bottom-10 right-10 w-40 h-40 rounded-2xl bg-white/8 rotate-12" />
+                  <div className="absolute bottom-16 right-16 w-28 h-28 rounded-2xl bg-white/8 rotate-12" />
+                  <div className="absolute top-1/3 right-1/4 w-16 h-16 rounded-xl bg-white/10 -rotate-6" />
+                  <div className="absolute bottom-8 left-1/3 w-12 h-12 rounded-full bg-amber-400/20" />
+                  <div className="absolute top-6 right-1/3 w-10 h-10 rounded-lg bg-amber-400/15 rotate-45" />
+
+                  {/* Ícones centrais representando o conteúdo */}
+                  <div className="absolute inset-0 flex items-center justify-center gap-6">
+                    <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                      <FileText className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center -mt-8">
+                      <Shield className="w-6 h-6 text-white/90" />
+                    </div>
+                    <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mt-4">
+                      <BarChart3 className="w-7 h-7 text-white" />
+                    </div>
+                  </div>
+
+                  {/* Linhas decorativas horizontais */}
+                  <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
                 </div>
               </div>
 
@@ -398,16 +422,43 @@ console.log(analysis.clauses_found); // 12`}</code>
                   </pre>
                 </div>
 
-                {/* Imagem placeholder inline */}
+                {/* Ilustração inline representando o dashboard de análise */}
                 <div className="relative h-56 sm:h-72 rounded-2xl overflow-hidden my-8 border border-slate-200 shadow-[3px_3px_0px_rgba(0,0,0,0.06)]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-slate-50 to-teal-50 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-16 h-16 rounded-2xl bg-teal-100 border border-teal-200 flex items-center justify-center mx-auto mb-3">
-                        <Share2 className="h-7 w-7 text-teal-500" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-teal-50 via-white to-amber-50">
+                    {/* Elementos decorativos de fundo */}
+                    <div className="absolute top-4 right-4 w-24 h-24 rounded-full bg-teal-100/40" />
+                    <div className="absolute bottom-4 left-4 w-20 h-20 rounded-full bg-amber-100/40" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full bg-teal-50/60" />
+
+                    {/* Representação visual esquemática de um dashboard */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="flex items-end gap-4">
+                        {/* Mini cards simulando widgets do dashboard */}
+                        <div className="w-20 h-24 rounded-xl bg-white border border-slate-200 shadow-[2px_2px_0px_rgba(0,0,0,0.04)] p-2.5 flex flex-col items-center justify-center gap-1.5">
+                          <Shield className="w-5 h-5 text-teal-500" />
+                          <div className="w-full space-y-1">
+                            <div className="h-1 w-full rounded-full bg-teal-200" />
+                            <div className="h-1 w-3/4 rounded-full bg-teal-100" />
+                          </div>
+                        </div>
+                        <div className="w-24 h-32 rounded-xl bg-white border border-slate-200 shadow-[2px_2px_0px_rgba(0,0,0,0.04)] p-2.5 flex flex-col items-center justify-center gap-1.5">
+                          <BarChart3 className="w-6 h-6 text-teal-600" />
+                          <div className="flex items-end gap-1 mt-1">
+                            <div className="w-2 h-4 rounded-sm bg-teal-300" />
+                            <div className="w-2 h-7 rounded-sm bg-teal-400" />
+                            <div className="w-2 h-5 rounded-sm bg-teal-300" />
+                            <div className="w-2 h-9 rounded-sm bg-teal-500" />
+                            <div className="w-2 h-6 rounded-sm bg-teal-400" />
+                          </div>
+                        </div>
+                        <div className="w-20 h-24 rounded-xl bg-white border border-slate-200 shadow-[2px_2px_0px_rgba(0,0,0,0.04)] p-2.5 flex flex-col items-center justify-center gap-1.5">
+                          <FileText className="w-5 h-5 text-amber-500" />
+                          <div className="w-full space-y-1">
+                            <div className="h-1 w-full rounded-full bg-amber-200" />
+                            <div className="h-1 w-2/3 rounded-full bg-amber-100" />
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-sm text-slate-400">
-                        Dashboard analysis overview
-                      </p>
                     </div>
                   </div>
                 </div>
