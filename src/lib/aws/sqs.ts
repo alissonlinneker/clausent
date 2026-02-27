@@ -34,6 +34,15 @@ export interface AnalysisMessage {
   /** Key do arquivo no S3 (ex: contracts/{userId}/{uuid}/{fileName}) */
   fileKey: string;
   /**
+   * Tipo MIME do arquivo enviado.
+   * Usado para determinar a estratégia de extração de texto:
+   * - application/pdf → Textract (OCR)
+   * - image/* → Textract (OCR)
+   * - application/vnd.openxmlformats-officedocument.wordprocessingml.document → extração direta DOCX
+   * - text/plain → leitura direta do S3
+   */
+  mimeType: string;
+  /**
    * Ação a ser executada pelo worker.
    * - extract: apenas extrair texto (OCR)
    * - analyze: extrair texto e executar análise completa
@@ -179,6 +188,7 @@ export async function receiveFromQueue(): Promise<
           contractId: parsed.contractId,
           userId: parsed.userId,
           fileKey: parsed.fileKey,
+          mimeType: parsed.mimeType,
           action: parsed.action,
         } as AnalysisMessage,
         receiptHandle: msg.ReceiptHandle!,

@@ -70,8 +70,8 @@ export function MarketingFooter() {
       links: [
         { label: t('about'), href: '/about' },
         { label: t('blog'), href: '/blog' },
-        { label: t('careers'), href: '#' },
-        { label: t('pressKit'), href: '#' },
+        { label: t('careers'), href: '/about#careers' },
+        { label: t('pressKit'), href: '/about#press' },
         { label: t('contact'), href: '/contact' },
       ],
     },
@@ -80,17 +80,17 @@ export function MarketingFooter() {
       links: [
         { label: t('privacy'), href: '/privacy' },
         { label: t('terms'), href: '/terms' },
-        { label: t('cookies'), href: '#' },
-        { label: t('gdpr'), href: '#' },
+        { label: t('cookies'), href: '/privacy#cookies' },
+        { label: t('gdpr'), href: '/privacy#gdpr' },
       ],
     },
     {
       title: t('connect'),
       links: [
-        { label: 'Twitter', href: '#' },
-        { label: 'LinkedIn', href: '#' },
-        { label: 'GitHub', href: '#' },
-        { label: 'Discord', href: '#' },
+        { label: 'Twitter', href: 'https://x.com/clausent' },
+        { label: 'LinkedIn', href: 'https://linkedin.com/company/clausent' },
+        { label: 'GitHub', href: 'https://github.com/clausent' },
+        { label: 'Discord', href: 'https://discord.gg/clausent' },
       ],
     },
   ]

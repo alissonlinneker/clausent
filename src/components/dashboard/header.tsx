@@ -20,7 +20,7 @@ export function DashboardHeader() {
   const { user, signOut } = useAuth()
 
   return (
-    <header className="h-16 border-b border-slate-200 bg-white px-6 flex items-center justify-between gap-4">
+    <header className="h-16 border-b border-slate-200 bg-white px-4 sm:px-6 flex items-center justify-between gap-4">
       {/* Espaço para breadcrumbs ou título (placeholder) */}
       <div className="flex-1 max-w-md">
         <div className="relative">
