@@ -295,10 +295,10 @@ function daysUntil(dateStr: string): number {
 function getCategoryStyles(category: string) {
   const categoryMap: Record<string, { bg: string; text: string }> = {
     'Cloud Infrastructure': { bg: 'bg-sky-50', text: 'text-sky-700' },
-    CRM: { bg: 'bg-violet-50', text: 'text-violet-700' },
-    Productivity: { bg: 'bg-blue-50', text: 'text-blue-700' },
-    Communication: { bg: 'bg-indigo-50', text: 'text-indigo-700' },
-    Marketing: { bg: 'bg-pink-50', text: 'text-pink-700' },
+    CRM: { bg: 'bg-amber-50', text: 'text-amber-700' },
+    Productivity: { bg: 'bg-sky-50', text: 'text-sky-700' },
+    Communication: { bg: 'bg-cyan-50', text: 'text-cyan-700' },
+    Marketing: { bg: 'bg-orange-50', text: 'text-orange-700' },
     'Project Management': { bg: 'bg-teal-50', text: 'text-teal-700' },
     Monitoring: { bg: 'bg-orange-50', text: 'text-orange-700' },
     'Developer Tools': { bg: 'bg-slate-100', text: 'text-slate-700' },

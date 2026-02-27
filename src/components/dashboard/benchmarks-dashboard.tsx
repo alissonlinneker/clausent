@@ -103,8 +103,8 @@ const STAT_CARDS = [
     changeKey: 'benchmarkBasedOnMarket' as const,
     changePositive: true,
     icon: DollarSign,
-    bgLight: 'bg-violet-50',
-    textColor: 'text-violet-600',
+    bgLight: 'bg-amber-50',
+    textColor: 'text-amber-600',
   },
 ]
 
