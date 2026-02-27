@@ -40,6 +40,7 @@ export function DashboardHeader() {
           variant="ghost"
           size="icon"
           className="relative text-slate-500 hover:text-slate-700"
+          aria-label={t('notifications')}
         >
           <Bell className="h-5 w-5" />
           {/* Badge de notificação (placeholder) */}
@@ -67,6 +68,7 @@ export function DashboardHeader() {
             className="text-slate-400 hover:text-red-500"
             onClick={() => signOut()}
             title={t('signOut')}
+            aria-label={t('signOut')}
           >
             <LogOut className="h-4 w-4" />
           </Button>

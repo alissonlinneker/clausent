@@ -175,6 +175,7 @@ export function UploadForm() {
                   handleRemove()
                 }}
                 disabled={isUploading}
+                aria-label={t('removeFile')}
               >
                 <X className="h-4 w-4" />
               </Button>

@@ -176,7 +176,7 @@ export function PricingSection() {
           >
             {tCommon('monthly')}
           </span>
-          <Switch checked={isAnnual} onCheckedChange={setIsAnnual} />
+          <Switch checked={isAnnual} onCheckedChange={setIsAnnual} aria-label={tCommon('toggleBillingPeriod')} />
           <span
             className={`text-sm font-medium transition-colors ${
               isAnnual ? 'text-slate-900' : 'text-slate-400'

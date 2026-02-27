@@ -107,6 +107,7 @@ export function DashboardSidebar() {
             size="icon"
             className="lg:hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
             onClick={() => setIsOpen(false)}
+            aria-label={t('closeSidebar')}
           >
             <X className="h-4 w-4" />
           </Button>
