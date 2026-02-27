@@ -241,15 +241,20 @@ function formatCurrency(value: number): string {
 /**
  * Tooltip customizado para o gráfico Recharts.
  * Segue o design system neobrutalism com borda e sombra.
+ * Recebe as labels traduzidas via props para evitar uso de hooks fora de componente React.
  */
 function CustomTooltip({
   active,
   payload,
   label,
+  contractsLabel,
+  savingsLabel,
 }: {
   active?: boolean
   payload?: Array<{ value: number; dataKey: string }>
   label?: string
+  contractsLabel?: string
+  savingsLabel?: string
 }) {
   if (!active || !payload || payload.length === 0) return null
 
@@ -258,7 +263,7 @@ function CustomTooltip({
       <p className="text-sm font-semibold text-slate-900 mb-1">{label}</p>
       {payload.map((entry) => (
         <p key={entry.dataKey} className="text-xs text-slate-500">
-          {entry.dataKey === 'contracts' ? 'Contracts' : 'Savings'}:{' '}
+          {entry.dataKey === 'contracts' ? contractsLabel : savingsLabel}:{' '}
           <span className="font-medium text-slate-700">
             {entry.dataKey === 'savings'
               ? `$${entry.value.toLocaleString('en-US')}`
@@ -420,10 +425,10 @@ export function DashboardOverview() {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h2 className="text-lg font-semibold text-slate-900">
-                    Contract Portfolio
+                    {t('contractPortfolio')}
                   </h2>
                   <p className="text-sm text-slate-500 mt-0.5">
-                    6-month contract &amp; savings trend
+                    {t('chartSubtitle')}
                   </p>
                 </div>
 
@@ -431,11 +436,11 @@ export function DashboardOverview() {
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-teal-500" />
-                    <span className="text-xs text-slate-500">Contracts</span>
+                    <span className="text-xs text-slate-500">{t('chartContracts')}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    <span className="text-xs text-slate-500">Savings</span>
+                    <span className="text-xs text-slate-500">{t('chartSavings')}</span>
                   </div>
                 </div>
               </div>
@@ -512,7 +517,7 @@ export function DashboardOverview() {
                       tickLine={false}
                       tickFormatter={(v: number) => `$${(v / 1000).toFixed(0)}K`}
                     />
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<CustomTooltip contractsLabel={t('chartContracts')} savingsLabel={t('chartSavings')} />} />
 
                     {/* Área de contratos (eixo esquerdo) */}
                     <Area
@@ -599,7 +604,7 @@ export function DashboardOverview() {
                           </p>
                           <p className={`text-xs mt-0.5 ${styles.text}`}>
                             {alert.type === 'renewal'
-                              ? `${alert.daysLeft} days left`
+                              ? t('daysLeft', { count: alert.daysLeft })
                               : alert.message}
                           </p>
                         </div>
@@ -619,7 +624,7 @@ export function DashboardOverview() {
                 variant="ghost"
                 className="w-full mt-4 text-teal-600 hover:text-teal-700 hover:bg-teal-50 rounded-xl text-sm"
               >
-                View all alerts
+                {t('viewAllAlerts')}
                 <ArrowUpRight className="h-3.5 w-3.5 ml-1" />
               </Button>
             </motion.div>
@@ -640,7 +645,7 @@ export function DashboardOverview() {
                     {t('recentActivity')}
                   </h2>
                   <p className="text-sm text-slate-500 mt-0.5">
-                    Latest analyzed contracts
+                    {t('latestAnalyzed')}
                   </p>
                 </div>
                 <Link href="/dashboard/contracts">
@@ -648,7 +653,7 @@ export function DashboardOverview() {
                     variant="ghost"
                     className="text-teal-600 hover:text-teal-700 hover:bg-teal-50 rounded-xl text-sm gap-1"
                   >
-                    View all
+                    {t('viewAll')}
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </Button>
                 </Link>
@@ -660,20 +665,20 @@ export function DashboardOverview() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-slate-100">
-                    <th className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider px-6 py-3">
-                      Contract
+                    <th scope="col" className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider px-6 py-3">
+                      {t('tableContract')}
                     </th>
-                    <th className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider px-6 py-3">
-                      Risk Score
+                    <th scope="col" className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider px-6 py-3">
+                      {t('tableRiskScore')}
                     </th>
-                    <th className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider px-6 py-3">
-                      Value
+                    <th scope="col" className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider px-6 py-3">
+                      {t('tableValue')}
                     </th>
-                    <th className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider px-6 py-3">
-                      Renewal
+                    <th scope="col" className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider px-6 py-3">
+                      {t('tableRenewal')}
                     </th>
-                    <th className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider px-6 py-3">
-                      Status
+                    <th scope="col" className="text-left text-xs font-medium text-slate-500 uppercase tracking-wider px-6 py-3">
+                      {t('tableStatus')}
                     </th>
                   </tr>
                 </thead>
@@ -740,15 +745,16 @@ export function DashboardOverview() {
                         </td>
 
                         {/* Status badge — completed ou analyzing */}
+                        {/* Status badge — concluído ou em análise */}
                         <td className="px-6 py-4">
                           {contract.status === 'completed' ? (
                             <Badge className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium hover:bg-emerald-50">
-                              Completed
+                              {t('statusCompleted')}
                             </Badge>
                           ) : (
                             <Badge className="bg-amber-50 text-amber-700 border border-amber-200 text-xs font-medium hover:bg-amber-50">
                               <Loader2 className="h-3 w-3 animate-spin mr-1" />
-                              Analyzing
+                              {t('statusAnalyzing')}
                             </Badge>
                           )}
                         </td>

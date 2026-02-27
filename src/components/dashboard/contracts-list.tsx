@@ -559,30 +559,36 @@ export function ContractsList() {
         </div>
       </div>
 
-      {/* ── Resumo dos resultados ──────────────────────────────────────── */}
+      {/* ── Resumo dos resultados — quantidade, ativos e em risco ────── */}
       {hasResults && (
         <div className="flex items-center gap-1.5 text-sm text-slate-500">
           <FileText className="h-4 w-4" />
           <span>
-            Showing{' '}
-            <span className="font-semibold text-slate-700">
-              {filteredContracts.length}
-            </span>{' '}
-            of{' '}
-            <span className="font-semibold text-slate-700">
-              {MOCK_CONTRACTS.length}
-            </span>{' '}
-            contracts
+            {tDash.rich('showingContracts', {
+              filtered: filteredContracts.length,
+              total: MOCK_CONTRACTS.length,
+              b: (chunks) => (
+                <span className="font-semibold text-slate-700">{chunks}</span>
+              ),
+            })}
           </span>
           <span className="text-slate-300 mx-1">&#8226;</span>
           <span>
-            <span className="font-semibold text-emerald-600">{activeCount}</span>{' '}
-            active
+            {tDash.rich('activeCount', {
+              count: activeCount,
+              green: (chunks) => (
+                <span className="font-semibold text-emerald-600">{chunks}</span>
+              ),
+            })}
           </span>
           <span className="text-slate-300 mx-1">&#8226;</span>
           <span>
-            <span className="font-semibold text-orange-600">{atRiskCount}</span>{' '}
-            at risk
+            {tDash.rich('atRiskCount', {
+              count: atRiskCount,
+              orange: (chunks) => (
+                <span className="font-semibold text-orange-600">{chunks}</span>
+              ),
+            })}
           </span>
         </div>
       )}
@@ -596,23 +602,23 @@ export function ContractsList() {
               {/* Cabeçalho da tabela */}
               <thead className="bg-slate-50/80 border-b border-slate-200">
                 <tr>
-                  <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  <th scope="col" className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                     {t('title')}
                   </th>
-                  <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider hidden md:table-cell">
+                  <th scope="col" className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider hidden md:table-cell">
                     {t('category')}
                   </th>
-                  <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  <th scope="col" className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                     {t('riskScore')}
                   </th>
-                  <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">
+                  <th scope="col" className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider hidden lg:table-cell">
                     {t('value')}
                   </th>
-                  <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider hidden sm:table-cell">
+                  <th scope="col" className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider hidden sm:table-cell">
                     {t('endDate')}
                   </th>
-                  <th className="text-right px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    Status
+                  <th scope="col" className="text-right px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    {tDash('columnStatus')}
                   </th>
                 </tr>
               </thead>
@@ -724,7 +730,7 @@ export function ContractsList() {
                             </span>
                           </div>
                           <p className="text-xs text-slate-400 mt-0.5">
-                            {formatCurrency(contract.monthlyValue)}/mo
+                            {formatCurrency(contract.monthlyValue)}{tDash('perMonth')}
                           </p>
                         </Link>
                       </td>
@@ -746,7 +752,7 @@ export function ContractsList() {
                             <div className="flex items-center gap-1 mt-1">
                               <AlertCircle className="h-3 w-3 text-amber-500" />
                               <span className="text-xs font-medium text-amber-600">
-                                {remainingDays} days left
+                                {tDash('daysLeft', { count: remainingDays })}
                               </span>
                             </div>
                           )}
@@ -755,7 +761,7 @@ export function ContractsList() {
                             <div className="flex items-center gap-1 mt-1">
                               <AlertCircle className="h-3 w-3 text-red-500" />
                               <span className="text-xs font-medium text-red-600">
-                                Expired
+                                {tDash('expired')}
                               </span>
                             </div>
                           )}
@@ -808,14 +814,17 @@ export function ContractsList() {
               className="rounded-xl border-slate-200 gap-1.5"
             >
               <ChevronLeft className="h-4 w-4" />
-              Previous
+              {tDash('paginationPrevious')}
             </Button>
 
             <span className="text-sm text-slate-500">
-              Page{' '}
-              <span className="font-semibold text-slate-700">{safePage}</span>{' '}
-              of{' '}
-              <span className="font-semibold text-slate-700">{totalPages}</span>
+              {tDash.rich('paginationPage', {
+                current: safePage,
+                total: totalPages,
+                b: (chunks) => (
+                  <span className="font-semibold text-slate-700">{chunks}</span>
+                ),
+              })}
             </span>
 
             <Button
@@ -825,7 +834,7 @@ export function ContractsList() {
               disabled={safePage >= totalPages}
               className="rounded-xl border-slate-200 gap-1.5"
             >
-              Next
+              {tDash('paginationNext')}
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
