@@ -42,8 +42,6 @@ export function VerifyEmailForm() {
        * Para verificação por código, será necessário implementar
        * um plugin customizado ou usar o link padrão.
        */
-      console.log('Verifying code:', code, 'for email:', email)
-
       /** Redirecionar para dashboard após verificação */
       window.location.href = '/dashboard'
     } catch {
@@ -60,7 +58,6 @@ export function VerifyEmailForm() {
 
     try {
       /** TODO: Reenviar código de verificação */
-      console.log('Resending verification code to:', email)
     } catch {
       setError(t('errorResendCode'))
     } finally {

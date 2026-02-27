@@ -230,7 +230,6 @@ export function ProfileSettings() {
   function handleDeleteAccount() {
     if (deleteConfirmText !== 'DELETE') return
     /** TODO: Chamar API de exclusão e redirecionar para logout */
-    console.log('Account deletion requested')
   }
 
   /* ---------------------------------------------------------------

@@ -467,7 +467,6 @@ export function TeamManagement() {
    */
   function handleResendInvite(memberId: string) {
     /** Em produção, dispararia um e-mail de convite novamente */
-    console.log('Resending invite for member:', memberId)
   }
 
   /**
