@@ -40,14 +40,14 @@ export function SignInForm() {
       })
 
       if (result.error) {
-        setError(result.error.message || 'Invalid credentials')
+        setError(result.error.message || t('errorInvalidCredentials'))
         return
       }
 
       /** Redirecionar para o dashboard após login */
       router.push('/dashboard')
     } catch {
-      setError('Something went wrong. Please try again.')
+      setError(t('errorGeneric'))
     } finally {
       setIsLoading(false)
     }

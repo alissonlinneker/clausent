@@ -47,7 +47,7 @@ export function VerifyEmailForm() {
       /** Redirecionar para dashboard após verificação */
       window.location.href = '/dashboard'
     } catch {
-      setError('Invalid or expired code. Please try again.')
+      setError(t('errorInvalidCode'))
     } finally {
       setIsLoading(false)
     }
@@ -62,7 +62,7 @@ export function VerifyEmailForm() {
       /** TODO: Reenviar código de verificação */
       console.log('Resending verification code to:', email)
     } catch {
-      setError('Failed to resend code.')
+      setError(t('errorResendCode'))
     } finally {
       setResending(false)
     }

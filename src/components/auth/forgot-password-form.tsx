@@ -40,7 +40,7 @@ export function ForgotPasswordForm() {
       /** Exibir estado de sucesso independente do resultado (segurança) */
       setSent(true)
     } catch {
-      setError('Something went wrong. Please try again.')
+      setError(t('errorGeneric'))
     } finally {
       setIsLoading(false)
     }
@@ -54,10 +54,10 @@ export function ForgotPasswordForm() {
           <Mail className="h-6 w-6 text-teal-600" />
         </div>
         <h2 className="text-xl font-bold text-slate-900 mb-2">
-          Check your email
+          {t('checkYourEmail')}
         </h2>
         <p className="text-sm text-slate-500 mb-6">
-          If an account exists with <strong>{email}</strong>, we sent a password reset link.
+          {t('resetLinkSent', { email })}
         </p>
         <Link
           href="/sign-in"

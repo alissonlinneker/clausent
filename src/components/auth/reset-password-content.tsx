@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   Loader2,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -127,6 +128,9 @@ const fadeVariants = {
  * Design: Light Neobrutalism consistente com o resto da aplicação.
  */
 export function ResetPasswordContent() {
+  /** Hook de tradução para o namespace de autenticação */
+  const t = useTranslations('auth')
+
   /** Parâmetros de URL — contém o token de reset */
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
@@ -162,23 +166,23 @@ export function ResetPasswordContent() {
   const passwordRequirements: PasswordRequirement[] = useMemo(
     () => [
       {
-        label: `At least ${MIN_PASSWORD_LENGTH} characters`,
+        label: t('reqMinCharacters', { count: MIN_PASSWORD_LENGTH }),
         met: password.length >= MIN_PASSWORD_LENGTH,
       },
       {
-        label: 'At least one uppercase letter',
+        label: t('reqUppercase'),
         met: HAS_UPPERCASE.test(password),
       },
       {
-        label: 'At least one number',
+        label: t('reqNumber'),
         met: HAS_NUMBER.test(password),
       },
       {
-        label: 'At least one special character',
+        label: t('reqSpecialChar'),
         met: HAS_SPECIAL.test(password),
       },
     ],
-    [password]
+    [password, t]
   )
 
   /** Verificar se todos os requisitos foram cumpridos */
@@ -235,7 +239,7 @@ export function ResetPasswordContent() {
       /** Transição para o estado de sucesso */
       setResetState('success')
     } catch {
-      setApiError('Something went wrong. Please try again.')
+      setApiError(t('errorGeneric'))
     } finally {
       setIsLoading(false)
     }
@@ -265,21 +269,20 @@ export function ResetPasswordContent() {
         variants={itemVariants}
         className="text-xl font-bold text-slate-900 mb-2"
       >
-        Invalid or Expired Link
+        {t('invalidOrExpiredLink')}
       </motion.h2>
       <motion.p
         variants={itemVariants}
         className="text-sm text-slate-500 mb-6 max-w-sm mx-auto"
       >
-        This password reset link is no longer valid. It may have expired or
-        already been used.
+        {t('invalidOrExpiredLinkDescription')}
       </motion.p>
 
       {/* Botão para solicitar novo link */}
       <motion.div variants={itemVariants}>
         <Link href="/forgot-password">
           <Button className="bg-teal-600 hover:bg-teal-700 text-white rounded-full px-6 shadow-[2px_2px_0px_rgba(0,0,0,0.1)]">
-            Request New Link
+            {t('requestNewLink')}
           </Button>
         </Link>
       </motion.div>
@@ -291,7 +294,7 @@ export function ResetPasswordContent() {
           className="inline-flex items-center gap-1 text-sm font-medium text-teal-600 hover:text-teal-700"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Sign In
+          {t('backToSignIn')}
         </Link>
       </motion.p>
     </motion.div>
@@ -323,14 +326,13 @@ export function ResetPasswordContent() {
         variants={itemVariants}
         className="text-xl font-bold text-slate-900 mb-2"
       >
-        Password Reset Successfully!
+        {t('passwordResetSuccess')}
       </motion.h2>
       <motion.p
         variants={itemVariants}
         className="text-sm text-slate-500 mb-6"
       >
-        Your password has been updated. Redirecting to sign in
-        {redirectCount > 0 ? ` in ${redirectCount}s` : ''}...
+        {t('passwordResetSuccessDescription')}
       </motion.p>
 
       {/* Barra de progresso do redirecionamento */}
@@ -355,7 +357,7 @@ export function ResetPasswordContent() {
           className="inline-flex items-center gap-1 text-sm font-medium text-teal-600 hover:text-teal-700"
         >
           <ArrowLeft className="h-4 w-4" />
-          Go to Sign In now
+          {t('goToSignIn')}
         </Link>
       </motion.div>
     </motion.div>
@@ -378,10 +380,10 @@ export function ResetPasswordContent() {
           <Lock className="h-6 w-6 text-teal-600" />
         </div>
         <h1 className="text-2xl font-bold text-slate-900">
-          Set Your New Password
+          {t('setNewPasswordTitle')}
         </h1>
         <p className="mt-1 text-sm text-slate-500">
-          Choose a strong password for your account.
+          {t('setNewPasswordSubtitle')}
         </p>
       </motion.div>
 
@@ -389,12 +391,12 @@ export function ResetPasswordContent() {
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Campo de nova senha */}
         <motion.div variants={itemVariants} className="space-y-2">
-          <Label htmlFor="new-password">New Password</Label>
+          <Label htmlFor="new-password">{t('newPassword')}</Label>
           <div className="relative">
             <Input
               id="new-password"
               type={showPassword ? 'text' : 'password'}
-              placeholder="Enter your new password"
+              placeholder={t('newPasswordPlaceholder')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -459,12 +461,12 @@ export function ResetPasswordContent() {
 
         {/* Campo de confirmação de senha */}
         <motion.div variants={itemVariants} className="space-y-2">
-          <Label htmlFor="confirm-password">Confirm Password</Label>
+          <Label htmlFor="confirm-password">{t('confirmPassword')}</Label>
           <div className="relative">
             <Input
               id="confirm-password"
               type={showConfirmPassword ? 'text' : 'password'}
-              placeholder="Confirm your new password"
+              placeholder={t('confirmPasswordPlaceholder')}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
@@ -503,14 +505,14 @@ export function ResetPasswordContent() {
                   <>
                     <CheckCircle className="h-3.5 w-3.5 text-emerald-500" />
                     <span className="text-xs text-emerald-600 font-medium">
-                      Passwords match
+                      {t('passwordsMatch')}
                     </span>
                   </>
                 ) : (
                   <>
                     <XCircle className="h-3.5 w-3.5 text-red-400" />
                     <span className="text-xs text-red-500">
-                      Passwords do not match
+                      {t('errorPasswordsDoNotMatch')}
                     </span>
                   </>
                 )}
@@ -543,10 +545,10 @@ export function ResetPasswordContent() {
             {isLoading ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                Resetting...
+                {t('resetting')}
               </>
             ) : (
-              'Reset Password'
+              t('resetPasswordButton')
             )}
           </Button>
         </motion.div>
@@ -559,7 +561,7 @@ export function ResetPasswordContent() {
           className="inline-flex items-center gap-1 text-sm font-medium text-teal-600 hover:text-teal-700"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Sign In
+          {t('backToSignIn')}
         </Link>
       </motion.p>
     </motion.div>

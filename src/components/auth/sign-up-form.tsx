@@ -36,14 +36,14 @@ export function SignUpForm() {
 
     /** Validar se as senhas coincidem */
     if (password !== confirmPassword) {
-      setError('Passwords do not match')
+      setError(t('errorPasswordsDoNotMatch'))
       setIsLoading(false)
       return
     }
 
     /** Validar força da senha */
     if (password.length < 8) {
-      setError('Password must be at least 8 characters')
+      setError(t('errorPasswordMinLength'))
       setIsLoading(false)
       return
     }
@@ -57,14 +57,14 @@ export function SignUpForm() {
       })
 
       if (result.error) {
-        setError(result.error.message || 'Failed to create account')
+        setError(result.error.message || t('errorFailedToCreateAccount'))
         return
       }
 
       /** Redirecionar para verificação de email */
       router.push(`/verify-email?email=${encodeURIComponent(email)}`)
     } catch {
-      setError('Something went wrong. Please try again.')
+      setError(t('errorGeneric'))
     } finally {
       setIsLoading(false)
     }
