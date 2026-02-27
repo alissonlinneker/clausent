@@ -47,6 +47,7 @@ const DASHBOARD_ROUTES = [
   { path: '/en/dashboard/contracts', name: 'Contracts List' },
   { path: '/en/dashboard/alerts', name: 'Alerts' },
   { path: '/en/dashboard/benchmarks', name: 'Benchmarks' },
+  { path: '/en/dashboard/risk', name: 'Risk Analysis' },
   { path: '/en/dashboard/analytics', name: 'Analytics' },
   { path: '/en/dashboard/reports', name: 'Reports' },
   { path: '/en/dashboard/team', name: 'Team' },
