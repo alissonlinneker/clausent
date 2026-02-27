@@ -68,6 +68,12 @@
     "mockupThisMonth": "questo mese",
     "mockupRecentContracts": "Contratti Recenti"
   },
+  "cta": {
+    "badge": "Nessuna carta di credito richiesta",
+    "title": "Pronto a risparmiare sui tuoi",
+    "titleHighlight": "contratti",
+    "subtitle": "Unisciti a migliaia di aziende che risparmiano in media il 9,2% sui costi contrattuali. Carica il tuo primo contratto gratuitamente e scopri la differenza."
+  },
   "features": {
     "badge": "Funzionalità",
     "title": "Tutto ciò che serve per",

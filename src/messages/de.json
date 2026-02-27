@@ -68,6 +68,12 @@
     "mockupThisMonth": "diesen Monat",
     "mockupRecentContracts": "Aktuelle Verträge"
   },
+  "cta": {
+    "badge": "Keine Kreditkarte erforderlich",
+    "title": "Bereit, bei Ihren",
+    "titleHighlight": "Verträgen zu sparen",
+    "subtitle": "Schließen Sie sich Tausenden von Unternehmen an, die durchschnittlich 9,2% bei Vertragskosten einsparen. Laden Sie Ihren ersten Vertrag kostenlos hoch und erleben Sie den Unterschied."
+  },
   "features": {
     "badge": "Funktionen",
     "title": "Alles was Sie brauchen, um",

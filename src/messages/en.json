@@ -68,6 +68,12 @@
     "mockupThisMonth": "this month",
     "mockupRecentContracts": "Recent Contracts"
   },
+  "cta": {
+    "badge": "No credit card required",
+    "title": "Ready to save on your",
+    "titleHighlight": "contracts",
+    "subtitle": "Join thousands of businesses saving an average of 9.2% on contract costs. Upload your first contract for free and see the difference AI makes."
+  },
   "features": {
     "badge": "Features",
     "title": "Everything you need to",

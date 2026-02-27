@@ -68,6 +68,12 @@
     "mockupThisMonth": "este mês",
     "mockupRecentContracts": "Contratos Recentes"
   },
+  "cta": {
+    "badge": "Sem cartão de crédito",
+    "title": "Pronto para economizar em seus",
+    "titleHighlight": "contratos",
+    "subtitle": "Junte-se a milhares de empresas que economizam em média 9,2% nos custos contratuais. Envie seu primeiro contrato gratuitamente e veja a diferença que a IA faz."
+  },
   "features": {
     "badge": "Funcionalidades",
     "title": "Tudo o que você precisa para",

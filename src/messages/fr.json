@@ -68,6 +68,12 @@
     "mockupThisMonth": "ce mois-ci",
     "mockupRecentContracts": "Contrats Récents"
   },
+  "cta": {
+    "badge": "Aucune carte de crédit requise",
+    "title": "Prêt à économiser sur vos",
+    "titleHighlight": "contrats",
+    "subtitle": "Rejoignez des milliers d'entreprises qui économisent en moyenne 9,2% sur leurs coûts contractuels. Importez votre premier contrat gratuitement et constatez la différence."
+  },
   "features": {
     "badge": "Fonctionnalités",
     "title": "Tout ce dont vous avez besoin pour",

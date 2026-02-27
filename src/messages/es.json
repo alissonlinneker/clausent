@@ -68,6 +68,12 @@
     "mockupThisMonth": "este mes",
     "mockupRecentContracts": "Contratos Recientes"
   },
+  "cta": {
+    "badge": "Sin tarjeta de crédito",
+    "title": "¿Listo para ahorrar en tus",
+    "titleHighlight": "contratos",
+    "subtitle": "Únete a miles de empresas que ahorran un promedio del 9,2% en costos contractuales. Sube tu primer contrato gratis y descubre la diferencia que hace la IA."
+  },
   "features": {
     "badge": "Funcionalidades",
     "title": "Todo lo que necesitas para",

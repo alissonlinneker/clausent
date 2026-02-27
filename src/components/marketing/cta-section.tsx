@@ -17,7 +17,8 @@ import { useTranslations } from 'next-intl'
  * contraste e chamar atenção como último ponto de conversão.
  */
 export function CTASection() {
-  /** Traduções dos namespaces hero e common */
+  /** Traduções dos namespaces cta, hero e common */
+  const t = useTranslations('cta')
   const tHero = useTranslations('hero')
   const tCommon = useTranslations('common')
 
@@ -38,7 +39,7 @@ export function CTASection() {
         >
           <span className="inline-flex items-center gap-2 rounded-full bg-teal-500/10 border border-teal-500/20 px-4 py-1.5 text-sm font-medium text-teal-400 mb-6">
             <Sparkles className="h-4 w-4" />
-            No credit card required
+            {t('badge')}
           </span>
         </motion.div>
 
@@ -50,9 +51,9 @@ export function CTASection() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight"
         >
-          Ready to save on your{' '}
+          {t('title')}{' '}
           <span className="bg-gradient-to-r from-teal-400 to-emerald-400 bg-clip-text text-transparent">
-            contracts
+            {t('titleHighlight')}
           </span>
           ?
         </motion.h2>
@@ -65,8 +66,7 @@ export function CTASection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-6 text-lg text-slate-400 max-w-2xl mx-auto"
         >
-          Join thousands of businesses saving an average of 9.2% on contract costs.
-          Upload your first contract for free and see the difference AI makes.
+          {t('subtitle')}
         </motion.p>
 
         {/* Estatísticas em linha */}
