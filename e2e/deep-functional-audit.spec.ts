@@ -14,8 +14,7 @@
 
 import { test, expect, type Page, type ConsoleMessage } from '@playwright/test'
 
-/** Configuração de base URL para todos os testes */
-test.use({ baseURL: 'http://localhost:11000' })
+/** Usa a baseURL do playwright.config.ts (porta 11001) */
 
 /* =================================================================
    UTILITÁRIOS
