@@ -207,7 +207,7 @@ describe('generateAlertEmailHtml — template de notificação de alerta', () =>
     it('deve aceitar string ISO como triggerDate', () => {
       const html = generateAlertEmailHtml({
         ...parametrosPadrao,
-        triggerDate: '2026-06-01T00:00:00Z',
+        triggerDate: '2026-06-15T12:00:00Z',
       })
 
       /** Verifica que a data foi formatada com mês abreviado e ano */

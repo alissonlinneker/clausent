@@ -8,37 +8,12 @@
  * - Modo compacto (prop compact)
  * - Ausência de botões quando não fornecidos
  * - Tratamento de edge cases (strings longas, etc.)
- *
- * Usa ReactDOM diretamente (sem @testing-library/react).
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { describe, it, expect } from 'vitest'
+import { render, screen } from '@testing-library/react'
 import { FileText, Upload, HelpCircle } from 'lucide-react'
 import { EmptyState } from './empty-state'
-
-/** Container DOM para montar os componentes */
-let container: HTMLDivElement
-let root: ReactDOM.Root
-
-beforeEach(() => {
-  container = document.createElement('div')
-  document.body.appendChild(container)
-  root = ReactDOM.createRoot(container)
-})
-
-afterEach(() => {
-  root.unmount()
-  container.remove()
-})
-
-/** Helper para renderizar um componente de forma síncrona */
-function renderSync(element: React.ReactElement) {
-  ReactDOM.flushSync(() => {
-    root.render(element)
-  })
-}
 
 describe('EmptyState — componente de estado vazio', () => {
   /** Props padrão para a maioria dos testes */
@@ -50,40 +25,39 @@ describe('EmptyState — componente de estado vazio', () => {
 
   describe('renderização básica', () => {
     it('deve renderizar o título fornecido', () => {
-      renderSync(<EmptyState {...propsPadrao} />)
+      render(<EmptyState {...propsPadrao} />)
 
-      const titulo = container.querySelector('h3')
-      expect(titulo).not.toBeNull()
-      expect(titulo?.textContent).toBe('No contracts yet')
+      const titulo = screen.getByRole('heading', { level: 3 })
+      expect(titulo).toBeDefined()
+      expect(titulo.textContent).toBe('No contracts yet')
     })
 
     it('deve renderizar a descrição fornecida', () => {
-      renderSync(<EmptyState {...propsPadrao} />)
+      render(<EmptyState {...propsPadrao} />)
 
-      const descricao = container.querySelector('p')
-      expect(descricao).not.toBeNull()
-      expect(descricao?.textContent).toBe('Upload your first contract to get started.')
+      const descricao = screen.getByText('Upload your first contract to get started.')
+      expect(descricao).toBeDefined()
     })
 
     it('deve renderizar o ícone como SVG', () => {
-      renderSync(<EmptyState {...propsPadrao} />)
+      const { container } = render(<EmptyState {...propsPadrao} />)
 
       const svgs = container.querySelectorAll('svg')
       expect(svgs.length).toBeGreaterThan(0)
     })
 
     it('deve renderizar o título como h3', () => {
-      renderSync(<EmptyState {...propsPadrao} />)
+      render(<EmptyState {...propsPadrao} />)
 
-      const titulo = container.querySelector('h3')
-      expect(titulo).not.toBeNull()
-      expect(titulo?.tagName).toBe('H3')
+      const titulo = screen.getByRole('heading', { level: 3 })
+      expect(titulo).toBeDefined()
+      expect(titulo.tagName).toBe('H3')
     })
   })
 
   describe('botão de ação primário', () => {
     it('deve renderizar o botão quando actionLabel e actionHref são fornecidos', () => {
-      renderSync(
+      render(
         <EmptyState
           {...propsPadrao}
           actionLabel="Upload Contract"
@@ -92,11 +66,11 @@ describe('EmptyState — componente de estado vazio', () => {
       )
 
       /** O texto do botão deve aparecer no DOM */
-      expect(container.textContent).toContain('Upload Contract')
+      expect(screen.getByText('Upload Contract')).toBeDefined()
     })
 
     it('deve gerar o link com o href correto', () => {
-      renderSync(
+      const { container } = render(
         <EmptyState
           {...propsPadrao}
           actionLabel="Upload Contract"
@@ -113,7 +87,7 @@ describe('EmptyState — componente de estado vazio', () => {
     })
 
     it('deve renderizar o ícone de ação quando actionIcon é fornecido', () => {
-      renderSync(
+      const { container } = render(
         <EmptyState
           {...propsPadrao}
           actionLabel="Upload Contract"
@@ -128,7 +102,7 @@ describe('EmptyState — componente de estado vazio', () => {
     })
 
     it('deve NÃO renderizar o botão quando apenas actionLabel é fornecido (sem href)', () => {
-      renderSync(
+      const { container } = render(
         <EmptyState
           {...propsPadrao}
           actionLabel="Upload Contract"
@@ -146,7 +120,7 @@ describe('EmptyState — componente de estado vazio', () => {
 
   describe('botão de ação secundário', () => {
     it('deve renderizar o botão secundário quando label e href são fornecidos', () => {
-      renderSync(
+      render(
         <EmptyState
           {...propsPadrao}
           secondaryLabel="Learn more"
@@ -154,11 +128,11 @@ describe('EmptyState — componente de estado vazio', () => {
         />
       )
 
-      expect(container.textContent).toContain('Learn more')
+      expect(screen.getByText('Learn more')).toBeDefined()
     })
 
     it('deve gerar o link secundário com href correto', () => {
-      renderSync(
+      const { container } = render(
         <EmptyState
           {...propsPadrao}
           secondaryLabel="Learn more"
@@ -174,7 +148,7 @@ describe('EmptyState — componente de estado vazio', () => {
     })
 
     it('deve NÃO renderizar o botão secundário quando apenas label é fornecido', () => {
-      renderSync(
+      const { container } = render(
         <EmptyState
           {...propsPadrao}
           secondaryLabel="Learn more"
@@ -191,7 +165,7 @@ describe('EmptyState — componente de estado vazio', () => {
 
   describe('ambos os botões', () => {
     it('deve renderizar botão primário e secundário juntos', () => {
-      renderSync(
+      render(
         <EmptyState
           {...propsPadrao}
           actionLabel="Upload"
@@ -201,17 +175,17 @@ describe('EmptyState — componente de estado vazio', () => {
         />
       )
 
-      expect(container.textContent).toContain('Upload')
-      expect(container.textContent).toContain('Help')
+      expect(screen.getByText('Upload')).toBeDefined()
+      expect(screen.getByText('Help')).toBeDefined()
     })
   })
 
   describe('sem botões', () => {
     it('deve renderizar apenas título e descrição quando não há ações', () => {
-      renderSync(<EmptyState {...propsPadrao} />)
+      const { container } = render(<EmptyState {...propsPadrao} />)
 
-      expect(container.textContent).toContain('No contracts yet')
-      expect(container.textContent).toContain('Upload your first contract to get started.')
+      expect(screen.getByText('No contracts yet')).toBeDefined()
+      expect(screen.getByText('Upload your first contract to get started.')).toBeDefined()
 
       /** Não deve haver links de navegação (nenhum <a>) */
       const links = container.querySelectorAll('a')
@@ -221,7 +195,7 @@ describe('EmptyState — componente de estado vazio', () => {
 
   describe('modo compacto', () => {
     it('deve usar padding reduzido quando compact é true', () => {
-      renderSync(<EmptyState {...propsPadrao} compact />)
+      const { container } = render(<EmptyState {...propsPadrao} compact />)
 
       /** O container principal deve ter p-8 em vez de p-12 */
       const wrapper = container.firstElementChild
@@ -229,7 +203,7 @@ describe('EmptyState — componente de estado vazio', () => {
     })
 
     it('deve usar padding completo quando compact é false ou omitido', () => {
-      renderSync(<EmptyState {...propsPadrao} />)
+      const { container } = render(<EmptyState {...propsPadrao} />)
 
       const wrapper = container.firstElementChild
       expect(wrapper?.className).toContain('p-12')
@@ -238,7 +212,7 @@ describe('EmptyState — componente de estado vazio', () => {
 
   describe('edge cases', () => {
     it('deve funcionar com título longo', () => {
-      renderSync(
+      render(
         <EmptyState
           icon={FileText}
           title="This is a very long title that might cause layout issues in some cases"
@@ -246,14 +220,14 @@ describe('EmptyState — componente de estado vazio', () => {
         />
       )
 
-      expect(container.textContent).toContain(
-        'This is a very long title that might cause layout issues in some cases'
-      )
+      expect(
+        screen.getByText('This is a very long title that might cause layout issues in some cases')
+      ).toBeDefined()
     })
 
     it('deve funcionar com descrição longa', () => {
       const descricaoLonga = 'A'.repeat(500)
-      renderSync(
+      render(
         <EmptyState
           icon={FileText}
           title="Title"
@@ -261,11 +235,11 @@ describe('EmptyState — componente de estado vazio', () => {
         />
       )
 
-      expect(container.textContent).toContain(descricaoLonga)
+      expect(screen.getByText(descricaoLonga)).toBeDefined()
     })
 
     it('deve aceitar diferentes ícones do lucide', () => {
-      renderSync(
+      const { container } = render(
         <EmptyState
           icon={HelpCircle}
           title="Need help?"
@@ -273,7 +247,7 @@ describe('EmptyState — componente de estado vazio', () => {
         />
       )
 
-      expect(container.textContent).toContain('Need help?')
+      expect(screen.getByText('Need help?')).toBeDefined()
       expect(container.querySelectorAll('svg').length).toBeGreaterThan(0)
     })
   })

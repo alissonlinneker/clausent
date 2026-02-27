@@ -45,10 +45,10 @@ export function getStripe(): Stripe {
  * no backend antes de permitir upload de novos contratos.
  */
 export const PLAN_LIMITS: Record<string, number | null> = {
-  free: 3,
-  starter: 25,
-  professional: 100,
-  business: 500,
+  free: 1,
+  starter: 5,
+  professional: 25,
+  business: 100,
   enterprise: null,
 }
 

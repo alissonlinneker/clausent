@@ -8,95 +8,69 @@
  * - Ausência do botão de retry quando onRetry não é fornecido
  * - Ícone de erro presente no DOM
  * - Estilos de borda vermelha
- *
- * Usa ReactDOM diretamente (sem @testing-library/react).
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { ErrorState } from './error-state'
-
-/** Container DOM para montar os componentes */
-let container: HTMLDivElement
-let root: ReactDOM.Root
-
-beforeEach(() => {
-  container = document.createElement('div')
-  document.body.appendChild(container)
-  root = ReactDOM.createRoot(container)
-})
-
-afterEach(() => {
-  root.unmount()
-  container.remove()
-})
-
-/** Helper para renderizar um componente de forma síncrona */
-function renderSync(element: React.ReactElement) {
-  ReactDOM.flushSync(() => {
-    root.render(element)
-  })
-}
 
 describe('ErrorState — componente de estado de erro', () => {
   describe('renderização com título padrão', () => {
     it('deve renderizar o título padrão usando a chave de tradução "error"', () => {
-      renderSync(<ErrorState />)
+      render(<ErrorState />)
 
       /**
        * O mock de useTranslations retorna a própria chave.
        * Então t('error') retorna 'error'.
        */
-      const titulo = container.querySelector('h3')
-      expect(titulo?.textContent).toBe('error')
+      const titulo = screen.getByRole('heading', { level: 3 })
+      expect(titulo.textContent).toBe('error')
     })
 
     it('deve renderizar como h3', () => {
-      renderSync(<ErrorState />)
+      render(<ErrorState />)
 
-      const titulo = container.querySelector('h3')
-      expect(titulo).not.toBeNull()
-      expect(titulo?.tagName).toBe('H3')
+      const titulo = screen.getByRole('heading', { level: 3 })
+      expect(titulo).toBeDefined()
+      expect(titulo.tagName).toBe('H3')
     })
   })
 
   describe('renderização com título customizado', () => {
     it('deve usar o título customizado quando fornecido', () => {
-      renderSync(<ErrorState title="Something went wrong" />)
+      render(<ErrorState title="Something went wrong" />)
 
-      const titulo = container.querySelector('h3')
-      expect(titulo?.textContent).toBe('Something went wrong')
+      const titulo = screen.getByRole('heading', { level: 3 })
+      expect(titulo.textContent).toBe('Something went wrong')
     })
 
     it('deve priorizar o título customizado sobre o padrão', () => {
-      renderSync(<ErrorState title="Custom error" />)
+      render(<ErrorState title="Custom error" />)
 
-      const titulo = container.querySelector('h3')
-      expect(titulo?.textContent).toBe('Custom error')
+      const titulo = screen.getByRole('heading', { level: 3 })
+      expect(titulo.textContent).toBe('Custom error')
       /** O título padrão (chave 'error') não deve aparecer */
-      expect(titulo?.textContent).not.toBe('error')
+      expect(titulo.textContent).not.toBe('error')
     })
   })
 
   describe('mensagem de erro', () => {
     it('deve exibir a mensagem quando fornecida', () => {
-      renderSync(<ErrorState message="Failed to load contracts." />)
+      render(<ErrorState message="Failed to load contracts." />)
 
-      const mensagem = container.querySelector('p')
-      expect(mensagem).not.toBeNull()
-      expect(mensagem?.textContent).toBe('Failed to load contracts.')
+      const mensagem = screen.getByText('Failed to load contracts.')
+      expect(mensagem).toBeDefined()
     })
 
     it('deve renderizar a mensagem como parágrafo <p>', () => {
-      renderSync(<ErrorState message="Network error" />)
+      render(<ErrorState message="Network error" />)
 
-      const mensagem = container.querySelector('p')
-      expect(mensagem?.tagName).toBe('P')
+      const mensagem = screen.getByText('Network error')
+      expect(mensagem.tagName).toBe('P')
     })
 
     it('deve NÃO renderizar parágrafo de mensagem quando não fornecida', () => {
-      renderSync(<ErrorState />)
+      const { container } = render(<ErrorState />)
 
       /** Deve ter apenas o h3, sem parágrafo de mensagem */
       const paragrafos = container.querySelectorAll('p')
@@ -107,52 +81,50 @@ describe('ErrorState — componente de estado de erro', () => {
   describe('botão de retry', () => {
     it('deve renderizar o botão quando onRetry é fornecido', () => {
       const onRetry = vi.fn()
-      renderSync(<ErrorState onRetry={onRetry} />)
+      render(<ErrorState onRetry={onRetry} />)
 
       /**
        * O texto do botão vem de t('retry'), que pelo mock retorna 'retry'.
        */
-      const botao = container.querySelector('button')
-      expect(botao).not.toBeNull()
-      expect(botao?.textContent).toContain('retry')
+      const botao = screen.getByRole('button')
+      expect(botao).toBeDefined()
+      expect(botao.textContent).toContain('retry')
     })
 
     it('deve chamar onRetry ao clicar no botão', () => {
       const onRetry = vi.fn()
-      renderSync(<ErrorState onRetry={onRetry} />)
+      render(<ErrorState onRetry={onRetry} />)
 
-      const botao = container.querySelector('button')
-      expect(botao).not.toBeNull()
-
-      botao?.click()
+      const botao = screen.getByRole('button')
+      fireEvent.click(botao)
 
       expect(onRetry).toHaveBeenCalledTimes(1)
     })
 
     it('deve chamar onRetry múltiplas vezes em cliques consecutivos', () => {
       const onRetry = vi.fn()
-      renderSync(<ErrorState onRetry={onRetry} />)
+      render(<ErrorState onRetry={onRetry} />)
 
-      const botao = container.querySelector('button')
+      const botao = screen.getByRole('button')
 
-      botao?.click()
-      botao?.click()
-      botao?.click()
+      fireEvent.click(botao)
+      fireEvent.click(botao)
+      fireEvent.click(botao)
 
       expect(onRetry).toHaveBeenCalledTimes(3)
     })
 
     it('deve NÃO renderizar o botão quando onRetry não é fornecido', () => {
-      renderSync(<ErrorState />)
+      render(<ErrorState />)
 
-      const botao = container.querySelector('button')
+      const botao = screen.queryByRole('button')
       expect(botao).toBeNull()
     })
   })
 
   describe('ícone de erro', () => {
     it('deve renderizar um ícone SVG (AlertCircle)', () => {
-      renderSync(<ErrorState />)
+      const { container } = render(<ErrorState />)
 
       const svgs = container.querySelectorAll('svg')
       expect(svgs.length).toBeGreaterThan(0)
@@ -162,7 +134,7 @@ describe('ErrorState — componente de estado de erro', () => {
   describe('combinação de props', () => {
     it('deve renderizar título, mensagem e botão juntos', () => {
       const onRetry = vi.fn()
-      renderSync(
+      render(
         <ErrorState
           title="Connection lost"
           message="Please check your internet connection."
@@ -170,71 +142,71 @@ describe('ErrorState — componente de estado de erro', () => {
         />
       )
 
-      const titulo = container.querySelector('h3')
-      expect(titulo?.textContent).toBe('Connection lost')
+      const titulo = screen.getByRole('heading', { level: 3 })
+      expect(titulo.textContent).toBe('Connection lost')
 
-      const mensagem = container.querySelector('p')
-      expect(mensagem?.textContent).toBe('Please check your internet connection.')
+      const mensagem = screen.getByText('Please check your internet connection.')
+      expect(mensagem).toBeDefined()
 
-      const botao = container.querySelector('button')
-      expect(botao).not.toBeNull()
+      const botao = screen.getByRole('button')
+      expect(botao).toBeDefined()
     })
 
     it('deve renderizar apenas título e botão (sem mensagem)', () => {
       const onRetry = vi.fn()
-      renderSync(
+      const { container } = render(
         <ErrorState
           title="Error"
           onRetry={onRetry}
         />
       )
 
-      const titulo = container.querySelector('h3')
-      expect(titulo?.textContent).toBe('Error')
+      const titulo = screen.getByRole('heading', { level: 3 })
+      expect(titulo.textContent).toBe('Error')
 
-      const botao = container.querySelector('button')
-      expect(botao).not.toBeNull()
+      const botao = screen.getByRole('button')
+      expect(botao).toBeDefined()
 
       const paragrafos = container.querySelectorAll('p')
       expect(paragrafos.length).toBe(0)
     })
 
     it('deve renderizar apenas título e mensagem (sem botão)', () => {
-      renderSync(
+      render(
         <ErrorState
           title="500 Internal Server Error"
           message="The server encountered an unexpected condition."
         />
       )
 
-      const titulo = container.querySelector('h3')
-      expect(titulo?.textContent).toBe('500 Internal Server Error')
+      const titulo = screen.getByRole('heading', { level: 3 })
+      expect(titulo.textContent).toBe('500 Internal Server Error')
 
-      const mensagem = container.querySelector('p')
-      expect(mensagem?.textContent).toBe('The server encountered an unexpected condition.')
+      const mensagem = screen.getByText('The server encountered an unexpected condition.')
+      expect(mensagem).toBeDefined()
 
-      const botao = container.querySelector('button')
+      const botao = screen.queryByRole('button')
       expect(botao).toBeNull()
     })
   })
 
   describe('estilos', () => {
     it('deve ter borda vermelha no container', () => {
-      renderSync(<ErrorState />)
+      const { container } = render(<ErrorState />)
 
       const wrapper = container.firstElementChild
       expect(wrapper?.className).toContain('border-red-200')
     })
 
     it('deve ter fundo branco', () => {
-      renderSync(<ErrorState />)
+      const { container } = render(<ErrorState />)
 
       const wrapper = container.firstElementChild
       expect(wrapper?.className).toContain('bg-white')
     })
 
     it('deve ter cantos arredondados', () => {
-      renderSync(<ErrorState />)
+      const { container } = render(<ErrorState />)
 
       const wrapper = container.firstElementChild
       expect(wrapper?.className).toContain('rounded-2xl')

@@ -20,7 +20,8 @@
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot, type Root } from 'react-dom/client'
+import { flushSync } from 'react-dom'
 import {
   Skeleton,
   StatCardSkeleton,
@@ -32,12 +33,12 @@ import {
 
 /** Container DOM para montar os componentes */
 let container: HTMLDivElement
-let root: ReactDOM.Root
+let root: Root
 
 beforeEach(() => {
   container = document.createElement('div')
   document.body.appendChild(container)
-  root = ReactDOM.createRoot(container)
+  root = createRoot(container)
 })
 
 afterEach(() => {
@@ -47,7 +48,8 @@ afterEach(() => {
 
 /** Helper para renderizar um componente de forma síncrona */
 function renderSync(element: React.ReactElement) {
-  ReactDOM.flushSync(() => {
+  /** Força o React a aplicar as atualizações de forma síncrona */
+  flushSync(() => {
     root.render(element)
   })
 }

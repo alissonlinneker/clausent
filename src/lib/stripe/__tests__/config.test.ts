@@ -19,35 +19,35 @@ describe('Stripe — Planos', () => {
 
   it('deve ter preços mensais corretos em dólares', () => {
     expect(PLANS.free.monthlyPrice).toBe(0)
-    expect(PLANS.starter.monthlyPrice).toBe(29)
-    expect(PLANS.professional.monthlyPrice).toBe(59)
-    expect(PLANS.business.monthlyPrice).toBe(99)
+    expect(PLANS.starter.monthlyPrice).toBe(9)
+    expect(PLANS.professional.monthlyPrice).toBe(29)
+    expect(PLANS.business.monthlyPrice).toBe(79)
     expect(PLANS.enterprise.monthlyPrice).toBe(-1)
   })
 
   it('deve ter preços anuais corretos em dólares', () => {
     expect(PLANS.free.yearlyPrice).toBe(0)
-    expect(PLANS.starter.yearlyPrice).toBe(23)
-    expect(PLANS.professional.yearlyPrice).toBe(47)
-    expect(PLANS.business.yearlyPrice).toBe(79)
+    expect(PLANS.starter.yearlyPrice).toBe(7)
+    expect(PLANS.professional.yearlyPrice).toBe(23)
+    expect(PLANS.business.yearlyPrice).toBe(63)
     expect(PLANS.enterprise.yearlyPrice).toBe(-1)
   })
 
   it('deve ter limites de contratos corretos', () => {
-    expect(PLANS.free.contractsLimit).toBe(3)
-    expect(PLANS.starter.contractsLimit).toBe(25)
-    expect(PLANS.professional.contractsLimit).toBe(100)
-    expect(PLANS.business.contractsLimit).toBe(500)
+    expect(PLANS.free.contractsLimit).toBe(1)
+    expect(PLANS.starter.contractsLimit).toBe(5)
+    expect(PLANS.professional.contractsLimit).toBe(25)
+    expect(PLANS.business.contractsLimit).toBe(100)
     expect(PLANS.enterprise.contractsLimit).toBeNull()
   })
 })
 
 describe('Stripe — PLAN_LIMITS', () => {
   it('deve mapear limites de contratos por slug', () => {
-    expect(PLAN_LIMITS.free).toBe(3)
-    expect(PLAN_LIMITS.starter).toBe(25)
-    expect(PLAN_LIMITS.professional).toBe(100)
-    expect(PLAN_LIMITS.business).toBe(500)
+    expect(PLAN_LIMITS.free).toBe(1)
+    expect(PLAN_LIMITS.starter).toBe(5)
+    expect(PLAN_LIMITS.professional).toBe(25)
+    expect(PLAN_LIMITS.business).toBe(100)
     expect(PLAN_LIMITS.enterprise).toBeNull()
   })
 })
@@ -66,7 +66,7 @@ describe('Stripe — getPlanLimits', () => {
   it('deve retornar limites corretos para slug válido', () => {
     const limits = getPlanLimits('starter')
     expect(limits).toEqual({
-      contractsLimit: 25,
+      contractsLimit: 5,
       name: 'Starter',
       slug: 'starter',
     })

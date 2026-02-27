@@ -15,18 +15,39 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 const mockSend = vi.fn()
 
 vi.mock('resend', () => ({
-  Resend: vi.fn().mockImplementation(() => ({
-    emails: {
+  Resend: vi.fn().mockImplementation(function (this: Record<string, unknown>) {
+    this.emails = {
       send: (...args: unknown[]) => mockSend(...args),
-    },
-  })),
+    }
+  }),
 }))
 
-import { sendEmail } from './index'
+/** Importação dinâmica para garantir que o mock é aplicado antes do carregamento */
+let sendEmail: typeof import('./index').sendEmail
 
 describe('sendEmail() — módulo central de envio', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks()
+
+    /**
+     * Reseta o cache do módulo para garantir que cada teste
+     * recria a instância singleton do Resend.
+     */
+    vi.resetModules()
+
+    /** Re-aplica o mock após resetar módulos */
+    vi.mock('resend', () => ({
+      Resend: vi.fn().mockImplementation(function (this: Record<string, unknown>) {
+        this.emails = {
+          send: (...args: unknown[]) => mockSend(...args),
+        }
+      }),
+    }))
+
+    /** Importa o módulo fresco para cada teste */
+    const mod = await import('./index')
+    sendEmail = mod.sendEmail
+
     /** Configurar retorno padrão como sucesso */
     mockSend.mockResolvedValue({ data: { id: 'msg-123' }, error: null })
   })
