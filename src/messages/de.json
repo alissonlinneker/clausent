@@ -941,7 +941,9 @@
     "newsletterDesc": "Erhalten Sie die neuesten Einblicke in Ihren Posteingang",
     "backToBlog": "Zurück zum Blog",
     "shareOn": "Teilen auf",
-    "tableOfContents": "Inhaltsverzeichnis"
+    "tableOfContents": "Inhaltsverzeichnis",
+    "searchPlaceholder": "Artikel suchen...",
+    "emailPlaceholder": "E-Mail eingeben"
   },
   "changelog": {
     "title": "Changelog",

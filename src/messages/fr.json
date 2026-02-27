@@ -941,7 +941,9 @@
     "newsletterDesc": "Recevez les derniers insights dans votre boîte mail",
     "backToBlog": "Retour au Blog",
     "shareOn": "Partager sur",
-    "tableOfContents": "Table des Matières"
+    "tableOfContents": "Table des Matières",
+    "searchPlaceholder": "Rechercher des articles...",
+    "emailPlaceholder": "Entrez votre e-mail"
   },
   "changelog": {
     "title": "Changelog",

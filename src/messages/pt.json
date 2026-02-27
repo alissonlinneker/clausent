@@ -941,7 +941,9 @@
     "newsletterDesc": "Receba os últimos insights diretamente no seu e-mail",
     "backToBlog": "Voltar ao Blog",
     "shareOn": "Compartilhar em",
-    "tableOfContents": "Índice"
+    "tableOfContents": "Índice",
+    "searchPlaceholder": "Buscar artigos...",
+    "emailPlaceholder": "Digite seu e-mail"
   },
   "changelog": {
     "title": "Changelog",

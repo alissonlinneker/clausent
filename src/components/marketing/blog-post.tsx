@@ -21,6 +21,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Link } from '@/lib/i18n/navigation'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 /**
  * Seções do Table of Contents (sumário lateral).
@@ -93,6 +94,9 @@ const fadeInUp = {
  * bordas slate-200, sombras 3px 3px, cantos arredondados 2xl.
  */
 export function BlogPost() {
+  /** Traduções do namespace blog */
+  const t = useTranslations('blog')
+
   /** Seção ativa no Table of Contents (tracking via scroll) */
   const [activeSection, setActiveSection] = useState('introduction')
   /** Controle de visibilidade do botão "voltar ao topo" */
@@ -670,7 +674,7 @@ console.log(analysis.clauses_found); // 12`}</code>
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('emailPlaceholder')}
                 className="flex-1 h-12 px-4 rounded-xl bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder:text-white/60 text-sm focus:outline-none focus:ring-2 focus:ring-white/40 transition-all"
               />
               <Button className="h-12 px-6 bg-white text-teal-700 hover:bg-white/90 rounded-xl font-semibold shadow-[2px_2px_0px_rgba(0,0,0,0.1)]">

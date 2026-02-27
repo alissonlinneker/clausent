@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Link } from '@/lib/i18n/navigation'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 /**
  * Definição de tipo para um post do blog.
@@ -168,6 +169,9 @@ const fadeInUp = {
  * bordas slate-200, sombras 3px 3px, cantos arredondados 2xl.
  */
 export function BlogList() {
+  /** Traduções do namespace blog */
+  const t = useTranslations('blog')
+
   /** Categoria selecionada para filtro — 'All' exibe todos */
   const [activeCategory, setActiveCategory] = useState('All')
 
@@ -237,7 +241,7 @@ export function BlogList() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <input
                 type="text"
-                placeholder="Search articles..."
+                placeholder={t('searchPlaceholder')}
                 className="w-full h-12 pl-11 pr-4 rounded-2xl bg-white border border-slate-200 shadow-[3px_3px_0px_rgba(0,0,0,0.06)] text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-300 transition-all"
               />
             </div>

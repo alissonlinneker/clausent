@@ -941,7 +941,9 @@
     "newsletterDesc": "Get the latest insights delivered to your inbox",
     "backToBlog": "Back to Blog",
     "shareOn": "Share on",
-    "tableOfContents": "Table of Contents"
+    "tableOfContents": "Table of Contents",
+    "searchPlaceholder": "Search articles...",
+    "emailPlaceholder": "Enter your email"
   },
   "changelog": {
     "title": "Changelog",
