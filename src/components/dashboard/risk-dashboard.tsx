@@ -248,17 +248,21 @@ const STAT_CARDS = [
 function DistributionTooltip({
   active,
   payload,
+  riskSuffix,
+  risksFoundLabel,
 }: {
   active?: boolean
   payload?: Array<{ name: string; value: number }>
+  riskSuffix?: string
+  risksFoundLabel?: string
 }) {
   if (!active || !payload || payload.length === 0) return null
 
   return (
     <div className="rounded-xl bg-white border border-slate-200 px-4 py-3 shadow-[3px_3px_0px_rgba(0,0,0,0.06)]">
-      <p className="text-sm font-semibold text-slate-900">{payload[0].name} Risk</p>
+      <p className="text-sm font-semibold text-slate-900">{payload[0].name} {riskSuffix ?? 'Risk'}</p>
       <p className="text-xs text-slate-500 mt-0.5">
-        <span className="font-medium text-slate-700">{payload[0].value}</span> risks found
+        <span className="font-medium text-slate-700">{payload[0].value}</span> {risksFoundLabel ?? 'risks found'}
       </p>
     </div>
   )
@@ -272,18 +276,24 @@ function TrendTooltip({
   active,
   payload,
   label,
+  highLabel,
+  mediumLabel,
+  lowLabel,
 }: {
   active?: boolean
   payload?: Array<{ value: number; dataKey: string; color: string }>
   label?: string
+  highLabel?: string
+  mediumLabel?: string
+  lowLabel?: string
 }) {
   if (!active || !payload || payload.length === 0) return null
 
-  /** Mapa de labels para cada dataKey do gráfico */
+  /** Mapa de labels traduzidos para cada dataKey do gráfico */
   const labelMap: Record<string, string> = {
-    high: 'High',
-    medium: 'Medium',
-    low: 'Low',
+    high: highLabel ?? 'High',
+    medium: mediumLabel ?? 'Medium',
+    low: lowLabel ?? 'Low',
   }
 
   return (
@@ -499,7 +509,7 @@ export function RiskDashboard() {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip content={<DistributionTooltip />} />
+                <Tooltip content={<DistributionTooltip riskSuffix={t('riskSuffix')} risksFoundLabel={t('riskFound')} />} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -510,6 +520,13 @@ export function RiskDashboard() {
               /** Percentual calculado sobre o total de riscos */
               const percentage = Math.round((entry.value / MOCK_RISK_SUMMARY.totalRisks) * 100)
 
+              /** Mapa de tradução para os nomes de severidade do gráfico */
+              const nameMap: Record<string, string> = {
+                High: t('riskLabelHigh'),
+                Medium: t('riskLabelMedium'),
+                Low: t('riskLabelLow'),
+              }
+
               return (
                 <div key={entry.name} className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -517,7 +534,7 @@ export function RiskDashboard() {
                       className="w-2.5 h-2.5 rounded-full shrink-0"
                       style={{ backgroundColor: entry.color }}
                     />
-                    <span className="text-sm text-slate-600">{entry.name}</span>
+                    <span className="text-sm text-slate-600">{nameMap[entry.name] ?? entry.name}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-semibold text-slate-900">{entry.value}</span>
@@ -549,15 +566,15 @@ export function RiskDashboard() {
             <div className="hidden sm:flex items-center gap-4">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                <span className="text-xs text-slate-500">High</span>
+                <span className="text-xs text-slate-500">{t('riskLabelHigh')}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                <span className="text-xs text-slate-500">Medium</span>
+                <span className="text-xs text-slate-500">{t('riskLabelMedium')}</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                <span className="text-xs text-slate-500">Low</span>
+                <span className="text-xs text-slate-500">{t('riskLabelLow')}</span>
               </div>
             </div>
           </div>
@@ -592,7 +609,7 @@ export function RiskDashboard() {
                 />
 
                 {/* Tooltip personalizado */}
-                <Tooltip content={<TrendTooltip />} />
+                <Tooltip content={<TrendTooltip highLabel={t('riskLabelHigh')} mediumLabel={t('riskLabelMedium')} lowLabel={t('riskLabelLow')} />} />
 
                 {/* Legenda nativa desabilitada — usamos legenda customizada acima */}
                 <Legend content={() => null} />
@@ -829,17 +846,17 @@ export function RiskDashboard() {
               {/* Badge de alto risco */}
               <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
                 <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                {MOCK_RISK_SUMMARY.highRisk} High
+                {MOCK_RISK_SUMMARY.highRisk} {t('riskLabelHigh')}
               </span>
               {/* Badge de médio risco */}
               <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
                 <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                {MOCK_RISK_SUMMARY.mediumRisk} Medium
+                {MOCK_RISK_SUMMARY.mediumRisk} {t('riskLabelMedium')}
               </span>
               {/* Badge de baixo risco */}
               <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                {MOCK_RISK_SUMMARY.lowRisk} Low
+                {MOCK_RISK_SUMMARY.lowRisk} {t('riskLabelLow')}
               </span>
             </div>
           </div>

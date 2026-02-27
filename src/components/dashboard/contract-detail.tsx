@@ -345,7 +345,7 @@ export function ContractDetail({ contractId }: ContractDetailProps) {
     { key: 'overview', label: t('overview') },
     { key: 'clauses', label: t('clauses') },
     { key: 'riskAnalysis', label: t('riskAnalysis') },
-    { key: 'benchmarks', label: 'Benchmarks' },
+    { key: 'benchmarks', label: t('benchmarks') },
     { key: 'timeline', label: t('timeline') },
   ]
 
@@ -546,7 +546,7 @@ function OverviewTab({
     },
     {
       label: t('autoRenew'),
-      value: contract.autoRenew ? 'Yes' : 'No',
+      value: contract.autoRenew ? t('yes') : t('no'),
       icon: RefreshCw,
     },
     {
@@ -668,7 +668,7 @@ function ClausesTab({
               {t('clauses')}
             </h2>
             <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
-              {MOCK_CLAUSES.length} clauses found
+              {MOCK_CLAUSES.length} {t('clausesFound')}
             </span>
           </div>
 
@@ -718,7 +718,7 @@ function ClausesTab({
                           riskStyles.border
                         )}
                       >
-                        {clause.risk}
+                        {t(`clauseRisk_${clause.risk}`)}
                       </span>
                     </div>
                     {/* Ícone de expandir/colapsar */}
@@ -805,10 +805,10 @@ function RiskAnalysisTab({
    * Cada categoria tem peso diferente na composição do score total.
    */
   const riskBreakdown = [
-    { label: 'Pricing Risk', score: 35, maxScore: 100, color: 'bg-amber-500' },
-    { label: 'Terms Risk', score: 22, maxScore: 100, color: 'bg-teal-500' },
-    { label: 'Compliance Risk', score: 15, maxScore: 100, color: 'bg-emerald-500' },
-    { label: 'Data Risk', score: 30, maxScore: 100, color: 'bg-orange-500' },
+    { labelKey: 'pricingRisk' as const, score: 35, maxScore: 100, color: 'bg-amber-500' },
+    { labelKey: 'termsRisk' as const, score: 22, maxScore: 100, color: 'bg-teal-500' },
+    { labelKey: 'complianceRisk' as const, score: 15, maxScore: 100, color: 'bg-emerald-500' },
+    { labelKey: 'dataRisk' as const, score: 30, maxScore: 100, color: 'bg-orange-500' },
   ]
 
   /**
@@ -886,14 +886,14 @@ function RiskAnalysisTab({
       {/* Card de breakdown de risco por categoria */}
       <div className="rounded-2xl bg-white border border-slate-200 shadow-[3px_3px_0px_rgba(0,0,0,0.06)] p-6">
         <h2 className="text-lg font-semibold text-slate-900 mb-6">
-          Risk Breakdown
+          {t('riskBreakdown')}
         </h2>
         <div className="space-y-5">
           {riskBreakdown.map((category) => (
-            <div key={category.label} className="space-y-2">
+            <div key={category.labelKey} className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-slate-700">
-                  {category.label}
+                  {t(category.labelKey)}
                 </span>
                 <span className="text-sm font-semibold text-slate-900">
                   {category.score}/{category.maxScore}
@@ -925,23 +925,12 @@ function RiskAnalysisTab({
         </div>
         {/* Resumo com termos-chave destacados usando marcação visual */}
         <p className="text-sm text-slate-600 leading-relaxed">
-          This contract presents{' '}
-          <span className="font-semibold text-emerald-600">low-to-moderate risk</span>.
-          The pricing is competitive compared to market benchmarks for enterprise cloud services.
-          Key attention areas include the{' '}
-          <span className="font-semibold text-amber-600">auto-renewal clause</span>{' '}
-          with a{' '}
-          <span className="font-semibold text-amber-600">60-day notice period</span>{' '}
-          and the{' '}
-          <span className="font-semibold text-amber-600">data residency provisions</span>.
-          The volume commitment discount of{' '}
-          <span className="font-semibold text-red-600">15%</span>{' '}
-          is slightly below the market average of{' '}
-          <span className="font-semibold text-emerald-600">18%</span>{' '}
-          for comparable usage levels. We recommend negotiating the notice period to{' '}
-          <span className="font-semibold text-teal-600">90 days</span>{' '}
-          and requesting an additional{' '}
-          <span className="font-semibold text-teal-600">3-5% volume discount</span>.
+          {t.rich('riskAiSummaryDetailed', {
+            green: (chunks) => <span className="font-semibold text-emerald-600">{chunks}</span>,
+            amber: (chunks) => <span className="font-semibold text-amber-600">{chunks}</span>,
+            red: (chunks) => <span className="font-semibold text-red-600">{chunks}</span>,
+            teal: (chunks) => <span className="font-semibold text-teal-600">{chunks}</span>,
+          })}
         </p>
       </div>
     </div>
@@ -961,6 +950,7 @@ function RiskAnalysisTab({
  * com barras visuais de comparação e badges indicando posição.
  */
 function BenchmarksTab() {
+  const t = useTranslations('contractDetail')
   const benchmarks = MOCK_BENCHMARKS
 
   /**
@@ -970,7 +960,7 @@ function BenchmarksTab() {
    */
   const metrics = [
     {
-      label: 'Monthly Price',
+      label: t('benchmarkMonthlyPrice'),
       yours: `$${benchmarks.yourPrice.toLocaleString()}`,
       market: `$${benchmarks.marketAvgPrice.toLocaleString()}`,
       /* Para preço, menor é melhor */
@@ -985,7 +975,7 @@ function BenchmarksTab() {
       favorable: benchmarks.yourPrice <= benchmarks.marketAvgPrice,
     },
     {
-      label: 'Volume Discount',
+      label: t('benchmarkVolumeDiscount'),
       yours: `${benchmarks.yourDiscount}%`,
       market: `${benchmarks.avgDiscount}%`,
       /* Para desconto, maior é melhor */
@@ -1000,9 +990,9 @@ function BenchmarksTab() {
       favorable: benchmarks.yourDiscount >= benchmarks.avgDiscount,
     },
     {
-      label: 'Notice Period',
-      yours: `${benchmarks.yourNoticePeriod} days`,
-      market: `${benchmarks.avgNoticePeriod} days`,
+      label: t('benchmarkNoticePeriod'),
+      yours: `${benchmarks.yourNoticePeriod} ${t('days')}`,
+      market: `${benchmarks.avgNoticePeriod} ${t('days')}`,
       /* Para período de aviso, maior é melhor (mais tempo de preparação) */
       yoursPercent: (benchmarks.yourNoticePeriod / benchmarks.avgNoticePeriod) * 100,
       marketPercent: 100,
@@ -1015,7 +1005,7 @@ function BenchmarksTab() {
       favorable: benchmarks.yourNoticePeriod >= benchmarks.avgNoticePeriod,
     },
     {
-      label: 'SLA Uptime',
+      label: t('benchmarkSlaUptime'),
       yours: `${benchmarks.yourSlaUptime}%`,
       market: `${benchmarks.avgSlaUptime}%`,
       /* Para SLA, maior é melhor — escala ajustada para 99-100% */
@@ -1037,12 +1027,12 @@ function BenchmarksTab() {
    */
   const getStatusBadge = (status: string, favorable: boolean) => {
     if (status === 'at') {
-      return { label: 'At Market', bg: 'bg-slate-100', text: 'text-slate-600', icon: Minus }
+      return { label: t('benchmarkAtMarket'), bg: 'bg-slate-100', text: 'text-slate-600', icon: Minus }
     }
     if (favorable) {
-      return { label: 'Below Market', bg: 'bg-emerald-50', text: 'text-emerald-700', icon: TrendingDown }
+      return { label: t('benchmarkBelowMarket'), bg: 'bg-emerald-50', text: 'text-emerald-700', icon: TrendingDown }
     }
-    return { label: 'Above Market', bg: 'bg-red-50', text: 'text-red-700', icon: TrendingUp }
+    return { label: t('benchmarkAboveMarket'), bg: 'bg-red-50', text: 'text-red-700', icon: TrendingUp }
   }
 
   return (
@@ -1054,11 +1044,14 @@ function BenchmarksTab() {
             <Zap className="h-4 w-4 text-teal-600" />
           </div>
           <h2 className="text-lg font-semibold text-slate-900">
-            Contract Percentile Ranking
+            {t('benchmarkPercentileRanking')}
           </h2>
         </div>
         <p className="text-sm text-slate-500 mb-4">
-          Your contract is in the <span className="font-semibold text-teal-600">{benchmarks.percentile}th percentile</span> for cost-effectiveness compared to similar enterprise cloud contracts.
+          {t.rich('benchmarkPercentileDescription', {
+            percentile: benchmarks.percentile,
+            bold: (chunks) => <span className="font-semibold text-teal-600">{chunks}</span>,
+          })}
         </p>
         {/* Barra visual de percentil com marcador de posição */}
         <div className="relative h-3 rounded-full bg-gradient-to-r from-red-200 via-amber-200 to-emerald-200 overflow-visible">
@@ -1071,9 +1064,9 @@ function BenchmarksTab() {
           />
         </div>
         <div className="flex justify-between text-[10px] text-slate-400 mt-1.5">
-          <span>Expensive</span>
-          <span>Average</span>
-          <span>Cost-effective</span>
+          <span>{t('benchmarkExpensive')}</span>
+          <span>{t('benchmarkAverage')}</span>
+          <span>{t('benchmarkCostEffective')}</span>
         </div>
       </div>
 
@@ -1115,7 +1108,7 @@ function BenchmarksTab() {
                 {/* Barra do contrato atual */}
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-500">Your Contract</span>
+                    <span className="text-xs text-slate-500">{t('benchmarkYourContract')}</span>
                     <span className="text-xs font-semibold text-slate-900">{metric.yours}</span>
                   </div>
                   <div className="h-2.5 rounded-full bg-slate-100 overflow-hidden">
@@ -1131,7 +1124,7 @@ function BenchmarksTab() {
                 {/* Barra da média de mercado */}
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-500">Market Average</span>
+                    <span className="text-xs text-slate-500">{t('benchmarkMarketAverage')}</span>
                     <span className="text-xs font-semibold text-slate-500">{metric.market}</span>
                   </div>
                   <div className="h-2.5 rounded-full bg-slate-100 overflow-hidden">
@@ -1249,7 +1242,7 @@ function TimelineTab({
                   {/* Indicador visual para eventos futuros */}
                   {isFuture && (
                     <span className="text-[10px] font-medium text-sky-500 bg-sky-50 px-1.5 py-0.5 rounded-full">
-                      Upcoming
+                      {t('upcoming')}
                     </span>
                   )}
                 </div>

@@ -68,39 +68,39 @@ const MOCK_SUMMARY = {
    Cada card mapeia para uma métrica-chave do benchmark.
    ================================================================= */
 
-/** Definição dos 4 cards de métricas principais */
+/** Definição dos 4 cards de métricas principais — usa chaves i18n */
 const STAT_CARDS = [
   {
-    label: 'Total Contracts Benchmarked',
+    labelKey: 'benchmarkTotalContracts' as const,
     value: MOCK_SUMMARY.totalContracts.toString(),
-    change: '+3 this month',
+    changeKey: 'benchmarkThisMonth' as const,
     changePositive: true,
     icon: BarChart3,
     bgLight: 'bg-teal-50',
     textColor: 'text-teal-600',
   },
   {
-    label: 'Below Market Average',
+    labelKey: 'benchmarkBelowMarketAvg' as const,
     value: MOCK_SUMMARY.belowMarket.toString(),
-    change: `${Math.round((MOCK_SUMMARY.belowMarket / MOCK_SUMMARY.totalContracts) * 100)}% of total`,
+    changeKey: 'benchmarkOfTotal' as const,
     changePositive: true,
     icon: TrendingDown,
     bgLight: 'bg-emerald-50',
     textColor: 'text-emerald-600',
   },
   {
-    label: 'Avg Savings %',
+    labelKey: 'benchmarkAvgSavings' as const,
     value: `${MOCK_SUMMARY.avgSavings}%`,
-    change: '+1.4% vs last quarter',
+    changeKey: 'benchmarkVsLastQuarter' as const,
     changePositive: true,
     icon: Target,
     bgLight: 'bg-sky-50',
     textColor: 'text-sky-600',
   },
   {
-    label: 'Potential Annual Savings',
+    labelKey: 'benchmarkPotentialSavings' as const,
     value: `$${MOCK_SUMMARY.potentialSavings.toLocaleString('en-US')}`,
-    change: 'Based on market data',
+    changeKey: 'benchmarkBasedOnMarket' as const,
     changePositive: true,
     icon: DollarSign,
     bgLight: 'bg-violet-50',
@@ -143,15 +143,20 @@ function getBarWidth(value: number, max: number): number {
 /**
  * Tooltip customizado para o gráfico de linhas.
  * Segue o design system neobrutalism com borda e sombra.
+ * Recebe labels traduzidos para exibição correta em todos os idiomas.
  */
 function BenchmarkTooltip({
   active,
   payload,
   label,
+  marketLabel,
+  yourLabel,
 }: {
   active?: boolean
   payload?: Array<{ value: number; dataKey: string; color: string }>
   label?: string
+  marketLabel?: string
+  yourLabel?: string
 }) {
   if (!active || !payload || payload.length === 0) return null
 
@@ -160,7 +165,7 @@ function BenchmarkTooltip({
       <p className="text-sm font-semibold text-slate-900 mb-1.5">{label}</p>
       {payload.map((entry) => (
         <p key={entry.dataKey} className="text-xs text-slate-500">
-          {entry.dataKey === 'marketIndex' ? 'Market Index' : 'Your Index'}:{' '}
+          {entry.dataKey === 'marketIndex' ? (marketLabel ?? 'Market Index') : (yourLabel ?? 'Your Index')}:{' '}
           <span className="font-medium text-slate-700">{entry.value}</span>
         </p>
       ))}
@@ -256,7 +261,7 @@ export function BenchmarksDashboard() {
           {t('benchmarks')}
         </h1>
         <p className="text-sm text-slate-500 mt-1">
-          Compare your contract costs against market averages and industry benchmarks
+          {t('benchmarkSubtitle')}
         </p>
       </motion.div>
 
@@ -268,7 +273,7 @@ export function BenchmarksDashboard() {
           const Icon = card.icon
           return (
             <motion.div
-              key={card.label}
+              key={card.labelKey}
               variants={cardVariants}
               className="rounded-2xl bg-white border border-slate-200 p-6 shadow-[3px_3px_0px_rgba(0,0,0,0.06)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.08)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 cursor-default"
             >
@@ -287,9 +292,9 @@ export function BenchmarksDashboard() {
                 {card.value}
               </p>
 
-              {/* Label descritivo e indicador de contexto */}
+              {/* Label descritivo traduzido e indicador de contexto */}
               <div className="flex items-center justify-between mt-1">
-                <p className="text-sm text-slate-500">{card.label}</p>
+                <p className="text-sm text-slate-500">{t(card.labelKey)}</p>
               </div>
 
               {/* Informação complementar com indicador visual */}
@@ -301,7 +306,7 @@ export function BenchmarksDashboard() {
                       : 'bg-amber-50 text-amber-600'
                   }`}
                 >
-                  {card.change}
+                  {t(card.changeKey)}
                 </span>
               </div>
             </motion.div>
@@ -323,10 +328,10 @@ export function BenchmarksDashboard() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-lg font-semibold text-slate-900">
-              Pricing Trend — Your Costs vs Market
+              {t('benchmarkPricingTrend')}
             </h2>
             <p className="text-sm text-slate-500 mt-0.5">
-              6-month indexed comparison (base = 100)
+              {t('benchmarkTrendSubtitle')}
             </p>
           </div>
 
@@ -334,11 +339,11 @@ export function BenchmarksDashboard() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-slate-400" />
-              <span className="text-xs text-slate-500">Market Index</span>
+              <span className="text-xs text-slate-500">{t('benchmarkMarketIndex')}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-teal-500" />
-              <span className="text-xs text-slate-500">Your Index</span>
+              <span className="text-xs text-slate-500">{t('benchmarkYourIndex')}</span>
             </div>
           </div>
         </div>
@@ -374,7 +379,7 @@ export function BenchmarksDashboard() {
               />
 
               {/* Tooltip personalizado */}
-              <Tooltip content={<BenchmarkTooltip />} />
+              <Tooltip content={<BenchmarkTooltip marketLabel={t('benchmarkMarketIndex')} yourLabel={t('benchmarkYourIndex')} />} />
 
               {/* Legenda nativa desabilitada — usamos legenda customizada acima */}
               <Legend content={() => null} />
@@ -383,7 +388,7 @@ export function BenchmarksDashboard() {
               <Line
                 type="monotone"
                 dataKey="marketIndex"
-                name="Market Index"
+                name={t('benchmarkMarketIndex')}
                 stroke="#94a3b8"
                 strokeWidth={2.5}
                 strokeDasharray="6 3"
@@ -405,7 +410,7 @@ export function BenchmarksDashboard() {
               <Line
                 type="monotone"
                 dataKey="yourIndex"
-                name="Your Index"
+                name={t('benchmarkYourIndex')}
                 stroke="#0d9488"
                 strokeWidth={2.5}
                 dot={{
@@ -440,10 +445,10 @@ export function BenchmarksDashboard() {
         <div className="px-6 py-5 border-b border-slate-100">
           <div>
             <h2 className="text-lg font-semibold text-slate-900">
-              Category Breakdown
+              {t('benchmarkCategoryBreakdown')}
             </h2>
             <p className="text-sm text-slate-500 mt-0.5">
-              Detailed comparison of your spending vs market averages by category
+              {t('benchmarkCategorySubtitle')}
             </p>
           </div>
         </div>
@@ -455,25 +460,25 @@ export function BenchmarksDashboard() {
             <thead className="bg-slate-50/80 border-b border-slate-200">
               <tr>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Category
+                  {t('benchmarkColCategory')}
                 </th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  # Contracts
+                  {t('benchmarkColContracts')}
                 </th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Your Avg Price
+                  {t('benchmarkColYourAvg')}
                 </th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Market Avg Price
+                  {t('benchmarkColMarketAvg')}
                 </th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Comparison
+                  {t('benchmarkColComparison')}
                 </th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Difference
+                  {t('benchmarkColDifference')}
                 </th>
                 <th className="text-right px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Status
+                  {t('benchmarkColStatus')}
                 </th>
               </tr>
             </thead>
@@ -522,7 +527,7 @@ export function BenchmarksDashboard() {
                       <span className="text-sm font-semibold text-slate-900 tabular-nums">
                         {formatCurrency(category.yourAvg)}
                       </span>
-                      <span className="text-xs text-slate-400 ml-1">/mo</span>
+                      <span className="text-xs text-slate-400 ml-1">{t('perMonth')}</span>
                     </td>
 
                     {/* Coluna: Preço médio de mercado */}
@@ -530,7 +535,7 @@ export function BenchmarksDashboard() {
                       <span className="text-sm font-medium text-slate-600 tabular-nums">
                         {formatCurrency(category.marketAvg)}
                       </span>
-                      <span className="text-xs text-slate-400 ml-1">/mo</span>
+                      <span className="text-xs text-slate-400 ml-1">{t('perMonth')}</span>
                     </td>
 
                     {/* Coluna: Barra visual de comparação (seu preço vs. mercado) */}
@@ -538,7 +543,7 @@ export function BenchmarksDashboard() {
                       <div className="min-w-[160px] space-y-1.5">
                         {/* Barra do seu preço */}
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] text-slate-400 w-8 text-right shrink-0">You</span>
+                          <span className="text-[10px] text-slate-400 w-8 text-right shrink-0">{t('benchmarkYou')}</span>
                           <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
                             <motion.div
                               className={`h-full rounded-full ${isBelowMarket ? 'bg-teal-500' : 'bg-red-400'}`}
@@ -551,7 +556,7 @@ export function BenchmarksDashboard() {
                         </div>
                         {/* Barra do preço de mercado */}
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] text-slate-400 w-8 text-right shrink-0">Mkt</span>
+                          <span className="text-[10px] text-slate-400 w-8 text-right shrink-0">{t('benchmarkMkt')}</span>
                           <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
                             <motion.div
                               className="h-full rounded-full bg-slate-300"
@@ -588,12 +593,12 @@ export function BenchmarksDashboard() {
                       {isBelowMarket ? (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
                           <CheckCircle2 className="h-3 w-3" />
-                          Below Market
+                          {t('benchmarkBelowMarket')}
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium bg-red-50 text-red-700 border border-red-200">
                           <AlertTriangle className="h-3 w-3" />
-                          Above Market
+                          {t('benchmarkAboveMarket')}
                         </span>
                       )}
                     </td>
@@ -622,10 +627,10 @@ export function BenchmarksDashboard() {
           </div>
           <div>
             <h2 className="text-lg font-semibold text-slate-900">
-              Market Percentile
+              {t('benchmarkMarketPercentile')}
             </h2>
             <p className="text-sm text-slate-500">
-              How your spending compares to other companies
+              {t('benchmarkPercentileSubtitle')}
             </p>
           </div>
         </div>
@@ -633,18 +638,16 @@ export function BenchmarksDashboard() {
         {/* Mensagem principal de posicionamento */}
         <div className="rounded-xl bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-100 p-5 mb-5">
           <p className="text-base text-slate-700">
-            Your spending is lower than{' '}
-            <span className="text-2xl font-bold text-teal-600">
-              {100 - MOCK_SUMMARY.percentile}%
-            </span>{' '}
-            of companies in your industry
+            {t.rich('benchmarkPercentileMessage', {
+              percentage: 100 - MOCK_SUMMARY.percentile,
+              bold: (chunks) => <span className="text-2xl font-bold text-teal-600">{chunks}</span>,
+            })}
           </p>
           <p className="text-sm text-slate-500 mt-1.5">
-            You are in the{' '}
-            <span className="font-semibold text-slate-700">
-              {MOCK_SUMMARY.percentile}th
-            </span>{' '}
-            percentile for SaaS contract costs
+            {t.rich('benchmarkPercentileDetail', {
+              percentile: MOCK_SUMMARY.percentile,
+              bold: (chunks) => <span className="font-semibold text-slate-700">{chunks}</span>,
+            })}
           </p>
         </div>
 
@@ -652,8 +655,8 @@ export function BenchmarksDashboard() {
         <div className="space-y-3">
           {/* Rótulos de referência */}
           <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>Most Expensive</span>
-            <span>Least Expensive</span>
+            <span>{t('benchmarkMostExpensive')}</span>
+            <span>{t('benchmarkLeastExpensive')}</span>
           </div>
 
           {/* Barra de fundo com gradiente e marcador animado */}
@@ -694,13 +697,13 @@ export function BenchmarksDashboard() {
           {/* Contratos abaixo do mercado */}
           <div className="rounded-xl bg-emerald-50 border border-emerald-100 p-4 text-center">
             <p className="text-2xl font-bold text-emerald-600">{MOCK_SUMMARY.belowMarket}</p>
-            <p className="text-xs text-emerald-700 mt-0.5">Below Market</p>
+            <p className="text-xs text-emerald-700 mt-0.5">{t('benchmarkBelowMarket')}</p>
           </div>
 
           {/* Contratos acima do mercado */}
           <div className="rounded-xl bg-red-50 border border-red-100 p-4 text-center">
             <p className="text-2xl font-bold text-red-600">{MOCK_SUMMARY.aboveMarket}</p>
-            <p className="text-xs text-red-700 mt-0.5">Above Market</p>
+            <p className="text-xs text-red-700 mt-0.5">{t('benchmarkAboveMarket')}</p>
           </div>
 
           {/* Economia potencial anual */}
@@ -708,7 +711,7 @@ export function BenchmarksDashboard() {
             <p className="text-2xl font-bold text-teal-600">
               {formatCurrency(MOCK_SUMMARY.potentialSavings)}
             </p>
-            <p className="text-xs text-teal-700 mt-0.5">Annual Savings Potential</p>
+            <p className="text-xs text-teal-700 mt-0.5">{t('benchmarkAnnualSavings')}</p>
           </div>
         </div>
       </motion.div>
