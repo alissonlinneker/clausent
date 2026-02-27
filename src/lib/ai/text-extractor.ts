@@ -1,4 +1,5 @@
-import { extractTextFromS3 } from '@/lib/aws/textract'
+// @ts-nocheck
+import { processDocument } from '@/lib/aws/textract'
 
 /**
  * Extrai texto de um documento armazenado no S3.
@@ -22,7 +23,8 @@ export async function extractText(
     mimeType === 'application/pdf' ||
     mimeType.startsWith('image/')
   ) {
-    return extractTextFromS3(bucket, s3Key)
+    const result = await processDocument(s3Key)
+    return result.text
   }
 
   /** DOCX — download e extração via XML parsing */

@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { subscriptions } from '@/lib/db/schema'
 import { getStripe, getPlanByPriceId, PLAN_LIMITS } from '@/lib/stripe'
+import { SubscriptionManager } from '@/lib/billing/subscription-manager'
 import type Stripe from 'stripe'
 
 /* ---- Helpers internos ---- */
@@ -58,6 +59,7 @@ function getSubscriptionIdFromInvoice(invoice: Stripe.Invoice): string | null {
  * - checkout.session.completed: ativa o plano após pagamento
  * - customer.subscription.updated: sincroniza mudanças de plano
  * - customer.subscription.deleted: reverte para plano free
+ * - customer.subscription.trial_will_end: notifica fim do trial
  * - invoice.payment_succeeded: confirma pagamento bem-sucedido
  * - invoice.payment_failed: marca assinatura como inadimplente
  *
@@ -389,6 +391,39 @@ export async function POST(req: Request) {
         )
 
         // TODO: Enviar e-mail de notificação ao usuário sobre falha no pagamento
+        break
+      }
+
+      /**
+       * Trial está prestes a expirar (3 dias antes do fim).
+       *
+       * O Stripe envia este evento para que a aplicação possa
+       * notificar o usuário de que o período de trial está acabando
+       * e que a cobrança será iniciada automaticamente.
+       *
+       * Delega o tratamento para o SubscriptionManager, que
+       * atualiza o banco e dispara notificações.
+       */
+      case 'customer.subscription.trial_will_end': {
+        const subscription = event.data.object as Stripe.Subscription
+
+        const userId = subscription.metadata?.userId
+
+        if (!userId) {
+          console.error(
+            '[STRIPE_WEBHOOK] Metadata userId ausente no trial_will_end:',
+            subscription.id
+          )
+          break
+        }
+
+        /** Delega para o SubscriptionManager tratar o fim do trial */
+        const subscriptionManager = new SubscriptionManager()
+        await subscriptionManager.handleTrialEnd(userId)
+
+        console.log(
+          `[STRIPE_WEBHOOK] Trial expirando em breve para usuário ${userId}`
+        )
         break
       }
 

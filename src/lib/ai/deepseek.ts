@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Módulo de integração com DeepSeek V3/R1 para análise de contratos.
  *

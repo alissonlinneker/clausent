@@ -45,3 +45,7 @@ export { verifyTurnstileToken } from './turnstile';
 
 // Security Headers — Headers HTTP de proteção
 export { getSecurityHeaders } from './headers';
+
+// Prompt Guard — Classe de proteção anti-injection com API orientada a objetos
+export { PromptGuard, promptGuard } from './prompt-guard';
+export type { PromptGuardResult } from './prompt-guard';
