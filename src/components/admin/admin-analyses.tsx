@@ -21,49 +21,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-
-/**
- * Cards de status da fila de análises.
- * Exibem as métricas de cada estágio do pipeline.
- */
-const QUEUE_STATUS_CARDS = [
-  {
-    title: 'Pendentes',
-    value: '3',
-    icon: Clock,
-    bgColor: 'bg-amber-50',
-    iconColor: 'text-amber-600',
-    borderColor: 'border-amber-200',
-    description: 'Aguardando processamento',
-  },
-  {
-    title: 'Processando',
-    value: '2',
-    icon: Loader2,
-    bgColor: 'bg-blue-50',
-    iconColor: 'text-blue-600',
-    borderColor: 'border-blue-200',
-    description: 'Em análise no momento',
-  },
-  {
-    title: 'Concluídas Hoje',
-    value: '47',
-    icon: CheckCircle2,
-    bgColor: 'bg-emerald-50',
-    iconColor: 'text-emerald-600',
-    borderColor: 'border-emerald-200',
-    description: 'Finalizadas com sucesso',
-  },
-  {
-    title: 'Falhas',
-    value: '1',
-    icon: XCircle,
-    bgColor: 'bg-red-50',
-    iconColor: 'text-red-600',
-    borderColor: 'border-red-200',
-    description: 'Erros no processamento',
-  },
-]
+import { useTranslations } from 'next-intl'
 
 /**
  * Dados mockados da fila de análises.
@@ -163,53 +121,6 @@ const ANALYSIS_QUEUE = [
 ]
 
 /**
- * Configuração visual para cada status de análise.
- * Define cores, ícones e labels para renderização na tabela.
- */
-const STATUS_CONFIG = {
-  pending: {
-    label: 'Pendente',
-    bgColor: 'bg-amber-50',
-    textColor: 'text-amber-700',
-    icon: Clock,
-    barColor: 'bg-amber-400',
-  },
-  processing: {
-    label: 'Processando',
-    bgColor: 'bg-blue-50',
-    textColor: 'text-blue-700',
-    icon: Loader2,
-    barColor: 'bg-blue-500',
-  },
-  completed: {
-    label: 'Concluída',
-    bgColor: 'bg-emerald-50',
-    textColor: 'text-emerald-700',
-    icon: CheckCircle2,
-    barColor: 'bg-emerald-500',
-  },
-  failed: {
-    label: 'Falha',
-    bgColor: 'bg-red-50',
-    textColor: 'text-red-700',
-    icon: XCircle,
-    barColor: 'bg-red-500',
-  },
-}
-
-/**
- * Etapas do pipeline de processamento de análise.
- * Visualização sequencial do fluxo de trabalho.
- */
-const PIPELINE_STEPS = [
-  { icon: Upload, label: 'Upload', description: 'Envio do arquivo' },
-  { icon: ScanText, label: 'OCR', description: 'Extração de texto' },
-  { icon: Brain, label: 'Análise IA', description: 'Processamento LLM' },
-  { icon: ClipboardCheck, label: 'Revisão', description: 'Validação final' },
-  { icon: CheckCircle2, label: 'Concluído', description: 'Resultado pronto' },
-]
-
-/**
  * Variantes de animação do container.
  */
 const containerVariants = {
@@ -245,8 +156,101 @@ const itemVariants = {
  * Design: Light Neobrutalism com acentos indigo/violet.
  */
 export function AdminAnalyses() {
+  /** Hook de tradução usando namespace admin */
+  const t = useTranslations('admin')
+
   /** Filtra apenas as análises com falha para a seção dedicada */
   const failedAnalyses = ANALYSIS_QUEUE.filter((a) => a.status === 'failed')
+
+  /**
+   * Cards de status da fila de análises.
+   * Exibem as métricas de cada estágio do pipeline.
+   */
+  const QUEUE_STATUS_CARDS = [
+    {
+      titleKey: 'analysesStatPending' as const,
+      value: '3',
+      icon: Clock,
+      bgColor: 'bg-amber-50',
+      iconColor: 'text-amber-600',
+      borderColor: 'border-amber-200',
+      descKey: 'analysesStatPendingDesc' as const,
+    },
+    {
+      titleKey: 'analysesStatProcessing' as const,
+      value: '2',
+      icon: Loader2,
+      bgColor: 'bg-blue-50',
+      iconColor: 'text-blue-600',
+      borderColor: 'border-blue-200',
+      descKey: 'analysesStatProcessingDesc' as const,
+    },
+    {
+      titleKey: 'analysesStatCompletedToday' as const,
+      value: '47',
+      icon: CheckCircle2,
+      bgColor: 'bg-emerald-50',
+      iconColor: 'text-emerald-600',
+      borderColor: 'border-emerald-200',
+      descKey: 'analysesStatCompletedTodayDesc' as const,
+    },
+    {
+      titleKey: 'analysesStatFailed' as const,
+      value: '1',
+      icon: XCircle,
+      bgColor: 'bg-red-50',
+      iconColor: 'text-red-600',
+      borderColor: 'border-red-200',
+      descKey: 'analysesStatFailedDesc' as const,
+    },
+  ]
+
+  /**
+   * Configuração visual para cada status de análise.
+   * Define cores, ícones e chaves de tradução para renderização na tabela.
+   */
+  const STATUS_CONFIG = {
+    pending: {
+      labelKey: 'analysesStatusPending' as const,
+      bgColor: 'bg-amber-50',
+      textColor: 'text-amber-700',
+      icon: Clock,
+      barColor: 'bg-amber-400',
+    },
+    processing: {
+      labelKey: 'analysesStatusProcessing' as const,
+      bgColor: 'bg-blue-50',
+      textColor: 'text-blue-700',
+      icon: Loader2,
+      barColor: 'bg-blue-500',
+    },
+    completed: {
+      labelKey: 'analysesStatusCompleted' as const,
+      bgColor: 'bg-emerald-50',
+      textColor: 'text-emerald-700',
+      icon: CheckCircle2,
+      barColor: 'bg-emerald-500',
+    },
+    failed: {
+      labelKey: 'analysesStatusFailed' as const,
+      bgColor: 'bg-red-50',
+      textColor: 'text-red-700',
+      icon: XCircle,
+      barColor: 'bg-red-500',
+    },
+  }
+
+  /**
+   * Etapas do pipeline de processamento de análise.
+   * Visualização sequencial do fluxo de trabalho.
+   */
+  const PIPELINE_STEPS = [
+    { icon: Upload, labelKey: 'analysesPipelineUpload' as const, descKey: 'analysesPipelineUploadDesc' as const },
+    { icon: ScanText, labelKey: 'analysesPipelineOcr' as const, descKey: 'analysesPipelineOcrDesc' as const },
+    { icon: Brain, labelKey: 'analysesPipelineAi' as const, descKey: 'analysesPipelineAiDesc' as const },
+    { icon: ClipboardCheck, labelKey: 'analysesPipelineReview' as const, descKey: 'analysesPipelineReviewDesc' as const },
+    { icon: CheckCircle2, labelKey: 'analysesPipelineCompleted' as const, descKey: 'analysesPipelineCompletedDesc' as const },
+  ]
 
   return (
     <motion.div
@@ -259,10 +263,10 @@ export function AdminAnalyses() {
       <motion.div variants={itemVariants} className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Gestão de Análises
+            {t('analysesTitle')}
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Monitore a fila de processamento e o pipeline de análises
+            {t('analysesSubtitle')}
           </p>
         </div>
 
@@ -274,14 +278,14 @@ export function AdminAnalyses() {
             className="rounded-xl border-slate-200 text-slate-600 gap-2"
           >
             <Pause className="h-4 w-4" />
-            Pausar Fila
+            {t('analysesPauseQueue')}
           </Button>
           <Button
             size="sm"
             className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white gap-2 shadow-[2px_2px_0px_rgba(0,0,0,0.1)]"
           >
             <RotateCcw className="h-4 w-4" />
-            Reprocessar Falhas
+            {t('analysesReprocessFailed')}
           </Button>
         </div>
       </motion.div>
@@ -296,7 +300,7 @@ export function AdminAnalyses() {
 
           return (
             <div
-              key={card.title}
+              key={card.titleKey}
               className={cn(
                 'bg-white rounded-2xl border border-slate-200 p-5',
                 'shadow-[3px_3px_0px_rgba(0,0,0,0.06)]'
@@ -308,14 +312,14 @@ export function AdminAnalyses() {
                     className={cn(
                       'h-5 w-5',
                       card.iconColor,
-                      card.title === 'Processando' && 'animate-spin'
+                      card.titleKey === 'analysesStatProcessing' && 'animate-spin'
                     )}
                   />
                 </div>
                 <span className="text-2xl font-bold text-slate-900">{card.value}</span>
               </div>
-              <p className="text-sm font-medium text-slate-700 mt-3">{card.title}</p>
-              <p className="text-xs text-slate-400 mt-0.5">{card.description}</p>
+              <p className="text-sm font-medium text-slate-700 mt-3">{t(card.titleKey)}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{t(card.descKey)}</p>
             </div>
           )
         })}
@@ -329,7 +333,7 @@ export function AdminAnalyses() {
           'shadow-[3px_3px_0px_rgba(0,0,0,0.06)]'
         )}
       >
-        <h3 className="text-sm font-semibold text-slate-900 mb-6">Pipeline de Processamento</h3>
+        <h3 className="text-sm font-semibold text-slate-900 mb-6">{t('analysesPipeline')}</h3>
 
         {/* Fluxo sequencial com setas entre etapas */}
         <div className="flex items-center justify-between overflow-x-auto gap-2">
@@ -337,7 +341,7 @@ export function AdminAnalyses() {
             const StepIcon = step.icon
 
             return (
-              <div key={step.label} className="flex items-center gap-2 flex-shrink-0">
+              <div key={step.labelKey} className="flex items-center gap-2 flex-shrink-0">
                 {/* Card da etapa */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -362,9 +366,9 @@ export function AdminAnalyses() {
                       index <= 2 ? 'text-indigo-700' : 'text-slate-500'
                     )}
                   >
-                    {step.label}
+                    {t(step.labelKey)}
                   </span>
-                  <span className="text-[10px] text-slate-400">{step.description}</span>
+                  <span className="text-[10px] text-slate-400">{t(step.descKey)}</span>
                 </motion.div>
 
                 {/* Seta entre etapas (exceto a última) */}
@@ -391,9 +395,9 @@ export function AdminAnalyses() {
         )}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <h3 className="text-sm font-semibold text-slate-900">Fila de Análises</h3>
+          <h3 className="text-sm font-semibold text-slate-900">{t('analysesQueueTitle')}</h3>
           <span className="text-xs text-slate-400">
-            {ANALYSIS_QUEUE.length} itens na fila
+            {t('analysesQueueItems', { count: ANALYSIS_QUEUE.length })}
           </span>
         </div>
 
@@ -403,25 +407,25 @@ export function AdminAnalyses() {
             <thead>
               <tr className="border-b border-slate-100 bg-slate-50/50">
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  ID
+                  {t('analysesTableId')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Contrato
+                  {t('analysesTableContract')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Usuário
+                  {t('analysesTableUser')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Status
+                  {t('analysesTableStatus')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Início
+                  {t('analysesTableStarted')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Duração
+                  {t('analysesTableDuration')}
                 </th>
                 <th className="text-right px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Ações
+                  {t('analysesTableActions')}
                 </th>
               </tr>
             </thead>
@@ -479,7 +483,7 @@ export function AdminAnalyses() {
                               statusConfig.textColor
                             )}
                           >
-                            {statusConfig.label}
+                            {t(statusConfig.labelKey)}
                           </span>
                         </div>
                         {/* Barra de progresso para análises não pendentes */}
@@ -516,7 +520,7 @@ export function AdminAnalyses() {
                             variant="ghost"
                             size="icon"
                             className="h-7 w-7 rounded-lg"
-                            title="Ver resultado"
+                            title={t('analysesViewResult')}
                           >
                             <Eye className="h-3.5 w-3.5 text-slate-400" />
                           </Button>
@@ -526,7 +530,7 @@ export function AdminAnalyses() {
                             variant="ghost"
                             size="icon"
                             className="h-7 w-7 rounded-lg"
-                            title="Baixar relatório"
+                            title={t('analysesDownloadReport')}
                           >
                             <Download className="h-3.5 w-3.5 text-slate-400" />
                           </Button>
@@ -536,7 +540,7 @@ export function AdminAnalyses() {
                             variant="ghost"
                             size="icon"
                             className="h-7 w-7 rounded-lg text-amber-600 hover:text-amber-700 hover:bg-amber-50"
-                            title="Reprocessar"
+                            title={t('analysesReprocess')}
                           >
                             <RotateCcw className="h-3.5 w-3.5" />
                           </Button>
@@ -572,9 +576,9 @@ export function AdminAnalyses() {
               <AlertTriangle className="h-5 w-5 text-red-600" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-red-900">Análises com Falha</h3>
+              <h3 className="text-sm font-semibold text-red-900">{t('analysesFailedTitle')}</h3>
               <p className="text-xs text-red-600 mt-0.5">
-                {failedAnalyses.length} análise(s) requer(em) atenção
+                {t('analysesFailedCount', { count: failedAnalyses.length })}
               </p>
             </div>
           </div>
@@ -592,10 +596,10 @@ export function AdminAnalyses() {
                       {analysis.contractName}
                     </p>
                     <p className="text-xs text-slate-500 mt-0.5">
-                      {analysis.id} — {analysis.user} — Parou em {analysis.progress}%
+                      {analysis.id} — {analysis.user} — {t('analysesStoppedAt', { percent: analysis.progress })}
                     </p>
                     <p className="text-xs text-red-600 mt-1">
-                      Erro: Timeout no processamento OCR após 60s
+                      {t('analysesErrorOcrTimeout')}
                     </p>
                   </div>
                 </div>
@@ -607,14 +611,14 @@ export function AdminAnalyses() {
                     className="rounded-xl border-slate-200 text-slate-600 gap-1.5"
                   >
                     <Eye className="h-3.5 w-3.5" />
-                    Detalhes
+                    {t('analysesDetails')}
                   </Button>
                   <Button
                     size="sm"
                     className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white gap-1.5 shadow-[2px_2px_0px_rgba(0,0,0,0.1)]"
                   >
                     <RotateCcw className="h-3.5 w-3.5" />
-                    Reprocessar
+                    {t('analysesReprocess')}
                   </Button>
                 </div>
               </div>

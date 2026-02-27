@@ -22,49 +22,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-
-/**
- * Cards de resumo de receita.
- * Exibem métricas financeiras em diferentes períodos.
- */
-const REVENUE_CARDS = [
-  {
-    title: 'Hoje',
-    value: '$450',
-    icon: DollarSign,
-    bgColor: 'bg-emerald-50',
-    iconColor: 'text-emerald-600',
-    change: '+$120',
-    changeType: 'up' as const,
-  },
-  {
-    title: 'Esta Semana',
-    value: '$2,340',
-    icon: Calendar,
-    bgColor: 'bg-blue-50',
-    iconColor: 'text-blue-600',
-    change: '+$340',
-    changeType: 'up' as const,
-  },
-  {
-    title: 'Este Mês',
-    value: '$12,450',
-    icon: CalendarDays,
-    bgColor: 'bg-indigo-50',
-    iconColor: 'text-indigo-600',
-    change: '+8.3%',
-    changeType: 'up' as const,
-  },
-  {
-    title: 'Pendente',
-    value: '$890',
-    icon: AlertCircle,
-    bgColor: 'bg-amber-50',
-    iconColor: 'text-amber-600',
-    change: '4 faturas',
-    changeType: 'neutral' as const,
-  },
-]
+import { useTranslations } from 'next-intl'
 
 /**
  * Dados mockados de transações.
@@ -154,37 +112,6 @@ const TRANSACTIONS = [
 ]
 
 /**
- * Configuração visual dos status de pagamento.
- * Define ícone, cores e label para cada status.
- */
-const PAYMENT_STATUS_CONFIG = {
-  paid: {
-    label: 'Pago',
-    icon: CheckCircle2,
-    bgColor: 'bg-emerald-50',
-    textColor: 'text-emerald-700',
-  },
-  pending: {
-    label: 'Pendente',
-    icon: Clock,
-    bgColor: 'bg-amber-50',
-    textColor: 'text-amber-700',
-  },
-  failed: {
-    label: 'Falha',
-    icon: XCircle,
-    bgColor: 'bg-red-50',
-    textColor: 'text-red-700',
-  },
-  refunded: {
-    label: 'Reembolsado',
-    icon: RefreshCw,
-    bgColor: 'bg-slate-50',
-    textColor: 'text-slate-700',
-  },
-}
-
-/**
  * Log de mudanças de assinatura recentes.
  * Acompanha upgrades, downgrades e cancelamentos.
  */
@@ -192,7 +119,7 @@ const SUBSCRIPTION_CHANGES = [
   {
     id: 1,
     user: 'Tech Solutions Ltda.',
-    action: 'Upgrade',
+    actionKey: 'paymentsActionUpgrade' as const,
     from: 'Professional',
     to: 'Business',
     date: '26 Fev 2026',
@@ -201,7 +128,7 @@ const SUBSCRIPTION_CHANGES = [
   {
     id: 2,
     user: 'Maria Santos',
-    action: 'Novo',
+    actionKey: 'paymentsActionNew' as const,
     from: '—',
     to: 'Starter',
     date: '26 Fev 2026',
@@ -210,7 +137,7 @@ const SUBSCRIPTION_CHANGES = [
   {
     id: 3,
     user: 'Advocacia Pereira',
-    action: 'Downgrade',
+    actionKey: 'paymentsActionDowngrade' as const,
     from: 'Business',
     to: 'Professional',
     date: '25 Fev 2026',
@@ -219,7 +146,7 @@ const SUBSCRIPTION_CHANGES = [
   {
     id: 4,
     user: 'João Oliveira',
-    action: 'Cancelamento',
+    actionKey: 'paymentsActionCancellation' as const,
     from: 'Starter',
     to: '—',
     date: '24 Fev 2026',
@@ -284,6 +211,83 @@ const itemVariants = {
  * Design: Light Neobrutalism com acentos indigo/violet.
  */
 export function AdminPayments() {
+  /** Hook de tradução usando namespace admin */
+  const t = useTranslations('admin')
+
+  /**
+   * Cards de resumo de receita.
+   * Exibem métricas financeiras em diferentes períodos.
+   */
+  const REVENUE_CARDS = [
+    {
+      titleKey: 'paymentsCardToday' as const,
+      value: '$450',
+      icon: DollarSign,
+      bgColor: 'bg-emerald-50',
+      iconColor: 'text-emerald-600',
+      change: '+$120',
+      changeType: 'up' as const,
+    },
+    {
+      titleKey: 'paymentsCardWeek' as const,
+      value: '$2,340',
+      icon: Calendar,
+      bgColor: 'bg-blue-50',
+      iconColor: 'text-blue-600',
+      change: '+$340',
+      changeType: 'up' as const,
+    },
+    {
+      titleKey: 'paymentsCardMonth' as const,
+      value: '$12,450',
+      icon: CalendarDays,
+      bgColor: 'bg-indigo-50',
+      iconColor: 'text-indigo-600',
+      change: '+8.3%',
+      changeType: 'up' as const,
+    },
+    {
+      titleKey: 'paymentsCardPending' as const,
+      value: '$890',
+      icon: AlertCircle,
+      bgColor: 'bg-amber-50',
+      iconColor: 'text-amber-600',
+      change: t('paymentsCardInvoices', { count: 4 }),
+      changeType: 'neutral' as const,
+    },
+  ]
+
+  /**
+   * Configuração visual dos status de pagamento.
+   * Define ícone, cores e chave de tradução para cada status.
+   */
+  const PAYMENT_STATUS_CONFIG = {
+    paid: {
+      labelKey: 'paymentsStatusPaid' as const,
+      icon: CheckCircle2,
+      bgColor: 'bg-emerald-50',
+      textColor: 'text-emerald-700',
+    },
+    pending: {
+      labelKey: 'paymentsStatusPending' as const,
+      icon: Clock,
+      bgColor: 'bg-amber-50',
+      textColor: 'text-amber-700',
+    },
+    failed: {
+      labelKey: 'paymentsStatusFailed' as const,
+      icon: XCircle,
+      bgColor: 'bg-red-50',
+      textColor: 'text-red-700',
+    },
+    refunded: {
+      labelKey: 'paymentsStatusRefunded' as const,
+      icon: RefreshCw,
+      bgColor: 'bg-slate-50',
+      textColor: 'text-slate-700',
+    },
+  }
+
   return (
     <motion.div
       variants={containerVariants}
@@ -295,10 +299,10 @@ export function AdminPayments() {
       <motion.div variants={itemVariants} className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Gestão de Pagamentos
+            {t('paymentsTitle')}
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Acompanhe transações, receita e solicitações de reembolso
+            {t('paymentsSubtitle')}
           </p>
         </div>
 
@@ -309,7 +313,7 @@ export function AdminPayments() {
             className="rounded-xl border-slate-200 text-slate-600 gap-2"
           >
             <Download className="h-4 w-4" />
-            Exportar CSV
+            {t('paymentsExportCsv')}
           </Button>
           <Button
             variant="outline"
@@ -317,7 +321,7 @@ export function AdminPayments() {
             className="rounded-xl border-slate-200 text-slate-600 gap-2"
           >
             <ExternalLink className="h-4 w-4" />
-            Stripe Dashboard
+            {t('paymentsStripeDashboard')}
           </Button>
         </div>
       </motion.div>
@@ -332,7 +336,7 @@ export function AdminPayments() {
 
           return (
             <div
-              key={card.title}
+              key={card.titleKey}
               className={cn(
                 'bg-white rounded-2xl border border-slate-200 p-5',
                 'shadow-[3px_3px_0px_rgba(0,0,0,0.06)]'
@@ -365,7 +369,7 @@ export function AdminPayments() {
                 )}
               </div>
               <p className="text-2xl font-bold text-slate-900 mt-3">{card.value}</p>
-              <p className="text-sm text-slate-500 mt-0.5">{card.title}</p>
+              <p className="text-sm text-slate-500 mt-0.5">{t(card.titleKey)}</p>
             </div>
           )
         })}
@@ -380,11 +384,11 @@ export function AdminPayments() {
         )}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-          <h3 className="text-sm font-semibold text-slate-900">Transações Recentes</h3>
+          <h3 className="text-sm font-semibold text-slate-900">{t('paymentsRecentTransactions')}</h3>
           <div className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4 text-emerald-500" />
             <span className="text-xs text-slate-500">
-              6 de 8 pagas ({((6 / 8) * 100).toFixed(0)}%)
+              {t('paymentsPaidOf', { paid: 6, total: 8, percent: ((6 / 8) * 100).toFixed(0) })}
             </span>
           </div>
         </div>
@@ -395,25 +399,25 @@ export function AdminPayments() {
             <thead>
               <tr className="border-b border-slate-100 bg-slate-50/50">
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  ID
+                  {t('paymentsTableId')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Usuário
+                  {t('paymentsTableUser')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Valor
+                  {t('paymentsTableAmount')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Plano
+                  {t('paymentsTablePlan')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Status
+                  {t('paymentsTableStatus')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Data
+                  {t('paymentsTableDate')}
                 </th>
                 <th className="text-right px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Fatura
+                  {t('paymentsTableInvoice')}
                 </th>
               </tr>
             </thead>
@@ -467,7 +471,7 @@ export function AdminPayments() {
                         )}
                       >
                         <StatusIcon className="h-3.5 w-3.5" />
-                        {statusConfig.label}
+                        {t(statusConfig.labelKey)}
                       </span>
                     </td>
 
@@ -484,7 +488,7 @@ export function AdminPayments() {
                         className="rounded-lg text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 gap-1.5"
                       >
                         <FileText className="h-3.5 w-3.5" />
-                        <span className="text-xs">Ver fatura</span>
+                        <span className="text-xs">{t('paymentsViewInvoice')}</span>
                       </Button>
                     </td>
                   </motion.tr>
@@ -507,7 +511,7 @@ export function AdminPayments() {
         >
           <div className="flex items-center justify-between mb-5">
             <h3 className="text-sm font-semibold text-slate-900">
-              Mudanças de Assinatura
+              {t('paymentsSubscriptionChanges')}
             </h3>
             <CreditCard className="h-4 w-4 text-slate-400" />
           </div>
@@ -526,7 +530,7 @@ export function AdminPayments() {
                       change.actionColor
                     )}
                   >
-                    {change.action}
+                    {t(change.actionKey)}
                   </span>
                   <div>
                     <p className="text-sm font-medium text-slate-700">{change.user}</p>
@@ -552,10 +556,10 @@ export function AdminPayments() {
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-semibold text-slate-900">
-                Solicitações de Reembolso
+                {t('paymentsRefundRequests')}
               </h3>
               <span className="px-2 py-0.5 bg-amber-50 text-amber-700 text-[10px] font-bold rounded-md">
-                {REFUND_REQUESTS.length} pendentes
+                {t('paymentsRefundPending', { count: REFUND_REQUESTS.length })}
               </span>
             </div>
             <RefreshCw className="h-4 w-4 text-slate-400" />
@@ -588,13 +592,13 @@ export function AdminPayments() {
                       size="sm"
                       className="h-7 rounded-lg border-slate-200 text-xs text-slate-600"
                     >
-                      Recusar
+                      {t('paymentsRefundReject')}
                     </Button>
                     <Button
                       size="sm"
                       className="h-7 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs shadow-[2px_2px_0px_rgba(0,0,0,0.1)]"
                     >
-                      Aprovar
+                      {t('paymentsRefundApprove')}
                     </Button>
                   </div>
                 </div>

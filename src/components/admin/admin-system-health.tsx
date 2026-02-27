@@ -24,156 +24,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-
-/**
- * Status dos serviços do sistema.
- * Cada serviço possui nome, status, latência e uptime.
- */
-const SERVICE_STATUS = [
-  {
-    name: 'API',
-    status: 'operational' as const,
-    latency: '145ms',
-    uptime: '99.97%',
-    icon: Server,
-    description: 'Endpoints REST e tRPC',
-  },
-  {
-    name: 'Database',
-    status: 'operational' as const,
-    latency: '23ms',
-    uptime: '99.99%',
-    icon: Database,
-    description: 'PostgreSQL (Neon)',
-  },
-  {
-    name: 'AI Engine',
-    status: 'operational' as const,
-    latency: '890ms',
-    uptime: '99.95%',
-    icon: Zap,
-    description: 'OpenAI API + Processamento',
-  },
-  {
-    name: 'Storage',
-    status: 'operational' as const,
-    latency: '67ms',
-    uptime: '99.99%',
-    icon: HardDrive,
-    description: 'Armazenamento de contratos',
-  },
-  {
-    name: 'Email',
-    status: 'degraded' as const,
-    latency: '1.2s',
-    uptime: '98.50%',
-    icon: Mail,
-    description: 'Resend — tempo de entrega elevado',
-  },
-]
-
-/**
- * Configuração visual dos status de serviço.
- */
-const SERVICE_STATUS_CONFIG = {
-  operational: {
-    label: 'Operacional',
-    icon: CheckCircle2,
-    textColor: 'text-emerald-700',
-    bgColor: 'bg-emerald-50',
-    dotColor: 'bg-emerald-500',
-    borderColor: 'border-emerald-200',
-  },
-  degraded: {
-    label: 'Degradado',
-    icon: AlertTriangle,
-    textColor: 'text-amber-700',
-    bgColor: 'bg-amber-50',
-    dotColor: 'bg-amber-500',
-    borderColor: 'border-amber-200',
-  },
-  outage: {
-    label: 'Indisponível',
-    icon: XCircle,
-    textColor: 'text-red-700',
-    bgColor: 'bg-red-50',
-    dotColor: 'bg-red-500',
-    borderColor: 'border-red-200',
-  },
-}
-
-/**
- * Métricas de desempenho do sistema.
- */
-const PERFORMANCE_METRICS = [
-  {
-    name: 'Tempo de Resposta API',
-    value: '145ms',
-    description: 'Média p50 últimas 24h',
-    icon: Activity,
-    trend: '-12ms',
-    trendType: 'down' as const,
-  },
-  {
-    name: 'Uptime',
-    value: '99.97%',
-    description: 'Últimos 30 dias',
-    icon: Shield,
-    trend: '+0.02%',
-    trendType: 'up' as const,
-  },
-  {
-    name: 'Taxa de Erro',
-    value: '0.03%',
-    description: 'Erros / total de requisições',
-    icon: Bug,
-    trend: '-0.01%',
-    trendType: 'down' as const,
-  },
-]
-
-/**
- * Uso de recursos do sistema.
- * Barras de progresso para CPU, memória, storage e DB connections.
- */
-const RESOURCE_USAGE = [
-  {
-    name: 'CPU',
-    value: 34,
-    max: 100,
-    unit: '%',
-    icon: Cpu,
-    color: 'bg-indigo-500',
-    bgColor: 'bg-indigo-100',
-  },
-  {
-    name: 'Memória',
-    value: 56,
-    max: 100,
-    unit: '%',
-    icon: MemoryStick,
-    color: 'bg-violet-500',
-    bgColor: 'bg-violet-100',
-  },
-  {
-    name: 'Storage',
-    value: 42,
-    max: 100,
-    unit: '%',
-    icon: HardDrive,
-    color: 'bg-blue-500',
-    bgColor: 'bg-blue-100',
-  },
-  {
-    name: 'DB Connections',
-    value: 23,
-    max: 100,
-    unit: '/100',
-    icon: Database,
-    color: 'bg-emerald-500',
-    bgColor: 'bg-emerald-100',
-  },
-]
+import { useTranslations } from 'next-intl'
 
 /**
  * Histórico de incidentes recentes.
@@ -211,51 +62,6 @@ const RECENT_INCIDENTS = [
     affectedServices: ['AI Engine'],
   },
 ]
-
-/**
- * Configuração visual dos status de incidente.
- */
-const INCIDENT_STATUS_CONFIG = {
-  investigating: {
-    label: 'Investigando',
-    bgColor: 'bg-amber-50',
-    textColor: 'text-amber-700',
-    dotColor: 'bg-amber-500',
-  },
-  resolved: {
-    label: 'Resolvido',
-    bgColor: 'bg-emerald-50',
-    textColor: 'text-emerald-700',
-    dotColor: 'bg-emerald-500',
-  },
-  monitoring: {
-    label: 'Monitorando',
-    bgColor: 'bg-blue-50',
-    textColor: 'text-blue-700',
-    dotColor: 'bg-blue-500',
-  },
-}
-
-/**
- * Configuração visual de severidade de incidente.
- */
-const SEVERITY_CONFIG = {
-  critical: {
-    label: 'Crítico',
-    bgColor: 'bg-red-50',
-    textColor: 'text-red-700',
-  },
-  warning: {
-    label: 'Aviso',
-    bgColor: 'bg-amber-50',
-    textColor: 'text-amber-700',
-  },
-  info: {
-    label: 'Info',
-    bgColor: 'bg-blue-50',
-    textColor: 'text-blue-700',
-  },
-}
 
 /**
  * Logs do sistema — últimas 20 entradas.
@@ -330,6 +136,204 @@ const itemVariants = {
  * Design: Light Neobrutalism com acentos indigo/violet.
  */
 export function AdminSystemHealth() {
+  /** Hook de tradução usando namespace admin */
+  const t = useTranslations('admin')
+
+  /**
+   * Status dos serviços do sistema.
+   * Cada serviço possui nome, status, latência e uptime.
+   */
+  const SERVICE_STATUS = [
+    {
+      name: 'API',
+      status: 'operational' as const,
+      latency: '145ms',
+      uptime: '99.97%',
+      icon: Server,
+      descKey: 'systemServiceApiDesc' as const,
+    },
+    {
+      name: 'Database',
+      status: 'operational' as const,
+      latency: '23ms',
+      uptime: '99.99%',
+      icon: Database,
+      descKey: 'systemServiceDbDesc' as const,
+    },
+    {
+      name: 'AI Engine',
+      status: 'operational' as const,
+      latency: '890ms',
+      uptime: '99.95%',
+      icon: Zap,
+      descKey: 'systemServiceAiDesc' as const,
+    },
+    {
+      name: 'Storage',
+      status: 'operational' as const,
+      latency: '67ms',
+      uptime: '99.99%',
+      icon: HardDrive,
+      descKey: 'systemServiceStorageDesc' as const,
+    },
+    {
+      name: 'Email',
+      status: 'degraded' as const,
+      latency: '1.2s',
+      uptime: '98.50%',
+      icon: Mail,
+      descKey: 'systemServiceEmailDesc' as const,
+    },
+  ]
+
+  /**
+   * Configuração visual dos status de serviço.
+   */
+  const SERVICE_STATUS_CONFIG = {
+    operational: {
+      labelKey: 'systemStatusOperational' as const,
+      icon: CheckCircle2,
+      textColor: 'text-emerald-700',
+      bgColor: 'bg-emerald-50',
+      dotColor: 'bg-emerald-500',
+      borderColor: 'border-emerald-200',
+    },
+    degraded: {
+      labelKey: 'systemStatusDegraded' as const,
+      icon: AlertTriangle,
+      textColor: 'text-amber-700',
+      bgColor: 'bg-amber-50',
+      dotColor: 'bg-amber-500',
+      borderColor: 'border-amber-200',
+    },
+    outage: {
+      labelKey: 'systemStatusOutage' as const,
+      icon: XCircle,
+      textColor: 'text-red-700',
+      bgColor: 'bg-red-50',
+      dotColor: 'bg-red-500',
+      borderColor: 'border-red-200',
+    },
+  }
+
+  /**
+   * Métricas de desempenho do sistema.
+   */
+  const PERFORMANCE_METRICS = [
+    {
+      nameKey: 'systemApiResponseTime' as const,
+      value: '145ms',
+      descKey: 'systemApiResponseTimeDesc' as const,
+      icon: Activity,
+      trend: '-12ms',
+      trendType: 'down' as const,
+    },
+    {
+      nameKey: 'systemUptimeMetric' as const,
+      value: '99.97%',
+      descKey: 'systemUptimeMetricDesc' as const,
+      icon: Shield,
+      trend: '+0.02%',
+      trendType: 'up' as const,
+    },
+    {
+      nameKey: 'systemErrorRateMetric' as const,
+      value: '0.03%',
+      descKey: 'systemErrorRateMetricDesc' as const,
+      icon: Bug,
+      trend: '-0.01%',
+      trendType: 'down' as const,
+    },
+  ]
+
+  /**
+   * Uso de recursos do sistema.
+   * Barras de progresso para CPU, memória, storage e DB connections.
+   */
+  const RESOURCE_USAGE = [
+    {
+      nameKey: 'systemCpu' as const,
+      value: 34,
+      max: 100,
+      unit: '%',
+      icon: Cpu,
+      color: 'bg-indigo-500',
+      bgColor: 'bg-indigo-100',
+    },
+    {
+      nameKey: 'systemMemory' as const,
+      value: 56,
+      max: 100,
+      unit: '%',
+      icon: MemoryStick,
+      color: 'bg-violet-500',
+      bgColor: 'bg-violet-100',
+    },
+    {
+      nameKey: 'systemStorage' as const,
+      value: 42,
+      max: 100,
+      unit: '%',
+      icon: HardDrive,
+      color: 'bg-blue-500',
+      bgColor: 'bg-blue-100',
+    },
+    {
+      nameKey: 'systemDbConnections' as const,
+      value: 23,
+      max: 100,
+      unit: '/100',
+      icon: Database,
+      color: 'bg-emerald-500',
+      bgColor: 'bg-emerald-100',
+    },
+  ]
+
+  /**
+   * Configuração visual dos status de incidente.
+   */
+  const INCIDENT_STATUS_CONFIG = {
+    investigating: {
+      labelKey: 'systemIncidentInvestigating' as const,
+      bgColor: 'bg-amber-50',
+      textColor: 'text-amber-700',
+      dotColor: 'bg-amber-500',
+    },
+    resolved: {
+      labelKey: 'systemIncidentResolved' as const,
+      bgColor: 'bg-emerald-50',
+      textColor: 'text-emerald-700',
+      dotColor: 'bg-emerald-500',
+    },
+    monitoring: {
+      labelKey: 'systemIncidentMonitoring' as const,
+      bgColor: 'bg-blue-50',
+      textColor: 'text-blue-700',
+      dotColor: 'bg-blue-500',
+    },
+  }
+
+  /**
+   * Configuração visual de severidade de incidente.
+   */
+  const SEVERITY_CONFIG = {
+    critical: {
+      labelKey: 'systemSeverityCritical' as const,
+      bgColor: 'bg-red-50',
+      textColor: 'text-red-700',
+    },
+    warning: {
+      labelKey: 'systemSeverityWarning' as const,
+      bgColor: 'bg-amber-50',
+      textColor: 'text-amber-700',
+    },
+    info: {
+      labelKey: 'systemSeverityInfo' as const,
+      bgColor: 'bg-blue-50',
+      textColor: 'text-blue-700',
+    },
+  }
+
   return (
     <motion.div
       variants={containerVariants}
@@ -341,10 +345,10 @@ export function AdminSystemHealth() {
       <motion.div variants={itemVariants} className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Saúde do Sistema
+            {t('systemTitle')}
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Monitore serviços, desempenho e incidentes em tempo real
+            {t('systemSubtitle')}
           </p>
         </div>
 
@@ -353,7 +357,7 @@ export function AdminSystemHealth() {
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200">
             <AlertTriangle className="h-4 w-4 text-amber-600" />
             <span className="text-xs font-medium text-amber-700">
-              1 serviço degradado
+              {t('systemDegradedService', { count: 1 })}
             </span>
           </div>
           <Button
@@ -362,7 +366,7 @@ export function AdminSystemHealth() {
             className="rounded-xl border-slate-200 text-slate-600 gap-2"
           >
             <Wifi className="h-4 w-4" />
-            Status Page
+            {t('systemStatusPage')}
           </Button>
         </div>
       </motion.div>
@@ -404,22 +408,22 @@ export function AdminSystemHealth() {
                 )}
               >
                 <span className={cn('h-1.5 w-1.5 rounded-full', statusConfig.dotColor)} />
-                {statusConfig.label}
+                {t(statusConfig.labelKey)}
               </span>
 
               {/* Métricas do serviço */}
               <div className="mt-3 space-y-1">
                 <div className="flex justify-between text-[10px]">
-                  <span className="text-slate-400">Latência</span>
+                  <span className="text-slate-400">{t('systemLatency')}</span>
                   <span className="text-slate-600 font-medium">{service.latency}</span>
                 </div>
                 <div className="flex justify-between text-[10px]">
-                  <span className="text-slate-400">Uptime</span>
+                  <span className="text-slate-400">{t('systemUptime')}</span>
                   <span className="text-slate-600 font-medium">{service.uptime}</span>
                 </div>
               </div>
 
-              <p className="text-[10px] text-slate-400 mt-2">{service.description}</p>
+              <p className="text-[10px] text-slate-400 mt-2">{t(service.descKey)}</p>
             </motion.div>
           )
         })}
@@ -435,7 +439,7 @@ export function AdminSystemHealth() {
             'shadow-[3px_3px_0px_rgba(0,0,0,0.06)]'
           )}
         >
-          <h3 className="text-sm font-semibold text-slate-900 mb-5">Métricas de Desempenho</h3>
+          <h3 className="text-sm font-semibold text-slate-900 mb-5">{t('systemPerformanceMetrics')}</h3>
 
           <div className="space-y-4">
             {PERFORMANCE_METRICS.map((metric) => {
@@ -443,7 +447,7 @@ export function AdminSystemHealth() {
 
               return (
                 <div
-                  key={metric.name}
+                  key={metric.nameKey}
                   className="flex items-center justify-between p-4 rounded-xl bg-slate-50/50 border border-slate-100"
                 >
                   <div className="flex items-center gap-3">
@@ -451,8 +455,8 @@ export function AdminSystemHealth() {
                       <Icon className="h-5 w-5 text-indigo-600" />
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-slate-900">{metric.name}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">{metric.description}</p>
+                      <p className="text-sm font-medium text-slate-900">{t(metric.nameKey)}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">{t(metric.descKey)}</p>
                     </div>
                   </div>
 
@@ -461,11 +465,7 @@ export function AdminSystemHealth() {
                     <div
                       className={cn(
                         'flex items-center gap-1 text-xs font-medium justify-end mt-0.5',
-                        metric.name === 'Taxa de Erro'
-                          ? 'text-emerald-600'
-                          : metric.trendType === 'up'
-                            ? 'text-emerald-600'
-                            : 'text-emerald-600'
+                        'text-emerald-600'
                       )}
                     >
                       <ArrowUpRight className="h-3 w-3" />
@@ -486,7 +486,7 @@ export function AdminSystemHealth() {
             'shadow-[3px_3px_0px_rgba(0,0,0,0.06)]'
           )}
         >
-          <h3 className="text-sm font-semibold text-slate-900 mb-5">Uso de Recursos</h3>
+          <h3 className="text-sm font-semibold text-slate-900 mb-5">{t('systemResourceUsage')}</h3>
 
           <div className="space-y-5">
             {RESOURCE_USAGE.map((resource) => {
@@ -502,12 +502,12 @@ export function AdminSystemHealth() {
                     : 'text-slate-900'
 
               return (
-                <div key={resource.name} className="space-y-2">
+                <div key={resource.nameKey} className="space-y-2">
                   {/* Header da barra — nome + valor */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Icon className="h-4 w-4 text-slate-400" />
-                      <span className="text-sm font-medium text-slate-700">{resource.name}</span>
+                      <span className="text-sm font-medium text-slate-700">{t(resource.nameKey)}</span>
                     </div>
                     <span className={cn('text-sm font-bold', valueColor)}>
                       {resource.value}{resource.unit}
@@ -539,8 +539,8 @@ export function AdminSystemHealth() {
         )}
       >
         <div className="flex items-center justify-between mb-5">
-          <h3 className="text-sm font-semibold text-slate-900">Incidentes Recentes</h3>
-          <span className="text-xs text-slate-400">Últimos 7 dias</span>
+          <h3 className="text-sm font-semibold text-slate-900">{t('systemRecentIncidents')}</h3>
+          <span className="text-xs text-slate-400">{t('systemLast7Days')}</span>
         </div>
 
         <div className="space-y-4">
@@ -583,7 +583,7 @@ export function AdminSystemHealth() {
                             severityConfig.textColor
                           )}
                         >
-                          {severityConfig.label}
+                          {t(severityConfig.labelKey)}
                         </span>
                       </div>
                       <p className="text-sm font-medium text-slate-900 mt-1">{incident.title}</p>
@@ -599,7 +599,7 @@ export function AdminSystemHealth() {
                     )}
                   >
                     <span className={cn('h-1.5 w-1.5 rounded-full', statusConfig.dotColor)} />
-                    {statusConfig.label}
+                    {t(statusConfig.labelKey)}
                   </span>
                 </div>
 
@@ -608,17 +608,17 @@ export function AdminSystemHealth() {
                   <div className="flex items-center gap-4 text-xs text-slate-500">
                     <div className="flex items-center gap-1">
                       <Clock className="h-3 w-3" />
-                      <span>Início: {incident.started}</span>
+                      <span>{t('systemIncidentStarted', { time: incident.started })}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Activity className="h-3 w-3" />
-                      <span>Duração: {incident.duration}</span>
+                      <span>{t('systemIncidentDuration', { duration: incident.duration })}</span>
                     </div>
                   </div>
 
                   {/* Serviços afetados */}
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-400">Afetados:</span>
+                    <span className="text-xs text-slate-400">{t('systemIncidentAffected')}</span>
                     {incident.affectedServices.map((service) => (
                       <span
                         key={service}
@@ -651,16 +651,16 @@ export function AdminSystemHealth() {
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
             <Terminal className="h-4 w-4 text-slate-500" />
-            <h3 className="text-sm font-semibold text-slate-900">Logs do Sistema</h3>
+            <h3 className="text-sm font-semibold text-slate-900">{t('systemLogs')}</h3>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-400">Últimas 20 entradas</span>
+            <span className="text-xs text-slate-400">{t('systemLogsLast20')}</span>
             <Button
               variant="outline"
               size="sm"
               className="h-7 rounded-lg border-slate-200 text-xs text-slate-600"
             >
-              Atualizar
+              {t('systemLogsRefresh')}
             </Button>
           </div>
         </div>
@@ -724,15 +724,15 @@ export function AdminSystemHealth() {
             {/* Contadores de nível */}
             <span className="flex items-center gap-1 text-[10px] text-red-400">
               <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
-              {SYSTEM_LOGS.filter((l) => l.level === 'error').length} erros
+              {t('systemLogsErrors', { count: SYSTEM_LOGS.filter((l) => l.level === 'error').length })}
             </span>
             <span className="flex items-center gap-1 text-[10px] text-amber-400">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-              {SYSTEM_LOGS.filter((l) => l.level === 'warning').length} avisos
+              {t('systemLogsWarnings', { count: SYSTEM_LOGS.filter((l) => l.level === 'warning').length })}
             </span>
             <span className="flex items-center gap-1 text-[10px] text-blue-400">
               <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-              {SYSTEM_LOGS.filter((l) => l.level === 'info').length} info
+              {t('systemLogsInfo', { count: SYSTEM_LOGS.filter((l) => l.level === 'info').length })}
             </span>
           </div>
 
@@ -741,7 +741,7 @@ export function AdminSystemHealth() {
             size="sm"
             className="h-6 rounded text-[10px] text-slate-400 hover:text-slate-200 hover:bg-slate-800"
           >
-            Ver logs completos
+            {t('systemLogsViewFull')}
           </Button>
         </div>
       </motion.div>

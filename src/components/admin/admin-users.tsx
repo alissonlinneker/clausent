@@ -21,45 +21,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-
-/**
- * Cards de resumo do topo da página de usuários.
- * Cada card exibe uma métrica com ícone colorido.
- */
-const USER_STAT_CARDS = [
-  {
-    title: 'Total de Usuários',
-    value: '342',
-    icon: Users,
-    color: 'indigo',
-    bgColor: 'bg-indigo-50',
-    iconColor: 'text-indigo-600',
-  },
-  {
-    title: 'Ativos',
-    value: '289',
-    icon: UserCheck,
-    color: 'emerald',
-    bgColor: 'bg-emerald-50',
-    iconColor: 'text-emerald-600',
-  },
-  {
-    title: 'Em Trial',
-    value: '38',
-    icon: Clock,
-    color: 'amber',
-    bgColor: 'bg-amber-50',
-    iconColor: 'text-amber-600',
-  },
-  {
-    title: 'Churn',
-    value: '15',
-    icon: UserX,
-    color: 'red',
-    bgColor: 'bg-red-50',
-    iconColor: 'text-red-600',
-  },
-]
+import { useTranslations } from 'next-intl'
 
 /**
  * Dados mockados de 8 usuários para a tabela de gestão.
@@ -174,40 +136,16 @@ const MOCK_USERS = [
 ]
 
 /**
- * Mapeamento de cores e labels para cada status de usuário.
- * Usado para renderizar badges visuais na tabela.
+ * Nomes dos planos usados como filtro.
+ * "all" é o valor especial para "Todos os Planos".
  */
-const STATUS_CONFIG = {
-  active: {
-    label: 'Ativo',
-    bgColor: 'bg-emerald-50',
-    textColor: 'text-emerald-700',
-    dotColor: 'bg-emerald-500',
-  },
-  suspended: {
-    label: 'Suspenso',
-    bgColor: 'bg-red-50',
-    textColor: 'text-red-700',
-    dotColor: 'bg-red-500',
-  },
-  trial: {
-    label: 'Trial',
-    bgColor: 'bg-amber-50',
-    textColor: 'text-amber-700',
-    dotColor: 'bg-amber-500',
-  },
-}
+const PLAN_FILTER_VALUES = ['all', 'Free', 'Starter', 'Professional', 'Business', 'Enterprise']
 
 /**
- * Opções de filtro por tipo de plano.
- * Usado no seletor de filtros da barra de busca.
+ * Valores de status usados como filtro.
+ * "all" é o valor especial para "Todos os Status".
  */
-const PLAN_FILTERS = ['Todos', 'Free', 'Starter', 'Professional', 'Business', 'Enterprise']
-
-/**
- * Opções de filtro por status do usuário.
- */
-const STATUS_FILTERS = ['Todos', 'Ativo', 'Suspenso', 'Trial']
+const STATUS_FILTER_VALUES = ['all', 'active', 'suspended', 'trial']
 
 /**
  * Variantes de animação para o container principal.
@@ -246,14 +184,81 @@ const itemVariants = {
  * Design: Light Neobrutalism com acentos indigo/violet.
  */
 export function AdminUsers() {
+  /** Hook de tradução usando namespace admin */
+  const t = useTranslations('admin')
+
   /** Estado da pesquisa de texto */
   const [searchQuery, setSearchQuery] = useState('')
   /** Estado do filtro de plano selecionado */
-  const [selectedPlan, setSelectedPlan] = useState('Todos')
+  const [selectedPlan, setSelectedPlan] = useState('all')
   /** Estado do filtro de status selecionado */
-  const [selectedStatus, setSelectedStatus] = useState('Todos')
+  const [selectedStatus, setSelectedStatus] = useState('all')
   /** ID do menu de ações aberto (null = nenhum) */
   const [openActionMenu, setOpenActionMenu] = useState<string | null>(null)
+
+  /**
+   * Cards de resumo do topo da página de usuários.
+   * Cada card exibe uma métrica com ícone colorido.
+   * Definidos dentro do componente para acessar traduções.
+   */
+  const USER_STAT_CARDS = [
+    {
+      titleKey: 'usersStatTotal' as const,
+      value: '342',
+      icon: Users,
+      color: 'indigo',
+      bgColor: 'bg-indigo-50',
+      iconColor: 'text-indigo-600',
+    },
+    {
+      titleKey: 'usersStatActive' as const,
+      value: '289',
+      icon: UserCheck,
+      color: 'emerald',
+      bgColor: 'bg-emerald-50',
+      iconColor: 'text-emerald-600',
+    },
+    {
+      titleKey: 'usersStatTrial' as const,
+      value: '38',
+      icon: Clock,
+      color: 'amber',
+      bgColor: 'bg-amber-50',
+      iconColor: 'text-amber-600',
+    },
+    {
+      titleKey: 'usersStatChurn' as const,
+      value: '15',
+      icon: UserX,
+      color: 'red',
+      bgColor: 'bg-red-50',
+      iconColor: 'text-red-600',
+    },
+  ]
+
+  /**
+   * Mapeamento de status para suas chaves de tradução e cores.
+   */
+  const STATUS_CONFIG = {
+    active: {
+      labelKey: 'usersStatusActive' as const,
+      bgColor: 'bg-emerald-50',
+      textColor: 'text-emerald-700',
+      dotColor: 'bg-emerald-500',
+    },
+    suspended: {
+      labelKey: 'usersStatusSuspended' as const,
+      bgColor: 'bg-red-50',
+      textColor: 'text-red-700',
+      dotColor: 'bg-red-500',
+    },
+    trial: {
+      labelKey: 'usersStatusTrial' as const,
+      bgColor: 'bg-amber-50',
+      textColor: 'text-amber-700',
+      dotColor: 'bg-amber-500',
+    },
+  }
 
   /**
    * Filtra os usuários com base na pesquisa e filtros selecionados.
@@ -267,12 +272,10 @@ export function AdminUsers() {
       user.email.toLowerCase().includes(searchQuery.toLowerCase())
 
     /** Filtro por plano */
-    const matchesPlan = selectedPlan === 'Todos' || user.plan === selectedPlan
+    const matchesPlan = selectedPlan === 'all' || user.plan === selectedPlan
 
     /** Filtro por status */
-    const matchesStatus =
-      selectedStatus === 'Todos' ||
-      STATUS_CONFIG[user.status].label === selectedStatus
+    const matchesStatus = selectedStatus === 'all' || user.status === selectedStatus
 
     return matchesSearch && matchesPlan && matchesStatus
   })
@@ -288,10 +291,10 @@ export function AdminUsers() {
       <motion.div variants={itemVariants} className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Gestão de Usuários
+            {t('usersTitle')}
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Gerencie contas, planos e permissões dos usuários
+            {t('usersSubtitle')}
           </p>
         </div>
 
@@ -303,14 +306,14 @@ export function AdminUsers() {
             className="rounded-xl border-slate-200 text-slate-600 gap-2"
           >
             <Download className="h-4 w-4" />
-            Exportar
+            {t('usersExport')}
           </Button>
           <Button
             size="sm"
             className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white gap-2 shadow-[2px_2px_0px_rgba(0,0,0,0.1)]"
           >
             <UserPlus className="h-4 w-4" />
-            Novo Usuário
+            {t('usersNewUser')}
           </Button>
         </div>
       </motion.div>
@@ -325,7 +328,7 @@ export function AdminUsers() {
 
           return (
             <div
-              key={card.title}
+              key={card.titleKey}
               className={cn(
                 'bg-white rounded-2xl border border-slate-200 p-5',
                 'shadow-[3px_3px_0px_rgba(0,0,0,0.06)]'
@@ -337,7 +340,7 @@ export function AdminUsers() {
                 </div>
                 <span className="text-2xl font-bold text-slate-900">{card.value}</span>
               </div>
-              <p className="text-sm text-slate-500 mt-3">{card.title}</p>
+              <p className="text-sm text-slate-500 mt-3">{t(card.titleKey)}</p>
             </div>
           )
         })}
@@ -357,7 +360,7 @@ export function AdminUsers() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
               type="search"
-              placeholder="Buscar por nome ou e-mail..."
+              placeholder={t('usersSearchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 h-10 rounded-xl border-slate-200 bg-slate-50 focus:bg-white"
@@ -373,9 +376,9 @@ export function AdminUsers() {
                 onChange={(e) => setSelectedPlan(e.target.value)}
                 className="h-10 px-3 pr-8 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-300"
               >
-                {PLAN_FILTERS.map((plan) => (
+                {PLAN_FILTER_VALUES.map((plan) => (
                   <option key={plan} value={plan}>
-                    {plan === 'Todos' ? 'Todos os Planos' : plan}
+                    {plan === 'all' ? t('usersAllPlans') : plan}
                   </option>
                 ))}
               </select>
@@ -390,9 +393,11 @@ export function AdminUsers() {
               onChange={(e) => setSelectedStatus(e.target.value)}
               className="h-10 px-3 pr-8 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-300"
             >
-              {STATUS_FILTERS.map((status) => (
+              {STATUS_FILTER_VALUES.map((status) => (
                 <option key={status} value={status}>
-                  {status === 'Todos' ? 'Todos os Status' : status}
+                  {status === 'all'
+                    ? t('usersAllStatus')
+                    : t(STATUS_CONFIG[status as keyof typeof STATUS_CONFIG].labelKey)}
                 </option>
               ))}
             </select>
@@ -415,25 +420,25 @@ export function AdminUsers() {
             <thead>
               <tr className="border-b border-slate-100 bg-slate-50/50">
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Usuário
+                  {t('usersTableUser')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Plano
+                  {t('usersTablePlan')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Contratos
+                  {t('usersTableContracts')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  MRR
+                  {t('usersTableMrr')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Cadastro
+                  {t('usersTableJoined')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Status
+                  {t('usersTableStatus')}
                 </th>
                 <th className="text-right px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Ações
+                  {t('usersTableActions')}
                 </th>
               </tr>
             </thead>
@@ -512,7 +517,7 @@ export function AdminUsers() {
                         <span
                           className={cn('h-1.5 w-1.5 rounded-full', statusConfig.dotColor)}
                         />
-                        {statusConfig.label}
+                        {t(statusConfig.labelKey)}
                       </span>
                     </td>
 
@@ -550,7 +555,7 @@ export function AdminUsers() {
                               onClick={() => setOpenActionMenu(null)}
                             >
                               <Eye className="h-4 w-4 text-slate-400" />
-                              Ver perfil
+                              {t('usersActionViewProfile')}
                             </button>
 
                             {/* Enviar email */}
@@ -559,7 +564,7 @@ export function AdminUsers() {
                               onClick={() => setOpenActionMenu(null)}
                             >
                               <Mail className="h-4 w-4 text-slate-400" />
-                              Enviar e-mail
+                              {t('usersActionSendEmail')}
                             </button>
 
                             {/* Suspender/Ativar */}
@@ -568,7 +573,7 @@ export function AdminUsers() {
                               onClick={() => setOpenActionMenu(null)}
                             >
                               <Ban className="h-4 w-4 text-amber-500" />
-                              {user.status === 'suspended' ? 'Reativar' : 'Suspender'}
+                              {user.status === 'suspended' ? t('usersActionReactivate') : t('usersActionSuspend')}
                             </button>
 
                             {/* Separador */}
@@ -580,7 +585,7 @@ export function AdminUsers() {
                               onClick={() => setOpenActionMenu(null)}
                             >
                               <Trash2 className="h-4 w-4 text-red-500" />
-                              Excluir conta
+                              {t('usersActionDelete')}
                             </button>
                           </motion.div>
                         )}
@@ -596,8 +601,7 @@ export function AdminUsers() {
         {/* Rodapé da tabela — paginação e contagem */}
         <div className="flex items-center justify-between px-5 py-4 border-t border-slate-100 bg-slate-50/30">
           <p className="text-xs text-slate-500">
-            Exibindo <span className="font-medium text-slate-700">{filteredUsers.length}</span> de{' '}
-            <span className="font-medium text-slate-700">{MOCK_USERS.length}</span> usuários
+            {t('usersShowingOf', { filtered: filteredUsers.length, total: MOCK_USERS.length })}
           </p>
 
           {/* Botões de paginação (placeholder) */}

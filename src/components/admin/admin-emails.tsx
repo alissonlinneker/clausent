@@ -25,41 +25,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-
-/**
- * Cards de estatísticas de e-mail.
- * Métricas agregadas do sistema de envio.
- */
-const EMAIL_STAT_CARDS = [
-  {
-    title: 'Enviados Hoje',
-    value: '124',
-    icon: Send,
-    bgColor: 'bg-indigo-50',
-    iconColor: 'text-indigo-600',
-  },
-  {
-    title: 'Entregues',
-    value: '98%',
-    icon: CheckCircle2,
-    bgColor: 'bg-emerald-50',
-    iconColor: 'text-emerald-600',
-  },
-  {
-    title: 'Abertos',
-    value: '45%',
-    icon: Eye,
-    bgColor: 'bg-blue-50',
-    iconColor: 'text-blue-600',
-  },
-  {
-    title: 'Bounce',
-    value: '2',
-    icon: AlertTriangle,
-    bgColor: 'bg-red-50',
-    iconColor: 'text-red-600',
-  },
-]
+import { useTranslations } from 'next-intl'
 
 /**
  * Dados mockados do log de e-mails enviados.
@@ -159,120 +125,16 @@ const EMAIL_LOG = [
 ]
 
 /**
- * Configuração visual dos status de e-mail.
+ * Valores de filtro por tipo de e-mail.
+ * "all" é o valor especial para "Todos os Tipos".
  */
-const EMAIL_STATUS_CONFIG = {
-  delivered: {
-    label: 'Entregue',
-    icon: Mail,
-    bgColor: 'bg-emerald-50',
-    textColor: 'text-emerald-700',
-  },
-  opened: {
-    label: 'Aberto',
-    icon: MailOpen,
-    bgColor: 'bg-blue-50',
-    textColor: 'text-blue-700',
-  },
-  bounced: {
-    label: 'Bounce',
-    icon: MailX,
-    bgColor: 'bg-amber-50',
-    textColor: 'text-amber-700',
-  },
-  failed: {
-    label: 'Falha',
-    icon: XCircle,
-    bgColor: 'bg-red-50',
-    textColor: 'text-red-700',
-  },
-}
+const TYPE_FILTER_VALUES = ['all', 'transactional', 'marketing', 'alert']
 
 /**
- * Configuração dos tipos de e-mail.
+ * Valores de filtro por status de e-mail.
+ * "all" é o valor especial para "Todos os Status".
  */
-const EMAIL_TYPE_CONFIG = {
-  transactional: {
-    label: 'Transacional',
-    bgColor: 'bg-indigo-50',
-    textColor: 'text-indigo-700',
-  },
-  marketing: {
-    label: 'Marketing',
-    bgColor: 'bg-violet-50',
-    textColor: 'text-violet-700',
-  },
-  alert: {
-    label: 'Alerta',
-    bgColor: 'bg-amber-50',
-    textColor: 'text-amber-700',
-  },
-}
-
-/**
- * Templates de e-mail disponíveis.
- * 4 tipos com preview de conteúdo.
- */
-const EMAIL_TEMPLATES = [
-  {
-    id: 'tpl-welcome',
-    name: 'Boas-vindas',
-    description: 'Enviado automaticamente ao criar conta',
-    icon: UserPlus,
-    iconColor: 'text-emerald-600',
-    bgColor: 'bg-emerald-50',
-    subject: 'Bem-vindo(a) ao Clausent!',
-    preview:
-      'Olá {nome}! Sua conta foi criada com sucesso. Comece enviando seu primeiro contrato para análise...',
-    lastEdited: '20 Fev 2026',
-    sentCount: 342,
-  },
-  {
-    id: 'tpl-renewal',
-    name: 'Alerta de Renovação',
-    description: 'Enviado 7 dias antes do vencimento',
-    icon: CreditCard,
-    iconColor: 'text-amber-600',
-    bgColor: 'bg-amber-50',
-    subject: 'Sua assinatura renova em {dias} dias',
-    preview:
-      'Olá {nome}, este é um lembrete de que sua assinatura do plano {plano} será renovada automaticamente em {dias} dias...',
-    lastEdited: '18 Fev 2026',
-    sentCount: 89,
-  },
-  {
-    id: 'tpl-analysis',
-    name: 'Análise Concluída',
-    description: 'Enviado quando a análise de IA termina',
-    icon: FileText,
-    iconColor: 'text-indigo-600',
-    bgColor: 'bg-indigo-50',
-    subject: 'Sua análise de "{contrato}" está pronta',
-    preview:
-      'Olá {nome}! A análise do contrato "{contrato}" foi concluída. Encontramos {num} cláusulas de risco...',
-    lastEdited: '22 Fev 2026',
-    sentCount: 1247,
-  },
-  {
-    id: 'tpl-digest',
-    name: 'Resumo Semanal',
-    description: 'Enviado toda segunda-feira às 9h',
-    icon: BarChart3,
-    iconColor: 'text-violet-600',
-    bgColor: 'bg-violet-50',
-    subject: 'Resumo semanal — {num} contratos analisados',
-    preview:
-      'Olá {nome}! Aqui está seu resumo da semana: {num} contratos analisados, {alertas} alertas de risco, {score} score médio...',
-    lastEdited: '24 Fev 2026',
-    sentCount: 567,
-  },
-]
-
-/**
- * Filtros disponíveis para o log de e-mails.
- */
-const TYPE_FILTERS = ['Todos', 'Transacional', 'Marketing', 'Alerta']
-const STATUS_FILTERS = ['Todos', 'Entregue', 'Aberto', 'Bounce', 'Falha']
+const STATUS_FILTER_VALUES = ['all', 'delivered', 'opened', 'bounced', 'failed']
 
 /**
  * Variantes de animação.
@@ -307,14 +169,162 @@ const itemVariants = {
  * Design: Light Neobrutalism com acentos indigo/violet.
  */
 export function AdminEmails() {
+  /** Hook de tradução usando namespace admin */
+  const t = useTranslations('admin')
+
   /** Estado da pesquisa de texto */
   const [searchQuery, setSearchQuery] = useState('')
   /** Estado do filtro de tipo */
-  const [selectedType, setSelectedType] = useState('Todos')
+  const [selectedType, setSelectedType] = useState('all')
   /** Estado do filtro de status */
-  const [selectedStatus, setSelectedStatus] = useState('Todos')
+  const [selectedStatus, setSelectedStatus] = useState('all')
   /** ID do template em preview (null = modal fechado) */
   const [previewTemplate, setPreviewTemplate] = useState<string | null>(null)
+
+  /**
+   * Cards de estatísticas de e-mail.
+   * Métricas agregadas do sistema de envio.
+   */
+  const EMAIL_STAT_CARDS = [
+    {
+      titleKey: 'emailsStatSentToday' as const,
+      value: '124',
+      icon: Send,
+      bgColor: 'bg-indigo-50',
+      iconColor: 'text-indigo-600',
+    },
+    {
+      titleKey: 'emailsStatDelivered' as const,
+      value: '98%',
+      icon: CheckCircle2,
+      bgColor: 'bg-emerald-50',
+      iconColor: 'text-emerald-600',
+    },
+    {
+      titleKey: 'emailsStatOpened' as const,
+      value: '45%',
+      icon: Eye,
+      bgColor: 'bg-blue-50',
+      iconColor: 'text-blue-600',
+    },
+    {
+      titleKey: 'emailsStatBounce' as const,
+      value: '2',
+      icon: AlertTriangle,
+      bgColor: 'bg-red-50',
+      iconColor: 'text-red-600',
+    },
+  ]
+
+  /**
+   * Configuração visual dos status de e-mail.
+   */
+  const EMAIL_STATUS_CONFIG = {
+    delivered: {
+      labelKey: 'emailsStatusDelivered' as const,
+      icon: Mail,
+      bgColor: 'bg-emerald-50',
+      textColor: 'text-emerald-700',
+    },
+    opened: {
+      labelKey: 'emailsStatusOpened' as const,
+      icon: MailOpen,
+      bgColor: 'bg-blue-50',
+      textColor: 'text-blue-700',
+    },
+    bounced: {
+      labelKey: 'emailsStatusBounced' as const,
+      icon: MailX,
+      bgColor: 'bg-amber-50',
+      textColor: 'text-amber-700',
+    },
+    failed: {
+      labelKey: 'emailsStatusFailed' as const,
+      icon: XCircle,
+      bgColor: 'bg-red-50',
+      textColor: 'text-red-700',
+    },
+  }
+
+  /**
+   * Configuração dos tipos de e-mail.
+   */
+  const EMAIL_TYPE_CONFIG = {
+    transactional: {
+      labelKey: 'emailsTypeTransactional' as const,
+      bgColor: 'bg-indigo-50',
+      textColor: 'text-indigo-700',
+    },
+    marketing: {
+      labelKey: 'emailsTypeMarketing' as const,
+      bgColor: 'bg-violet-50',
+      textColor: 'text-violet-700',
+    },
+    alert: {
+      labelKey: 'emailsTypeAlert' as const,
+      bgColor: 'bg-amber-50',
+      textColor: 'text-amber-700',
+    },
+  }
+
+  /**
+   * Templates de e-mail disponíveis.
+   * 4 tipos com preview de conteúdo.
+   */
+  const EMAIL_TEMPLATES = [
+    {
+      id: 'tpl-welcome',
+      nameKey: 'emailsTemplateWelcome' as const,
+      descKey: 'emailsTemplateWelcomeDesc' as const,
+      icon: UserPlus,
+      iconColor: 'text-emerald-600',
+      bgColor: 'bg-emerald-50',
+      subject: 'Bem-vindo(a) ao Clausent!',
+      preview:
+        'Olá {nome}! Sua conta foi criada com sucesso. Comece enviando seu primeiro contrato para análise...',
+      lastEdited: '20 Fev 2026',
+      sentCount: 342,
+    },
+    {
+      id: 'tpl-renewal',
+      nameKey: 'emailsTemplateRenewal' as const,
+      descKey: 'emailsTemplateRenewalDesc' as const,
+      icon: CreditCard,
+      iconColor: 'text-amber-600',
+      bgColor: 'bg-amber-50',
+      subject: 'Sua assinatura renova em {dias} dias',
+      preview:
+        'Olá {nome}, este é um lembrete de que sua assinatura do plano {plano} será renovada automaticamente em {dias} dias...',
+      lastEdited: '18 Fev 2026',
+      sentCount: 89,
+    },
+    {
+      id: 'tpl-analysis',
+      nameKey: 'emailsTemplateAnalysis' as const,
+      descKey: 'emailsTemplateAnalysisDesc' as const,
+      icon: FileText,
+      iconColor: 'text-indigo-600',
+      bgColor: 'bg-indigo-50',
+      subject: 'Sua análise de "{contrato}" está pronta',
+      preview:
+        'Olá {nome}! A análise do contrato "{contrato}" foi concluída. Encontramos {num} cláusulas de risco...',
+      lastEdited: '22 Fev 2026',
+      sentCount: 1247,
+    },
+    {
+      id: 'tpl-digest',
+      nameKey: 'emailsTemplateDigest' as const,
+      descKey: 'emailsTemplateDigestDesc' as const,
+      icon: BarChart3,
+      iconColor: 'text-violet-600',
+      bgColor: 'bg-violet-50',
+      subject: 'Resumo semanal — {num} contratos analisados',
+      preview:
+        'Olá {nome}! Aqui está seu resumo da semana: {num} contratos analisados, {alertas} alertas de risco, {score} score médio...',
+      lastEdited: '24 Fev 2026',
+      sentCount: 567,
+    },
+  ]
 
   /**
    * Filtra os e-mails com base na pesquisa e filtros.
@@ -326,13 +336,9 @@ export function AdminEmails() {
       email.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
       email.toName.toLowerCase().includes(searchQuery.toLowerCase())
 
-    const matchesType =
-      selectedType === 'Todos' ||
-      EMAIL_TYPE_CONFIG[email.type].label === selectedType
+    const matchesType = selectedType === 'all' || email.type === selectedType
 
-    const matchesStatus =
-      selectedStatus === 'Todos' ||
-      EMAIL_STATUS_CONFIG[email.status].label === selectedStatus
+    const matchesStatus = selectedStatus === 'all' || email.status === selectedStatus
 
     return matchesSearch && matchesType && matchesStatus
   })
@@ -351,10 +357,10 @@ export function AdminEmails() {
       <motion.div variants={itemVariants} className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-            Logs de E-mail
+            {t('emailsTitle')}
           </h1>
           <p className="text-sm text-slate-500 mt-1">
-            Monitore envios, entregas e templates de e-mail
+            {t('emailsSubtitle')}
           </p>
         </div>
 
@@ -365,7 +371,7 @@ export function AdminEmails() {
             className="rounded-xl border-slate-200 text-slate-600 gap-2"
           >
             <ExternalLink className="h-4 w-4" />
-            Resend Dashboard
+            {t('emailsResendDashboard')}
           </Button>
         </div>
       </motion.div>
@@ -380,7 +386,7 @@ export function AdminEmails() {
 
           return (
             <div
-              key={card.title}
+              key={card.titleKey}
               className={cn(
                 'bg-white rounded-2xl border border-slate-200 p-5',
                 'shadow-[3px_3px_0px_rgba(0,0,0,0.06)]'
@@ -392,7 +398,7 @@ export function AdminEmails() {
                 </div>
                 <span className="text-2xl font-bold text-slate-900">{card.value}</span>
               </div>
-              <p className="text-sm text-slate-500 mt-3">{card.title}</p>
+              <p className="text-sm text-slate-500 mt-3">{t(card.titleKey)}</p>
             </div>
           )
         })}
@@ -412,7 +418,7 @@ export function AdminEmails() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
               type="search"
-              placeholder="Buscar por destinatário ou assunto..."
+              placeholder={t('emailsSearchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 h-10 rounded-xl border-slate-200 bg-slate-50 focus:bg-white"
@@ -428,9 +434,11 @@ export function AdminEmails() {
                 onChange={(e) => setSelectedType(e.target.value)}
                 className="h-10 px-3 pr-8 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
               >
-                {TYPE_FILTERS.map((type) => (
+                {TYPE_FILTER_VALUES.map((type) => (
                   <option key={type} value={type}>
-                    {type === 'Todos' ? 'Todos os Tipos' : type}
+                    {type === 'all'
+                      ? t('emailsAllTypes')
+                      : t(EMAIL_TYPE_CONFIG[type as keyof typeof EMAIL_TYPE_CONFIG].labelKey)}
                   </option>
                 ))}
               </select>
@@ -445,9 +453,11 @@ export function AdminEmails() {
               onChange={(e) => setSelectedStatus(e.target.value)}
               className="h-10 px-3 pr-8 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
             >
-              {STATUS_FILTERS.map((status) => (
+              {STATUS_FILTER_VALUES.map((status) => (
                 <option key={status} value={status}>
-                  {status === 'Todos' ? 'Todos os Status' : status}
+                  {status === 'all'
+                    ? t('emailsAllStatus')
+                    : t(EMAIL_STATUS_CONFIG[status as keyof typeof EMAIL_STATUS_CONFIG].labelKey)}
                 </option>
               ))}
             </select>
@@ -469,19 +479,19 @@ export function AdminEmails() {
             <thead>
               <tr className="border-b border-slate-100 bg-slate-50/50">
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Destinatário
+                  {t('emailsTableRecipient')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Assunto
+                  {t('emailsTableSubject')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Tipo
+                  {t('emailsTableType')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Status
+                  {t('emailsTableStatus')}
                 </th>
                 <th className="text-left px-5 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Enviado em
+                  {t('emailsTableSentAt')}
                 </th>
               </tr>
             </thead>
@@ -524,7 +534,7 @@ export function AdminEmails() {
                           typeConfig.textColor
                         )}
                       >
-                        {typeConfig.label}
+                        {t(typeConfig.labelKey)}
                       </span>
                     </td>
 
@@ -538,7 +548,7 @@ export function AdminEmails() {
                         )}
                       >
                         <StatusIcon className="h-3.5 w-3.5" />
-                        {statusConfig.label}
+                        {t(statusConfig.labelKey)}
                       </span>
                     </td>
 
@@ -556,15 +566,14 @@ export function AdminEmails() {
         {/* Rodapé da tabela */}
         <div className="flex items-center justify-between px-5 py-4 border-t border-slate-100 bg-slate-50/30">
           <p className="text-xs text-slate-500">
-            Exibindo <span className="font-medium text-slate-700">{filteredEmails.length}</span> de{' '}
-            <span className="font-medium text-slate-700">{EMAIL_LOG.length}</span> e-mails
+            {t('emailsShowingOf', { filtered: filteredEmails.length, total: EMAIL_LOG.length })}
           </p>
         </div>
       </motion.div>
 
       {/* Templates de e-mail — grid de cards */}
       <motion.div variants={itemVariants}>
-        <h2 className="text-lg font-semibold text-slate-900 mb-4">Templates de E-mail</h2>
+        <h2 className="text-lg font-semibold text-slate-900 mb-4">{t('emailsTemplatesTitle')}</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {EMAIL_TEMPLATES.map((template) => {
@@ -587,12 +596,12 @@ export function AdminEmails() {
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-semibold text-slate-900">{template.name}</h4>
-                    <p className="text-xs text-slate-500 mt-0.5">{template.description}</p>
+                    <h4 className="text-sm font-semibold text-slate-900">{t(template.nameKey)}</h4>
+                    <p className="text-xs text-slate-500 mt-0.5">{t(template.descKey)}</p>
 
                     {/* Subject do template */}
                     <div className="mt-3 p-2 rounded-lg bg-slate-50 border border-slate-100">
-                      <p className="text-xs text-slate-400 mb-1">Assunto:</p>
+                      <p className="text-xs text-slate-400 mb-1">{t('emailsTemplateSubject')}</p>
                       <p className="text-xs font-medium text-slate-700">{template.subject}</p>
                     </div>
 
@@ -600,11 +609,11 @@ export function AdminEmails() {
                     <div className="flex items-center gap-4 mt-3">
                       <div className="flex items-center gap-1 text-[10px] text-slate-400">
                         <Clock className="h-3 w-3" />
-                        <span>Editado: {template.lastEdited}</span>
+                        <span>{t('emailsTemplateEdited', { date: template.lastEdited })}</span>
                       </div>
                       <div className="flex items-center gap-1 text-[10px] text-slate-400">
                         <Send className="h-3 w-3" />
-                        <span>{template.sentCount} envios</span>
+                        <span>{t('emailsTemplateSends', { count: template.sentCount })}</span>
                       </div>
                     </div>
 
@@ -616,7 +625,7 @@ export function AdminEmails() {
                       onClick={() => setPreviewTemplate(template.id)}
                     >
                       <Eye className="h-3.5 w-3.5" />
-                      Ver template
+                      {t('emailsTemplateView')}
                     </Button>
                   </div>
                 </div>
@@ -657,9 +666,9 @@ export function AdminEmails() {
                   </div>
                   <div>
                     <h3 className="text-sm font-semibold text-slate-900">
-                      {activeTemplate.name}
+                      {t(activeTemplate.nameKey)}
                     </h3>
-                    <p className="text-xs text-slate-500">{activeTemplate.description}</p>
+                    <p className="text-xs text-slate-500">{t(activeTemplate.descKey)}</p>
                   </div>
                 </div>
                 <Button
@@ -677,15 +686,15 @@ export function AdminEmails() {
                 {/* Campos do e-mail */}
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-xs">
-                    <span className="text-slate-400 font-medium w-16">De:</span>
+                    <span className="text-slate-400 font-medium w-16">{t('emailsTemplateFrom')}</span>
                     <span className="text-slate-700">Clausent &lt;noreply@clausent.com&gt;</span>
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <span className="text-slate-400 font-medium w-16">Para:</span>
+                    <span className="text-slate-400 font-medium w-16">{t('emailsTemplateTo')}</span>
                     <span className="text-slate-700">{'{destinatário}'}</span>
                   </div>
                   <div className="flex items-center gap-2 text-xs">
-                    <span className="text-slate-400 font-medium w-16">Assunto:</span>
+                    <span className="text-slate-400 font-medium w-16">{t('emailsTemplateSubjectLabel')}</span>
                     <span className="text-slate-700 font-medium">{activeTemplate.subject}</span>
                   </div>
                 </div>
@@ -704,11 +713,11 @@ export function AdminEmails() {
                 <div className="flex items-center gap-4 pt-2">
                   <div className="flex items-center gap-1 text-xs text-slate-400">
                     <Clock className="h-3.5 w-3.5" />
-                    <span>Última edição: {activeTemplate.lastEdited}</span>
+                    <span>{t('emailsTemplateLastEdit', { date: activeTemplate.lastEdited })}</span>
                   </div>
                   <div className="flex items-center gap-1 text-xs text-slate-400">
                     <Send className="h-3.5 w-3.5" />
-                    <span>{activeTemplate.sentCount} envios totais</span>
+                    <span>{t('emailsTemplateTotalSends', { count: activeTemplate.sentCount })}</span>
                   </div>
                 </div>
               </div>
@@ -721,13 +730,13 @@ export function AdminEmails() {
                   className="rounded-xl border-slate-200"
                   onClick={() => setPreviewTemplate(null)}
                 >
-                  Fechar
+                  {t('emailsTemplateClose')}
                 </Button>
                 <Button
                   size="sm"
                   className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-[2px_2px_0px_rgba(0,0,0,0.1)]"
                 >
-                  Editar Template
+                  {t('emailsTemplateEdit')}
                 </Button>
               </div>
             </motion.div>
