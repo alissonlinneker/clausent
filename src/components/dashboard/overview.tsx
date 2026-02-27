@@ -447,7 +447,7 @@ export function DashboardOverview() {
 
               {/* Gráfico Recharts responsivo */}
               <div className="h-[280px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0}>
                   <AreaChart
                     data={MOCK_CHART_DATA}
                     margin={{ top: 4, right: 4, left: -20, bottom: 0 }}

@@ -388,7 +388,7 @@ export function AdminDashboard() {
             </span>
           </div>
 
-          <ResponsiveContainer width="100%" height={240}>
+          <ResponsiveContainer width="100%" height={240} minWidth={0}>
             <AreaChart data={REVENUE_DATA}>
               <defs>
                 {/* Gradiente vertical indigo para preenchimento da área */}
@@ -449,7 +449,7 @@ export function AdminDashboard() {
             </div>
           </div>
 
-          <ResponsiveContainer width="100%" height={240}>
+          <ResponsiveContainer width="100%" height={240} minWidth={0}>
             <BarChart data={USER_GROWTH_DATA} barGap={4}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
               <XAxis
@@ -498,7 +498,7 @@ export function AdminDashboard() {
             <p className="text-xs text-slate-500 mt-0.5">{t('planDistributionDesc')}</p>
           </div>
 
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={200} minWidth={0}>
             <PieChart>
               <Pie
                 data={PLAN_DISTRIBUTION}

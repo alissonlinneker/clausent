@@ -470,7 +470,7 @@ export function AnalyticsDashboard() {
 
           {/* Container responsivo do gráfico Recharts */}
           <div className="h-[300px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <AreaChart
                 data={MOCK_SAVINGS_DATA}
                 margin={{ top: 4, right: 4, left: -20, bottom: 0 }}
@@ -543,7 +543,7 @@ export function AnalyticsDashboard() {
 
           {/* Gráfico de pizza responsivo */}
           <div className="h-[200px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <PieChart>
                 <Pie
                   data={MOCK_RISK_DATA}
@@ -609,7 +609,7 @@ export function AnalyticsDashboard() {
 
           {/* Gráfico de barras responsivo */}
           <div className="h-[280px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <BarChart
                 data={MOCK_CATEGORY_DATA}
                 margin={{ top: 4, right: 4, left: -20, bottom: 0 }}
@@ -675,7 +675,7 @@ export function AnalyticsDashboard() {
 
           {/* Gráfico de área dual responsivo */}
           <div className="h-[280px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <AreaChart
                 data={MOCK_ACTIVITY_DATA}
                 margin={{ top: 4, right: 4, left: -20, bottom: 0 }}
