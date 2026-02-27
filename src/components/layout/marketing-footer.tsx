@@ -96,7 +96,7 @@ export function MarketingFooter() {
   ]
 
   return (
-    <footer className="bg-slate-900 text-white">
+    <footer className="bg-slate-900 text-white overflow-hidden">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -123,14 +123,14 @@ export function MarketingFooter() {
               {t('description')}
             </p>
 
-            {/* Newsletter signup */}
-            <div className="flex gap-2">
+            {/* Newsletter signup — empilha em telas muito estreitas */}
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="email"
                 placeholder={t('emailPlaceholder')}
-                className="flex-1 h-10 rounded-full bg-slate-800 border border-slate-700 px-4 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all"
+                className="flex-1 h-10 rounded-full bg-slate-800 border border-slate-700 px-4 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all min-w-0"
               />
-              <Button className="bg-teal-600 hover:bg-teal-700 text-white rounded-full px-5 text-sm border-2 border-white/30 shadow-[3px_3px_0px_rgba(255,255,255,0.1)]">
+              <Button className="bg-teal-600 hover:bg-teal-700 text-white rounded-full px-5 text-sm border-2 border-white/30 shadow-[3px_3px_0px_rgba(255,255,255,0.1)] shrink-0">
                 {t('subscribe')}
               </Button>
             </div>

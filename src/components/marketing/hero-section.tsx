@@ -251,8 +251,8 @@ export function HeroSection() {
 
               {/* Conteúdo simulado do dashboard */}
               <div className="p-6 space-y-4">
-                {/* Linha de métricas */}
-                <div className="grid grid-cols-3 gap-4">
+                {/* Linha de métricas — responsivo para viewports estreitas */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {[
                     {
                       labelKey: 'mockupActiveContracts' as const,

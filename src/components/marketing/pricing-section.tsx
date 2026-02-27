@@ -132,7 +132,7 @@ export function PricingSection() {
   const tCommon = useTranslations('common')
 
   return (
-    <section id="pricing" className="relative py-24 sm:py-32 bg-[#FFFDF5]">
+    <section id="pricing" className="relative py-24 sm:py-32 bg-[#FFFDF5] overflow-hidden">
       {/* Decorações de fundo */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-100/40 rounded-full blur-[120px]" />
       <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-emerald-100/30 rounded-full blur-[100px]" />

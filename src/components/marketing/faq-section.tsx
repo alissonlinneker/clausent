@@ -78,7 +78,7 @@ export function FAQSection() {
   }
 
   return (
-    <section id="faq" className="relative py-24 sm:py-32 bg-white">
+    <section id="faq" className="relative py-24 sm:py-32 bg-white overflow-hidden">
       {/* Decorações de fundo */}
       <div className="absolute top-1/2 left-0 w-72 h-72 bg-teal-50/50 rounded-full blur-[120px] -translate-y-1/2" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-50/30 rounded-full blur-[100px]" />

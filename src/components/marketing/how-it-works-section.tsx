@@ -90,7 +90,7 @@ export function HowItWorksSection() {
   const t = useTranslations('howItWorks')
 
   return (
-    <section id="how-it-works" className="relative py-24 sm:py-32 bg-white">
+    <section id="how-it-works" className="relative py-24 sm:py-32 bg-white overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Cabeçalho da seção */}
         <motion.div

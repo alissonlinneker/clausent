@@ -112,7 +112,7 @@ export function FeaturesSection() {
   const t = useTranslations('features')
 
   return (
-    <section id="features" className="relative py-24 sm:py-32 bg-[#FFFDF5]">
+    <section id="features" className="relative py-24 sm:py-32 bg-[#FFFDF5] overflow-hidden">
       {/* Decoração de fundo — círculos sutis */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-teal-100/50 rounded-full blur-[120px] -translate-y-1/2" />
       <div className="absolute bottom-0 left-0 w-72 h-72 bg-emerald-100/30 rounded-full blur-[100px] translate-y-1/2" />

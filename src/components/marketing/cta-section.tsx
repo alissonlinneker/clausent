@@ -22,7 +22,7 @@ export function CTASection() {
   const tCommon = useTranslations('common')
 
   return (
-    <section className="relative py-24 sm:py-32 bg-slate-900 overflow-hidden">
+    <section className="relative py-24 sm:py-32 bg-slate-900 overflow-x-hidden overflow-y-visible">
       {/* Decorações de fundo — gradientes coloridos com blur */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-600/20 rounded-full blur-[150px]" />
       <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-emerald-600/15 rounded-full blur-[120px]" />
