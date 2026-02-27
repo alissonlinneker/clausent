@@ -1,5 +1,6 @@
 import { MarketingHeader } from '@/components/layout/marketing-header'
 import { MarketingFooter } from '@/components/layout/marketing-footer'
+import { SkipLink } from '@/components/shared/skip-link'
 
 /**
  * Layout de marketing com suporte a i18n.
@@ -8,6 +9,7 @@ import { MarketingFooter } from '@/components/layout/marketing-footer'
  * dentro de /[locale]/(marketing)/.
  *
  * Inclui:
+ * - Skip link de acessibilidade (WCAG 2.1 AA — critério 2.4.1)
  * - Header fixo com efeito glass morphism (sticky, transparente no topo)
  * - Conteúdo principal (children)
  * - Footer profissional com links e newsletter
@@ -22,8 +24,9 @@ export default function MarketingLayout({
 }) {
   return (
     <>
+      <SkipLink />
       <MarketingHeader />
-      <main>{children}</main>
+      <main id="main-content">{children}</main>
       <MarketingFooter />
     </>
   )

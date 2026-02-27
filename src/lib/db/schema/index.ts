@@ -21,12 +21,19 @@ export type {
 export { subscriptions, subscriptionPlanEnum, subscriptionStatusEnum } from './subscriptions'
 export type { Subscription, NewSubscription } from './subscriptions'
 
-/* ---- Organizações (legado — fase futura: times/workspaces) ---- */
-export { organizations, orgPlanEnum } from './organizations'
-export type { Organization, NewOrganization } from './organizations'
+/* ---- Organizações, membros e convites ---- */
+export {
+  organizations, orgPlanEnum, memberRoleEnum,
+  organizationMembers, invitations,
+} from './organizations'
+export type {
+  Organization, NewOrganization,
+  OrganizationMember, NewOrganizationMember,
+  Invitation, NewInvitation,
+} from './organizations'
 
 /* ---- Contratos ---- */
-export { contracts, contractCategoryEnum, contractStatusEnum } from './contracts'
+export { contracts, contractCategoryEnum, contractStatusEnum, riskLevelEnum } from './contracts'
 export type { Contract, NewContract } from './contracts'
 
 /* ---- Cláusulas de contrato ---- */
@@ -34,7 +41,7 @@ export { contractClauses, clauseRiskLevelEnum } from './contract-clauses'
 export type { ContractClause, NewContractClause } from './contract-clauses'
 
 /* ---- Alertas de contrato ---- */
-export { contractAlerts } from './contract-alerts'
+export { contractAlerts, alertTypeEnum } from './contract-alerts'
 export type { ContractAlert, NewContractAlert } from './contract-alerts'
 
 /* ---- Benchmarks de contrato ---- */
@@ -48,6 +55,10 @@ export type { RenegotiationPackage, NewRenegotiationPackage } from './renegotiat
 /* ---- Audit log ---- */
 export { auditLog } from './audit-log'
 export type { AuditLogEntry, NewAuditLogEntry } from './audit-log'
+
+/* ---- API Keys ---- */
+export { apiKeys } from './api-keys'
+export type { ApiKey, NewApiKey } from './api-keys'
 
 /* ---- Relações (Drizzle ORM) ---- */
 export * from './relations'

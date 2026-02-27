@@ -1,10 +1,17 @@
 import { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import { HeroSection } from '@/components/marketing/hero-section'
-import { FeaturesSection } from '@/components/marketing/features-section'
-import { HowItWorksSection } from '@/components/marketing/how-it-works-section'
-import { PricingSection } from '@/components/marketing/pricing-section'
-import { FAQSection } from '@/components/marketing/faq-section'
-import { CTASection } from '@/components/marketing/cta-section'
+
+/**
+ * Importações dinâmicas — seções abaixo da dobra são carregadas
+ * sob demanda para reduzir o bundle inicial e melhorar o LCP/FCP.
+ */
+const FeaturesSection = dynamic(() => import('@/components/marketing/features-section').then(mod => ({ default: mod.FeaturesSection })))
+const HowItWorksSection = dynamic(() => import('@/components/marketing/how-it-works-section').then(mod => ({ default: mod.HowItWorksSection })))
+const PricingSection = dynamic(() => import('@/components/marketing/pricing-section').then(mod => ({ default: mod.PricingSection })))
+const FAQSection = dynamic(() => import('@/components/marketing/faq-section').then(mod => ({ default: mod.FAQSection })))
+const CTASection = dynamic(() => import('@/components/marketing/cta-section').then(mod => ({ default: mod.CTASection })))
+
 
 /** Metadados SEO específicos da landing page */
 export const metadata: Metadata = {

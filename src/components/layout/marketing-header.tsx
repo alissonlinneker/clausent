@@ -66,9 +66,9 @@ export function MarketingHeader() {
           : 'bg-transparent'
       }`}
     >
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <nav aria-label="Main navigation" className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo — ícone de escudo + nome da marca */}
-        <Link href="/" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center gap-2 group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 rounded-lg">
           <div className="relative">
             <BracketClauseLogo
               className={`h-7 w-7 transition-colors duration-300 ${
@@ -94,7 +94,7 @@ export function MarketingHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 ${
                 scrolled
                   ? 'text-slate-600 hover:text-teal-600 hover:bg-teal-50'
                   : 'text-white/80 hover:text-white hover:bg-white/10'
@@ -110,7 +110,7 @@ export function MarketingHeader() {
           <Button
             variant="ghost"
             asChild
-            className={`transition-colors duration-200 ${
+            className={`transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 ${
               scrolled
                 ? 'text-slate-600 hover:text-teal-600 hover:bg-teal-50'
                 : 'text-white/90 hover:text-white hover:bg-white/10'
@@ -120,7 +120,7 @@ export function MarketingHeader() {
           </Button>
           <Button
             asChild
-            className="bg-teal-600 hover:bg-teal-700 text-white rounded-full px-5 shadow-[2px_2px_0px_rgba(0,0,0,0.1)] hover:shadow-[3px_3px_0px_rgba(0,0,0,0.12)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200"
+            className="bg-teal-600 hover:bg-teal-700 text-white rounded-full px-5 shadow-[2px_2px_0px_rgba(0,0,0,0.1)] hover:shadow-[3px_3px_0px_rgba(0,0,0,0.12)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
           >
             <Link href="/sign-up">{tCommon('getStarted')}</Link>
           </Button>
@@ -133,7 +133,7 @@ export function MarketingHeader() {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`${
+                className={`focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500 ${
                   scrolled
                     ? 'text-slate-700 hover:bg-slate-100'
                     : 'text-white hover:bg-white/10'
@@ -161,7 +161,7 @@ export function MarketingHeader() {
                   <SheetClose key={link.href} asChild>
                     <Link
                       href={link.href}
-                      className="flex items-center px-4 py-3 text-sm font-medium text-slate-700 rounded-lg hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                      className="flex items-center px-4 py-3 text-sm font-medium text-slate-700 rounded-lg hover:bg-teal-50 hover:text-teal-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
                     >
                       {t(link.key)}
                     </Link>
@@ -174,13 +174,13 @@ export function MarketingHeader() {
                 <Button
                   variant="outline"
                   asChild
-                  className="w-full justify-center rounded-full"
+                  className="w-full justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
                 >
                   <Link href="/sign-in">{tCommon('signIn')}</Link>
                 </Button>
                 <Button
                   asChild
-                  className="w-full justify-center bg-teal-600 hover:bg-teal-700 text-white rounded-full shadow-[2px_2px_0px_rgba(0,0,0,0.1)]"
+                  className="w-full justify-center bg-teal-600 hover:bg-teal-700 text-white rounded-full shadow-[2px_2px_0px_rgba(0,0,0,0.1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-500"
                 >
                   <Link href="/sign-up">{tCommon('getStarted')}</Link>
                 </Button>

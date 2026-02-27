@@ -7,8 +7,8 @@ import { Providers } from '@/components/providers'
 import { Toaster } from 'sonner'
 import '../globals.css'
 
-/** Fonte Inter — limpa e profissional para SaaS B2B */
-const inter = Inter({ subsets: ['latin'] })
+/** Fonte Inter — limpa e profissional para SaaS B2B. display: 'swap' evita FOIT e melhora CLS. */
+const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 /**
  * Layout principal do locale.

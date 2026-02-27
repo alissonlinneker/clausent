@@ -1,10 +1,12 @@
 import { DashboardSidebar } from '@/components/dashboard/sidebar'
 import { DashboardHeader } from '@/components/dashboard/header'
+import { SkipLink } from '@/components/shared/skip-link'
 
 /**
  * Layout principal do dashboard.
  *
  * Estrutura:
+ * - Skip link de acessibilidade (WCAG 2.1 AA — critério 2.4.1)
  * - Sidebar fixa à esquerda (desktop) / drawer (mobile)
  * - Header com breadcrumbs e ações do usuário
  * - Área de conteúdo principal com padding e scroll
@@ -19,6 +21,8 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex min-h-screen bg-slate-50">
+      <SkipLink />
+
       {/* Sidebar — navegação principal */}
       <DashboardSidebar />
 
@@ -28,7 +32,7 @@ export default function DashboardLayout({
         <DashboardHeader />
 
         {/* Área de conteúdo */}
-        <main className="flex-1 p-6 lg:p-8">
+        <main id="main-content" className="flex-1 p-6 lg:p-8">
           {children}
         </main>
       </div>

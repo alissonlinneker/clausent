@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
-/** Fonte Inter — limpa e profissional para SaaS B2B */
-const inter = Inter({ subsets: ['latin'] })
+/** Fonte Inter — limpa e profissional para SaaS B2B. display: 'swap' evita FOIT e melhora CLS. */
+const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 /**
  * Metadados globais da aplicação — SEO completo com Open Graph e Twitter Cards.

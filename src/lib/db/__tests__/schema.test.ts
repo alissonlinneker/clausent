@@ -15,6 +15,9 @@ describe('Database Schema', () => {
     expect(schema.renegotiationPackages).toBeDefined()
     expect(schema.auditLog).toBeDefined()
     expect(schema.organizations).toBeDefined()
+    expect(schema.organizationMembers).toBeDefined()
+    expect(schema.invitations).toBeDefined()
+    expect(schema.apiKeys).toBeDefined()
   })
 
   it('deve ter enums de categoria de contrato', () => {
@@ -37,6 +40,30 @@ describe('Database Schema', () => {
   it('deve ter enums de status de assinatura', () => {
     expect(schema.subscriptionStatusEnum.enumValues).toEqual([
       'active', 'canceled', 'past_due', 'trialing', 'paused'
+    ])
+  })
+
+  it('deve ter enum de nível de risco', () => {
+    expect(schema.riskLevelEnum.enumValues).toEqual([
+      'low', 'medium', 'high', 'critical'
+    ])
+  })
+
+  it('deve ter enum de tipo de alerta', () => {
+    expect(schema.alertTypeEnum.enumValues).toEqual([
+      'renewal', 'risk', 'price', 'compliance', 'analysis'
+    ])
+  })
+
+  it('deve ter enum de papel de membro', () => {
+    expect(schema.memberRoleEnum.enumValues).toEqual([
+      'owner', 'admin', 'member', 'viewer'
+    ])
+  })
+
+  it('deve ter enum de nível de risco de cláusula', () => {
+    expect(schema.clauseRiskLevelEnum.enumValues).toEqual([
+      'low', 'medium', 'high', 'critical'
     ])
   })
 })

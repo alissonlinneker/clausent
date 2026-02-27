@@ -114,7 +114,7 @@ export function ContactContent() {
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 tracking-tight">
               {t('title')}
             </h1>
-            <p className="mt-4 text-lg text-slate-500 max-w-xl mx-auto">
+            <p className="mt-4 text-lg text-slate-600 max-w-xl mx-auto">
               {t('subtitle')}
             </p>
           </motion.div>
@@ -142,7 +142,7 @@ export function ContactContent() {
                     <h3 className="text-xl font-semibold text-slate-900 mb-2">
                       {t('successTitle')}
                     </h3>
-                    <p className="text-slate-500">
+                    <p className="text-slate-600">
                       {t('successDescription')}
                     </p>
                     {/* Botão para enviar outra mensagem */}
@@ -167,11 +167,14 @@ export function ContactContent() {
                         <Input
                           id="name"
                           placeholder={t('namePlaceholder')}
+                          aria-required="true"
+                          aria-invalid={errors.name ? 'true' : undefined}
+                          aria-describedby={errors.name ? 'name-error' : undefined}
                           className="rounded-xl border-[#e2e8f0] shadow-[2px_2px_0px_rgba(0,0,0,0.04)] focus:shadow-[3px_3px_0px_rgba(0,0,0,0.06)] focus:border-teal-300 transition-all duration-200"
                           {...register('name', { required: true })}
                         />
                         {errors.name && (
-                          <p className="text-xs text-red-500">{t('nameLabel')} is required</p>
+                          <p id="name-error" role="alert" className="text-xs text-red-500">{t('nameLabel')} is required</p>
                         )}
                       </div>
 
@@ -184,11 +187,14 @@ export function ContactContent() {
                           id="email"
                           type="email"
                           placeholder={t('emailPlaceholder')}
+                          aria-required="true"
+                          aria-invalid={errors.email ? 'true' : undefined}
+                          aria-describedby={errors.email ? 'email-error' : undefined}
                           className="rounded-xl border-[#e2e8f0] shadow-[2px_2px_0px_rgba(0,0,0,0.04)] focus:shadow-[3px_3px_0px_rgba(0,0,0,0.06)] focus:border-teal-300 transition-all duration-200"
                           {...register('email', { required: true })}
                         />
                         {errors.email && (
-                          <p className="text-xs text-red-500">{t('emailLabel')} is required</p>
+                          <p id="email-error" role="alert" className="text-xs text-red-500">{t('emailLabel')} is required</p>
                         )}
                       </div>
                     </div>
@@ -201,11 +207,14 @@ export function ContactContent() {
                       <Input
                         id="subject"
                         placeholder={t('subjectPlaceholder')}
+                        aria-required="true"
+                        aria-invalid={errors.subject ? 'true' : undefined}
+                        aria-describedby={errors.subject ? 'subject-error' : undefined}
                         className="rounded-xl border-[#e2e8f0] shadow-[2px_2px_0px_rgba(0,0,0,0.04)] focus:shadow-[3px_3px_0px_rgba(0,0,0,0.06)] focus:border-teal-300 transition-all duration-200"
                         {...register('subject', { required: true })}
                       />
                       {errors.subject && (
-                        <p className="text-xs text-red-500">{t('subjectLabel')} is required</p>
+                        <p id="subject-error" role="alert" className="text-xs text-red-500">{t('subjectLabel')} is required</p>
                       )}
                     </div>
 
@@ -218,11 +227,14 @@ export function ContactContent() {
                         id="message"
                         rows={5}
                         placeholder={t('messagePlaceholder')}
+                        aria-required="true"
+                        aria-invalid={errors.message ? 'true' : undefined}
+                        aria-describedby={errors.message ? 'message-error' : undefined}
                         className="rounded-xl border-[#e2e8f0] shadow-[2px_2px_0px_rgba(0,0,0,0.04)] focus:shadow-[3px_3px_0px_rgba(0,0,0,0.06)] focus:border-teal-300 transition-all duration-200 resize-none"
                         {...register('message', { required: true })}
                       />
                       {errors.message && (
-                        <p className="text-xs text-red-500">{t('messageLabel')} is required</p>
+                        <p id="message-error" role="alert" className="text-xs text-red-500">{t('messageLabel')} is required</p>
                       )}
                     </div>
 
@@ -262,7 +274,7 @@ export function ContactContent() {
                     <h3 className="text-base font-semibold text-slate-900 mb-1">
                       {t('salesTitle')}
                     </h3>
-                    <p className="text-sm text-slate-500 mb-3 leading-relaxed">
+                    <p className="text-sm text-slate-600 mb-3 leading-relaxed">
                       {t('salesDescription')}
                     </p>
                     <a
@@ -290,7 +302,7 @@ export function ContactContent() {
                     <h3 className="text-base font-semibold text-slate-900 mb-1">
                       {t('supportTitle')}
                     </h3>
-                    <p className="text-sm text-slate-500 mb-3 leading-relaxed">
+                    <p className="text-sm text-slate-600 mb-3 leading-relaxed">
                       {t('supportDescription')}
                     </p>
                     <a
