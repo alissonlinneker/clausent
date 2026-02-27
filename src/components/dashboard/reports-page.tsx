@@ -34,40 +34,40 @@ import { Badge } from '@/components/ui/badge'
 /** Relatórios pré-configurados disponíveis para download rápido */
 const QUICK_REPORTS = [
   {
-    title: 'Monthly Summary Report',
-    description: 'Auto-generated overview of contract activity, savings and key metrics from the current month.',
+    titleKey: 'reportMonthlySummaryTitle' as const,
+    descKey: 'reportMonthlySummaryDesc' as const,
     icon: FileText,
-    type: 'Summary',
+    typeKey: 'reportTypeSummary' as const,
     format: 'PDF',
     bgLight: 'bg-teal-50',
     textColor: 'text-teal-600',
     borderColor: 'border-teal-200',
   },
   {
-    title: 'Risk Assessment Report',
-    description: 'Comprehensive analysis of all high-risk contracts with mitigation recommendations.',
+    titleKey: 'reportRiskAssessmentTitle' as const,
+    descKey: 'reportRiskAssessmentDesc' as const,
     icon: Shield,
-    type: 'Risk',
+    typeKey: 'reportTypeRisk' as const,
     format: 'PDF',
     bgLight: 'bg-red-50',
     textColor: 'text-red-600',
     borderColor: 'border-red-200',
   },
   {
-    title: 'Savings Opportunity Report',
-    description: 'Projected savings based on market benchmarks and renegotiation opportunities.',
+    titleKey: 'reportSavingsTitle' as const,
+    descKey: 'reportSavingsDesc' as const,
     icon: DollarSign,
-    type: 'Savings',
+    typeKey: 'reportTypeSavings' as const,
     format: 'PDF',
     bgLight: 'bg-emerald-50',
     textColor: 'text-emerald-600',
     borderColor: 'border-emerald-200',
   },
   {
-    title: 'Compliance Audit Report',
-    description: 'Regulatory compliance status across all active contracts with flagged issues.',
+    titleKey: 'reportComplianceTitle' as const,
+    descKey: 'reportComplianceDesc' as const,
     icon: Scale,
-    type: 'Compliance',
+    typeKey: 'reportTypeCompliance' as const,
     format: 'PDF',
     bgLight: 'bg-violet-50',
     textColor: 'text-violet-600',
@@ -82,12 +82,12 @@ const QUICK_REPORTS = [
 
 /** Seções selecionáveis para o relatório personalizado */
 const REPORT_SECTIONS = [
-  { id: 'executive-summary', label: 'Executive Summary', defaultChecked: true },
-  { id: 'risk-analysis', label: 'Risk Analysis', defaultChecked: true },
-  { id: 'cost-analysis', label: 'Cost Analysis', defaultChecked: true },
-  { id: 'benchmarks', label: 'Benchmarks', defaultChecked: false },
-  { id: 'recommendations', label: 'Recommendations', defaultChecked: true },
-  { id: 'appendix', label: 'Appendix', defaultChecked: false },
+  { id: 'executive-summary', labelKey: 'sectionExecutiveSummary' as const, defaultChecked: true },
+  { id: 'risk-analysis', labelKey: 'sectionRiskAnalysis' as const, defaultChecked: true },
+  { id: 'cost-analysis', labelKey: 'sectionCostAnalysis' as const, defaultChecked: true },
+  { id: 'benchmarks', labelKey: 'sectionBenchmarks' as const, defaultChecked: false },
+  { id: 'recommendations', labelKey: 'sectionRecommendations' as const, defaultChecked: true },
+  { id: 'appendix', labelKey: 'sectionAppendix' as const, defaultChecked: false },
 ]
 
 /** Contratos disponíveis para seleção no relatório customizado */
@@ -114,39 +114,39 @@ const EXPORT_FORMATS = [
    Relatórios previamente gerados com status e dados de download.
    ================================================================= */
 
-/** Histórico de 5 relatórios gerados com metadados */
+/** Histórico de 5 relatórios gerados com metadados (nomes são dados mock) */
 const REPORT_HISTORY = [
   {
     name: 'Q4 2025 Risk Assessment',
-    type: 'Risk Report',
+    typeKey: 'historyTypeRisk' as const,
     date: 'Feb 25, 2026',
     size: '2.4 MB',
     status: 'ready' as const,
   },
   {
     name: 'January 2026 Summary',
-    type: 'Monthly Summary',
+    typeKey: 'historyTypeSummary' as const,
     date: 'Feb 1, 2026',
     size: '1.8 MB',
     status: 'ready' as const,
   },
   {
     name: 'Annual Savings Analysis 2025',
-    type: 'Savings Report',
+    typeKey: 'historyTypeSavings' as const,
     date: 'Jan 15, 2026',
     size: '3.1 MB',
     status: 'ready' as const,
   },
   {
     name: 'Compliance Review H2 2025',
-    type: 'Compliance Report',
+    typeKey: 'historyTypeCompliance' as const,
     date: 'Jan 10, 2026',
     size: '4.2 MB',
     status: 'processing' as const,
   },
   {
     name: 'Cloud Infrastructure Benchmark',
-    type: 'Benchmark Report',
+    typeKey: 'historyTypeBenchmark' as const,
     date: 'Dec 20, 2025',
     size: '1.5 MB',
     status: 'ready' as const,
@@ -155,12 +155,12 @@ const REPORT_HISTORY = [
 
 /** Opções de período para seleção no relatório customizado */
 const DATE_RANGE_OPTIONS = [
-  { value: 'this-month', label: 'This Month' },
-  { value: 'last-month', label: 'Last Month' },
-  { value: 'last-3-months', label: 'Last 3 Months' },
-  { value: 'last-6-months', label: 'Last 6 Months' },
-  { value: 'this-year', label: 'This Year' },
-  { value: 'custom', label: 'Custom Range' },
+  { value: 'this-month', labelKey: 'dateRangeThisMonth' as const },
+  { value: 'last-month', labelKey: 'dateRangeLastMonth' as const },
+  { value: 'last-3-months', labelKey: 'dateRangeLast3Months' as const },
+  { value: 'last-6-months', labelKey: 'dateRangeLast6Months' as const },
+  { value: 'this-year', labelKey: 'dateRangeThisYear' as const },
+  { value: 'custom', labelKey: 'dateRangeCustomRange' as const },
 ]
 
 /* =================================================================
@@ -321,10 +321,10 @@ export function ReportsPage() {
           ============================================================ */}
       <motion.div variants={cardVariants}>
         <h1 className="text-2xl font-bold text-slate-900">
-          Reports & Export
+          {t('reportsTitle')}
         </h1>
         <p className="text-sm text-slate-500 mt-1">
-          Generate, download, and manage your contract analysis reports
+          {t('reportsSubtitle')}
         </p>
       </motion.div>
 
@@ -333,9 +333,9 @@ export function ReportsPage() {
           ============================================================ */}
       <div>
         <motion.div variants={cardVariants} className="mb-4">
-          <h2 className="text-lg font-semibold text-slate-900">Quick Reports</h2>
+          <h2 className="text-lg font-semibold text-slate-900">{t('quickReports')}</h2>
           <p className="text-sm text-slate-500 mt-0.5">
-            Pre-configured reports ready for instant download
+            {t('quickReportsSubtitle')}
           </p>
         </motion.div>
 
@@ -344,7 +344,7 @@ export function ReportsPage() {
             const Icon = report.icon
             return (
               <motion.div
-                key={report.title}
+                key={report.titleKey}
                 variants={cardVariants}
                 className="rounded-2xl bg-white border border-slate-200 p-6 shadow-[3px_3px_0px_rgba(0,0,0,0.06)] hover:shadow-[5px_5px_0px_rgba(0,0,0,0.08)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-200 flex flex-col"
               >
@@ -373,10 +373,10 @@ export function ReportsPage() {
 
                 {/* Título e descrição */}
                 <h3 className="text-sm font-semibold text-slate-900 mb-1.5">
-                  {report.title}
+                  {t(report.titleKey)}
                 </h3>
                 <p className="text-xs text-slate-500 leading-relaxed mb-4 flex-1">
-                  {report.description}
+                  {t(report.descKey)}
                 </p>
 
                 {/* Botão de download */}
@@ -386,7 +386,7 @@ export function ReportsPage() {
                   className="w-full rounded-xl border-slate-200 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 gap-2 text-xs"
                 >
                   <Download className="h-3.5 w-3.5" />
-                  Download {report.format}
+                  {t('downloadFormat', { format: report.format })}
                 </Button>
               </motion.div>
             )
@@ -412,10 +412,10 @@ export function ReportsPage() {
             </div>
             <div>
               <h2 className="text-lg font-semibold text-slate-900">
-                Custom Report Builder
+                {t('customReport')}
               </h2>
               <p className="text-sm text-slate-500 mt-0.5">
-                Create a tailored report with specific sections and data
+                {t('customReportSubtitle')}
               </p>
             </div>
           </div>
@@ -428,12 +428,12 @@ export function ReportsPage() {
             {/* Campo: Nome do relatório */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
-                Report Name
+                {t('reportName')}
               </label>
               <Input
                 value={reportName}
                 onChange={(e) => setReportName(e.target.value)}
-                placeholder="e.g., Q1 2026 Contract Review"
+                placeholder={t('reportNamePlaceholder')}
                 className="rounded-xl border-slate-200 focus-visible:border-teal-400 focus-visible:ring-teal-400/20"
               />
             </div>
@@ -441,7 +441,7 @@ export function ReportsPage() {
             {/* Campo: Seleção de período */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
-                Date Range
+                {t('dateRange')}
               </label>
               <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl p-1">
                 {DATE_RANGE_OPTIONS.map((option) => (
@@ -455,7 +455,7 @@ export function ReportsPage() {
                         : 'text-slate-500 hover:text-slate-700 hover:bg-white'
                     )}
                   >
-                    {option.label}
+                    {t(option.labelKey)}
                   </button>
                 ))}
               </div>
@@ -465,7 +465,7 @@ export function ReportsPage() {
           {/* Linha 2: Seleção de contratos */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              Contracts to Include
+              {t('selectContracts')}
             </label>
 
             {/* Checkbox "All Contracts" */}
@@ -488,10 +488,10 @@ export function ReportsPage() {
                   className="text-sm text-slate-700 font-medium"
                   onClick={toggleSelectAll}
                 >
-                  All Contracts
+                  {t('allContracts')}
                 </span>
                 <Badge className="bg-slate-100 text-slate-600 border border-slate-200 text-[10px] hover:bg-slate-100">
-                  {AVAILABLE_CONTRACTS.length} total
+                  {t('totalCount', { count: AVAILABLE_CONTRACTS.length })}
                 </Badge>
               </label>
             </div>
@@ -546,7 +546,7 @@ export function ReportsPage() {
           {/* Linha 3: Seções a incluir */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              Sections to Include
+              {t('sectionsToInclude')}
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
               {REPORT_SECTIONS.map((section) => {
@@ -562,7 +562,7 @@ export function ReportsPage() {
                         : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50'
                     )}
                   >
-                    {section.label}
+                    {t(section.labelKey)}
                   </button>
                 )
               })}
@@ -574,7 +574,7 @@ export function ReportsPage() {
             {/* Seleção de formato */}
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
-                Export Format
+                {t('format')}
               </label>
               <div className="flex items-center gap-2">
                 {EXPORT_FORMATS.map((format) => {
@@ -607,12 +607,12 @@ export function ReportsPage() {
               {isGenerating ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Generating...
+                  {t('reportGenerating')}
                 </>
               ) : (
                 <>
                   <FileText className="h-4 w-4" />
-                  Generate Report
+                  {t('generateReport')}
                 </>
               )}
             </Button>
@@ -639,15 +639,15 @@ export function ReportsPage() {
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-slate-900">
-                  Report History
+                  {t('reportHistory')}
                 </h2>
                 <p className="text-sm text-slate-500 mt-0.5">
-                  Previously generated reports available for download
+                  {t('reportHistorySubtitle')}
                 </p>
               </div>
             </div>
             <Badge className="bg-slate-100 text-slate-600 border border-slate-200 text-xs hover:bg-slate-100">
-              {REPORT_HISTORY.length} reports
+              {t('reportsCount', { count: REPORT_HISTORY.length })}
             </Badge>
           </div>
         </div>
@@ -659,22 +659,22 @@ export function ReportsPage() {
             <thead className="bg-slate-50/80 border-b border-slate-200">
               <tr>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Report Name
+                  {t('colReportName')}
                 </th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Type
+                  {t('colType')}
                 </th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Date
+                  {t('colDate')}
                 </th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Size
+                  {t('colSize')}
                 </th>
                 <th className="text-left px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Status
+                  {t('colStatus')}
                 </th>
                 <th className="text-right px-6 py-3.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Action
+                  {t('colAction')}
                 </th>
               </tr>
             </thead>
@@ -707,7 +707,7 @@ export function ReportsPage() {
 
                   {/* Coluna: Tipo de relatório */}
                   <td className="px-6 py-4">
-                    <span className="text-sm text-slate-600">{report.type}</span>
+                    <span className="text-sm text-slate-600">{t(report.typeKey)}</span>
                   </td>
 
                   {/* Coluna: Data de geração */}
@@ -730,12 +730,12 @@ export function ReportsPage() {
                   <td className="px-6 py-4">
                     {report.status === 'ready' ? (
                       <Badge className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-medium hover:bg-emerald-50">
-                        Ready
+                        {t('statusReady')}
                       </Badge>
                     ) : (
                       <Badge className="bg-amber-50 text-amber-700 border border-amber-200 text-xs font-medium hover:bg-amber-50">
                         <Loader2 className="h-3 w-3 animate-spin mr-1" />
-                        Processing
+                        {t('statusProcessing')}
                       </Badge>
                     )}
                   </td>
@@ -754,7 +754,7 @@ export function ReportsPage() {
                       )}
                     >
                       <Download className="h-3.5 w-3.5" />
-                      Download
+                      {t('downloadReport')}
                     </Button>
                   </td>
                 </motion.tr>
@@ -766,7 +766,7 @@ export function ReportsPage() {
         {/* Rodapé informativo da tabela */}
         <div className="px-6 py-3 bg-slate-50/60 border-t border-slate-100">
           <p className="text-xs text-slate-400">
-            Reports are stored for 90 days. Download or archive important reports before expiry.
+            {t('reportStorageNotice')}
           </p>
         </div>
       </motion.div>

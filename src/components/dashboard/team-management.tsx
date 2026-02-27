@@ -196,9 +196,9 @@ function getRoleBadgeStyles(role: MemberRole): string {
 
 /**
  * Calcula o tempo relativo desde uma data ISO.
- * Retorna strings como "Today", "Yesterday", "3 days ago", etc.
+ * Usa o hook de traduções para retornar strings localizadas.
  */
-function getRelativeTime(dateString: string): string {
+function getRelativeTime(dateString: string, t: (key: string, params?: Record<string, string | number>) => string): string {
   if (!dateString) return '—'
 
   const date = new Date(dateString)
@@ -206,12 +206,12 @@ function getRelativeTime(dateString: string): string {
   const diffMs = now.getTime() - date.getTime()
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
 
-  if (diffDays === 0) return 'Today'
-  if (diffDays === 1) return 'Yesterday'
-  if (diffDays < 7) return `${diffDays} days ago`
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`
-  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`
-  return `${Math.floor(diffDays / 365)} years ago`
+  if (diffDays === 0) return t('relativeToday')
+  if (diffDays === 1) return t('relativeYesterday')
+  if (diffDays < 7) return t('relativeDaysAgo', { count: diffDays })
+  if (diffDays < 30) return t('relativeWeeksAgo', { count: Math.floor(diffDays / 7) })
+  if (diffDays < 365) return t('relativeMonthsAgo', { count: Math.floor(diffDays / 30) })
+  return t('relativeYearsAgo', { count: Math.floor(diffDays / 365) })
 }
 
 /**
@@ -325,45 +325,45 @@ const modalContentVariants = {
    Detalhamento das capacidades de cada papel na equipe.
    ================================================================= */
 
-/** Descrições detalhadas de cada papel com ícone e permissões */
+/** Descrições detalhadas de cada papel com ícone e chaves de permissões */
 const ROLE_DESCRIPTIONS = [
   {
-    role: 'Admin' as const,
+    roleKey: 'roleAdmin' as const,
     icon: Crown,
     color: 'text-teal-600',
     bgColor: 'bg-teal-50',
     borderColor: 'border-teal-200',
-    permissions: [
-      'Full access to all contracts and reports',
-      'Manage team members and invitations',
-      'Billing and subscription management',
-      'Configure workspace settings',
+    permissionKeys: [
+      'permAdminContracts' as const,
+      'permAdminTeam' as const,
+      'permAdminBilling' as const,
+      'permAdminSettings' as const,
     ],
   },
   {
-    role: 'Member' as const,
+    roleKey: 'roleMember' as const,
     icon: Shield,
     color: 'text-sky-600',
     bgColor: 'bg-sky-50',
     borderColor: 'border-sky-200',
-    permissions: [
-      'View and analyze all contracts',
-      'Create renegotiation proposals',
-      'Access reports and benchmarks',
-      'Upload new contracts for analysis',
+    permissionKeys: [
+      'permMemberContracts' as const,
+      'permMemberRenegotiation' as const,
+      'permMemberReports' as const,
+      'permMemberUpload' as const,
     ],
   },
   {
-    role: 'Viewer' as const,
+    roleKey: 'roleViewer' as const,
     icon: Eye,
     color: 'text-slate-500',
     bgColor: 'bg-slate-50',
     borderColor: 'border-slate-200',
-    permissions: [
-      'Read-only access to contracts',
-      'View reports and dashboards',
-      'Cannot create or modify content',
-      'Cannot manage team or billing',
+    permissionKeys: [
+      'permViewerReadOnly' as const,
+      'permViewerReports' as const,
+      'permViewerNoCreate' as const,
+      'permViewerNoManage' as const,
     ],
   },
 ]
@@ -509,7 +509,7 @@ export function TeamManagement() {
         <div>
           <h1 className="text-2xl font-bold text-slate-900">{t('team')}</h1>
           <p className="text-sm text-slate-500 mt-1">
-            Manage your team members, roles and permissions
+            {t('teamSubtitle')}
           </p>
         </div>
         <Button
@@ -517,7 +517,7 @@ export function TeamManagement() {
           className="bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-[2px_2px_0px_rgba(0,0,0,0.1)] gap-2"
         >
           <UserPlus className="h-4 w-4" />
-          Invite Member
+          {t('teamInviteMember')}
         </Button>
       </motion.div>
 
@@ -535,7 +535,7 @@ export function TeamManagement() {
               <Users className="h-5 w-5 text-teal-600" />
             </div>
             <span className="text-sm font-medium text-slate-500">
-              Active Members
+              {t('teamActiveMembers')}
             </span>
           </div>
           <div className="flex items-end gap-1.5">
@@ -543,7 +543,7 @@ export function TeamManagement() {
               {activeMembers}
             </span>
             <span className="text-sm text-slate-400 mb-0.5">
-              / {MOCK_TEAM_STATS.maxSeats} seats
+              / {t('teamSeats', { count: MOCK_TEAM_STATS.maxSeats })}
             </span>
           </div>
           {/* Barra de ocupação dos assentos */}
@@ -567,7 +567,7 @@ export function TeamManagement() {
               <Mail className="h-5 w-5 text-amber-600" />
             </div>
             <span className="text-sm font-medium text-slate-500">
-              Pending Invites
+              {t('teamPendingInvites')}
             </span>
           </div>
           <span className="text-2xl font-bold text-slate-900">
@@ -585,7 +585,7 @@ export function TeamManagement() {
               <Crown className="h-5 w-5 text-emerald-600" />
             </div>
             <span className="text-sm font-medium text-slate-500">
-              Admin Users
+              {t('teamAdminUsers')}
             </span>
           </div>
           <span className="text-2xl font-bold text-slate-900">
@@ -656,7 +656,7 @@ export function TeamManagement() {
                     {isPending && (
                       <Badge className="text-[10px] font-medium bg-amber-50 text-amber-700 border border-amber-200">
                         <Clock className="h-2.5 w-2.5 mr-0.5" />
-                        Pending
+                        {t('teamStatusPending')}
                       </Badge>
                     )}
                   </div>
@@ -672,19 +672,19 @@ export function TeamManagement() {
                       {/* Data de entrada */}
                       <span className="text-[11px] text-slate-400 flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        Joined {formatJoinDate(member.joinedDate)}
+                        {t('teamJoined', { date: formatJoinDate(member.joinedDate) })}
                       </span>
 
                       {/* Última atividade */}
                       <span className="text-[11px] text-slate-400 flex items-center gap-1">
                         <Users className="h-3 w-3" />
-                        Active {getRelativeTime(member.lastActive)}
+                        {t('teamActive', { time: getRelativeTime(member.lastActive, t) })}
                       </span>
 
                       {/* Contratos visualizados */}
                       <span className="text-[11px] text-slate-400 flex items-center gap-1">
                         <FileText className="h-3 w-3" />
-                        {member.contractsViewed} contracts viewed
+                        {t('teamContractsViewed', { count: member.contractsViewed })}
                       </span>
                     </div>
                   )}
@@ -701,7 +701,7 @@ export function TeamManagement() {
                       className="rounded-xl text-xs gap-1.5 text-amber-600 border-amber-200 hover:bg-amber-50 hover:text-amber-700"
                     >
                       <RefreshCw className="h-3 w-3" />
-                      Resend
+                      {t('teamResend')}
                     </Button>
                   )}
 
@@ -727,7 +727,7 @@ export function TeamManagement() {
                         className="gap-2 text-xs"
                       >
                         <Crown className="h-3.5 w-3.5 text-teal-600" />
-                        Make Admin
+                        {t('teamMakeAdmin')}
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => handleChangeRole(member.id, 'member')}
@@ -735,7 +735,7 @@ export function TeamManagement() {
                         className="gap-2 text-xs"
                       >
                         <Shield className="h-3.5 w-3.5 text-sky-600" />
-                        Make Member
+                        {t('teamMakeMember')}
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => handleChangeRole(member.id, 'viewer')}
@@ -743,7 +743,7 @@ export function TeamManagement() {
                         className="gap-2 text-xs"
                       >
                         <Eye className="h-3.5 w-3.5 text-slate-500" />
-                        Make Viewer
+                        {t('teamMakeViewer')}
                       </DropdownMenuItem>
 
                       <DropdownMenuSeparator />
@@ -755,7 +755,7 @@ export function TeamManagement() {
                         className="gap-2 text-xs"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
-                        Remove Member
+                        {t('teamRemoveMember')}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -772,14 +772,14 @@ export function TeamManagement() {
           ============================================================ */}
       <motion.div variants={sectionVariants}>
         <h2 className="text-lg font-semibold text-slate-900 mb-4">
-          Role Permissions
+          {t('teamRolePermissions')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {ROLE_DESCRIPTIONS.map((roleDesc) => {
             const Icon = roleDesc.icon
             return (
               <motion.div
-                key={roleDesc.role}
+                key={roleDesc.roleKey}
                 variants={cardVariants}
                 className={cn(
                   'rounded-2xl bg-white border p-5',
@@ -798,28 +798,28 @@ export function TeamManagement() {
                     <Icon className={cn('h-5 w-5', roleDesc.color)} />
                   </div>
                   <h3 className="font-semibold text-slate-900">
-                    {roleDesc.role}
+                    {t(roleDesc.roleKey)}
                   </h3>
                 </div>
 
                 {/* Lista de permissões */}
                 <ul className="space-y-2">
-                  {roleDesc.permissions.map((permission) => (
+                  {roleDesc.permissionKeys.map((permKey) => (
                     <li
-                      key={permission}
+                      key={permKey}
                       className="flex items-start gap-2 text-xs text-slate-600"
                     >
                       <div
                         className={cn(
                           'w-1.5 h-1.5 rounded-full mt-1.5 shrink-0',
-                          roleDesc.role === 'Admin'
+                          roleDesc.roleKey === 'roleAdmin'
                             ? 'bg-teal-400'
-                            : roleDesc.role === 'Member'
+                            : roleDesc.roleKey === 'roleMember'
                               ? 'bg-sky-400'
                               : 'bg-slate-300'
                         )}
                       />
-                      {permission}
+                      {t(permKey)}
                     </li>
                   ))}
                 </ul>
@@ -865,10 +865,10 @@ export function TeamManagement() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-slate-900">
-                      Invite Team Member
+                      {t('teamInviteTitle')}
                     </h3>
                     <p className="text-xs text-slate-500">
-                      Send an invitation to join your workspace
+                      {t('teamInviteSubtitle')}
                     </p>
                   </div>
                 </div>
@@ -886,7 +886,7 @@ export function TeamManagement() {
               <div className="space-y-4">
                 <div>
                   <label className="text-sm font-medium text-slate-700 block mb-1.5">
-                    Email address
+                    {t('teamEmailAddress')}
                   </label>
                   <Input
                     type="email"
@@ -904,7 +904,7 @@ export function TeamManagement() {
                 {/* Seletor de papel */}
                 <div>
                   <label className="text-sm font-medium text-slate-700 block mb-1.5">
-                    Role
+                    {t('teamRole')}
                   </label>
                   <Select
                     value={inviteRole}
@@ -919,27 +919,27 @@ export function TeamManagement() {
                       <SelectItem value="admin">
                         <div className="flex items-center gap-2">
                           <Crown className="h-3.5 w-3.5 text-teal-600" />
-                          <span>Admin</span>
+                          <span>{t('roleAdmin')}</span>
                           <span className="text-[10px] text-slate-400">
-                            — Full access
+                            — {t('roleAdminDesc')}
                           </span>
                         </div>
                       </SelectItem>
                       <SelectItem value="member">
                         <div className="flex items-center gap-2">
                           <Shield className="h-3.5 w-3.5 text-sky-600" />
-                          <span>Member</span>
+                          <span>{t('roleMember')}</span>
                           <span className="text-[10px] text-slate-400">
-                            — View & analyze
+                            — {t('roleMemberDesc')}
                           </span>
                         </div>
                       </SelectItem>
                       <SelectItem value="viewer">
                         <div className="flex items-center gap-2">
                           <Eye className="h-3.5 w-3.5 text-slate-500" />
-                          <span>Viewer</span>
+                          <span>{t('roleViewer')}</span>
                           <span className="text-[10px] text-slate-400">
-                            — Read-only
+                            — {t('roleViewerDesc')}
                           </span>
                         </div>
                       </SelectItem>
@@ -955,7 +955,7 @@ export function TeamManagement() {
                   onClick={() => setIsInviteModalOpen(false)}
                   className="flex-1 rounded-xl"
                 >
-                  Cancel
+                  {t('teamCancel')}
                 </Button>
                 <Button
                   onClick={handleSendInvite}
@@ -963,7 +963,7 @@ export function TeamManagement() {
                   className="flex-1 bg-teal-600 hover:bg-teal-700 text-white rounded-xl shadow-[2px_2px_0px_rgba(0,0,0,0.1)] gap-2"
                 >
                   <Mail className="h-4 w-4" />
-                  Send Invite
+                  {t('teamSendInvite')}
                 </Button>
               </div>
             </motion.div>

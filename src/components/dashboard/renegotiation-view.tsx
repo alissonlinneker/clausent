@@ -28,18 +28,18 @@ interface RenegotiationViewProps {
  */
 const MOCK_PLAYBOOK = {
   currentTerms: [
-    { label: 'Monthly Cost', value: '$2,000/mo' },
-    { label: 'Contract Length', value: '12 months' },
-    { label: 'Notice Period', value: '30 days' },
-    { label: 'Auto-Renewal', value: 'Yes' },
-    { label: 'SLA Uptime', value: '99.5%' },
+    { labelKey: 'termMonthlyCost' as const, value: '$2,000/mo' },
+    { labelKey: 'termContractLength' as const, value: '12 months' },
+    { labelKey: 'termNoticePeriod' as const, value: '30 days' },
+    { labelKey: 'termAutoRenewal' as const, value: 'Yes' },
+    { labelKey: 'termSlaUptime' as const, value: '99.5%' },
   ],
   suggestedTerms: [
-    { label: 'Monthly Cost', value: '$1,650/mo', improved: true },
-    { label: 'Contract Length', value: '24 months', improved: false },
-    { label: 'Notice Period', value: '60 days', improved: true },
-    { label: 'Auto-Renewal', value: 'No', improved: true },
-    { label: 'SLA Uptime', value: '99.9%', improved: true },
+    { labelKey: 'termMonthlyCost' as const, value: '$1,650/mo', improved: true },
+    { labelKey: 'termContractLength' as const, value: '24 months', improved: false },
+    { labelKey: 'termNoticePeriod' as const, value: '60 days', improved: true },
+    { labelKey: 'termAutoRenewal' as const, value: 'No', improved: true },
+    { labelKey: 'termSlaUptime' as const, value: '99.9%', improved: true },
   ],
   estimatedSavings: {
     monthly: 350,
@@ -132,7 +132,7 @@ export function RenegotiationView({ contractId }: RenegotiationViewProps) {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Monthly
+                  {t('savingsMonthly')}
                 </p>
                 <p className="text-2xl font-bold text-teal-700">
                   ${MOCK_PLAYBOOK.estimatedSavings.monthly}
@@ -140,7 +140,7 @@ export function RenegotiationView({ contractId }: RenegotiationViewProps) {
               </div>
               <div>
                 <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Annual
+                  {t('savingsAnnual')}
                 </p>
                 <p className="text-2xl font-bold text-teal-700">
                   ${MOCK_PLAYBOOK.estimatedSavings.annual.toLocaleString()}
@@ -148,7 +148,7 @@ export function RenegotiationView({ contractId }: RenegotiationViewProps) {
               </div>
               <div>
                 <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Savings Rate
+                  {t('savingsRate')}
                 </p>
                 <p className="text-2xl font-bold text-teal-700">
                   {MOCK_PLAYBOOK.estimatedSavings.percentage}%
@@ -172,10 +172,10 @@ export function RenegotiationView({ contractId }: RenegotiationViewProps) {
               <div className="space-y-3">
                 {MOCK_PLAYBOOK.currentTerms.map((term) => (
                   <div
-                    key={term.label}
+                    key={term.labelKey}
                     className="flex justify-between items-center py-2 border-b border-slate-50 last:border-0"
                   >
-                    <span className="text-sm text-slate-500">{term.label}</span>
+                    <span className="text-sm text-slate-500">{t(term.labelKey)}</span>
                     <span className="text-sm font-medium text-slate-900">
                       {term.value}
                     </span>
@@ -197,10 +197,10 @@ export function RenegotiationView({ contractId }: RenegotiationViewProps) {
               <div className="space-y-3">
                 {MOCK_PLAYBOOK.suggestedTerms.map((term) => (
                   <div
-                    key={term.label}
+                    key={term.labelKey}
                     className="flex justify-between items-center py-2 border-b border-slate-50 last:border-0"
                   >
-                    <span className="text-sm text-slate-500">{term.label}</span>
+                    <span className="text-sm text-slate-500">{t(term.labelKey)}</span>
                     <span
                       className={cn(
                         'text-sm font-medium',
@@ -251,7 +251,7 @@ export function RenegotiationView({ contractId }: RenegotiationViewProps) {
               {/* Barra de comparação visual */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-500">Market Average</span>
+                  <span className="text-slate-500">{t('benchmarkMarketAverage')}</span>
                   <span className="font-medium text-slate-900">
                     ${MOCK_PLAYBOOK.marketBenchmark.averagePrice.toLocaleString()}/mo
                   </span>
@@ -267,7 +267,7 @@ export function RenegotiationView({ contractId }: RenegotiationViewProps) {
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-500">Your Price</span>
+                  <span className="text-slate-500">{t('benchmarkYourPrice')}</span>
                   <span className="font-medium text-red-600">
                     ${MOCK_PLAYBOOK.marketBenchmark.yourPrice.toLocaleString()}/mo
                   </span>
@@ -277,7 +277,7 @@ export function RenegotiationView({ contractId }: RenegotiationViewProps) {
                 </div>
               </div>
               <p className="text-xs text-slate-500">
-                You are paying more than {MOCK_PLAYBOOK.marketBenchmark.percentileRank}% of companies for similar services.
+                {t('benchmarkPercentileMessage', { percentage: MOCK_PLAYBOOK.marketBenchmark.percentileRank })}
               </p>
             </div>
           </div>
@@ -303,7 +303,7 @@ export function RenegotiationView({ contractId }: RenegotiationViewProps) {
                       {provider.name}
                     </p>
                     <p className="text-xs text-slate-400">
-                      Rating: {provider.rating}
+                      {t('providerRating', { rating: provider.rating })}
                     </p>
                   </div>
                   <span className="text-sm font-semibold text-teal-700">
