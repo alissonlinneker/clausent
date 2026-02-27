@@ -1,11 +1,34 @@
 import { Metadata } from 'next'
 import { DemoContent } from '@/components/marketing/demo-content'
 
-/** Metadados SEO da página de demonstração */
+/** Metadados SEO e Open Graph da página de demonstração */
 export const metadata: Metadata = {
   title: 'Demo',
   description:
     'See Clausent in action — watch how AI analyzes a real SaaS contract in seconds, from upload to actionable insights.',
+  openGraph: {
+    title: 'Demo — Clausent',
+    description:
+      'See Clausent in action — watch how AI analyzes a real SaaS contract in seconds, from upload to actionable insights.',
+    url: 'https://clausent.com/demo',
+    siteName: 'Clausent',
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Clausent Demo — live contract analysis walkthrough',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Demo — Clausent',
+    description:
+      'See Clausent in action — watch how AI analyzes a real SaaS contract in seconds, from upload to actionable insights.',
+    images: ['/og-image.png'],
+  },
 }
 
 /**

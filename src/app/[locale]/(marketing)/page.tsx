@@ -13,11 +13,34 @@ const FAQSection = dynamic(() => import('@/components/marketing/faq-section').th
 const CTASection = dynamic(() => import('@/components/marketing/cta-section').then(mod => ({ default: mod.CTASection })))
 
 
-/** Metadados SEO específicos da landing page */
+/** Metadados SEO e Open Graph da landing page */
 export const metadata: Metadata = {
   title: 'Clausent — Stop Losing Money on Forgotten Contracts',
   description:
     'AI-powered contract intelligence that monitors renewals, spots unfavorable terms, and suggests renegotiations — saving SMBs an average of 9.2% on contract costs.',
+  openGraph: {
+    title: 'Clausent — Stop Losing Money on Forgotten Contracts',
+    description:
+      'AI-powered contract intelligence that monitors renewals, spots unfavorable terms, and suggests renegotiations — saving SMBs an average of 9.2% on contract costs.',
+    url: 'https://clausent.com',
+    siteName: 'Clausent',
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Clausent — AI-powered contract intelligence platform for SMBs',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Clausent — Stop Losing Money on Forgotten Contracts',
+    description:
+      'AI-powered contract intelligence that monitors renewals, spots unfavorable terms, and suggests renegotiations — saving SMBs an average of 9.2% on contract costs.',
+    images: ['/og-image.png'],
+  },
 }
 
 /**
