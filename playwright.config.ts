@@ -1,8 +1,8 @@
 /**
  * Configuração do Playwright para testes E2E headless.
  *
- * Usa o dev server do Next.js na porta 3939 para evitar
- * conflito com instâncias de desenvolvimento em andamento.
+ * Usa o dev server do Next.js na porta 11001 para evitar
+ * conflito com a instância de desenvolvimento (porta 11000).
  */
 
 import { defineConfig } from '@playwright/test'
@@ -12,14 +12,14 @@ export default defineConfig({
   timeout: 60000,
   retries: 1,
   use: {
-    baseURL: 'http://localhost:3939',
+    baseURL: 'http://localhost:11001',
     headless: true,
     viewport: { width: 1280, height: 720 },
     locale: 'en',
   },
   webServer: {
-    command: 'npx next dev -p 3939',
-    port: 3939,
+    command: 'npx next dev -p 11001',
+    port: 11001,
     timeout: 60000,
     reuseExistingServer: true,
   },
